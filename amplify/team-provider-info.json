@@ -10,6 +10,11 @@
             "StackName": "amplify-tetrabody-test-63228",
             "StackId": "arn:aws:cloudformation:us-west-2:623934114830:stack/amplify-tetrabody-test-63228/87eef5b0-3611-11ea-84a8-0614748bfb9c",
             "AmplifyAppId": "d258pkw244alpa"
+        },
+        "categories": {
+            "auth": {
+                "tetrabodyf7682e94": {}
+            }
         }
     }
 }
