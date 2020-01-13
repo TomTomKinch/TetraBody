@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 const instructions = Platform.select({
@@ -12,6 +13,7 @@ export default class App extends Component {
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Icon name="comments" size={30} color="#900" />
         <Text style={styles.instructions}>{instructions}</Text>
       </View>
     );
