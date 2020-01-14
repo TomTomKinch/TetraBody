@@ -1,14 +1,12 @@
-// Home Screen
+// Favorite Screen
 import React, { Component } from 'react';
 import { Image, Button, StyleSheet, Text, View } from 'react-native';
 
-export default class HomeScreen extends Component {
+export default class FavoriteScreen extends Component {
   render() {
     return (
       <View style={ styles.container }>
-        <Text style={ styles.title }>TetraBody</Text>
-        <Text style={ styles.title }>(Home Page)</Text>
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/>
+        <Text style={ styles.title }>Favorite</Text>
       </View>
     );
   }
