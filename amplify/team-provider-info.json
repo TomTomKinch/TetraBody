@@ -1,0 +1,15 @@
+{
+    "tetra": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tetrabody-tetra-10541-authRole",
+            "UnauthRoleArn": "arn:aws:iam::623934114830:role/amplify-tetrabody-tetra-10541-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::623934114830:role/amplify-tetrabody-tetra-10541-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-tetrabody-tetra-10541-deployment",
+            "UnauthRoleName": "amplify-tetrabody-tetra-10541-unauthRole",
+            "StackName": "amplify-tetrabody-tetra-10541",
+            "StackId": "arn:aws:cloudformation:us-west-2:623934114830:stack/amplify-tetrabody-tetra-10541/0ad959c0-36ad-11ea-b7b3-0678f540705a",
+            "AmplifyAppId": "d2p9w8fzs3m1se"
+        }
+    }
+}
