@@ -1,9 +1,9 @@
 {
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://g5-9dm.anonymous.tetrabody.exp.direct",
+  "packagerNgrokUrl": "https://packager.g5-9dm.anonymous.tetrabody.exp.direct",
+  "ngrokPid": 9396,
   "expoServerPort": null,
   "webpackServerPort": null,
   "devToolsPort": 19002
