@@ -11,5 +11,23 @@
             "StackId": "arn:aws:cloudformation:us-west-2:623934114830:stack/amplify-tetrabody-tetra-10541/0ad959c0-36ad-11ea-b7b3-0678f540705a",
             "AmplifyAppId": "d2p9w8fzs3m1se"
         }
+    },
+    "authtest": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tetrabody-authtest-12419-authRole",
+            "UnauthRoleArn": "arn:aws:iam::623934114830:role/amplify-tetrabody-authtest-12419-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::623934114830:role/amplify-tetrabody-authtest-12419-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-tetrabody-authtest-12419-deployment",
+            "UnauthRoleName": "amplify-tetrabody-authtest-12419-unauthRole",
+            "StackName": "amplify-tetrabody-authtest-12419",
+            "StackId": "arn:aws:cloudformation:us-west-2:623934114830:stack/amplify-tetrabody-authtest-12419/24c7f890-390b-11ea-a169-0ab88639bbc6",
+            "AmplifyAppId": "d1ukc0chsss8se"
+        },
+        "categories": {
+            "auth": {
+                "tetrabody79c7c01d": {}
+            }
+        }
     }
 }

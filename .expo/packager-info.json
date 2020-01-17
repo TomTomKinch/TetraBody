@@ -1,10 +1,10 @@
 {
-  "packagerPort": 19001,
-  "packagerPid": 24972,
-  "expoServerNgrokUrl": "https://si-759.sneakwolf777.tetrabody.exp.direct",
-  "packagerNgrokUrl": "https://packager.si-759.sneakwolf777.tetrabody.exp.direct",
-  "ngrokPid": 184,
-  "expoServerPort": 19000,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "expoServerPort": null,
   "webpackServerPort": null,
   "devToolsPort": 19002
 }

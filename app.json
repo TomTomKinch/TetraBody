@@ -2,6 +2,7 @@
   "name": "TetraBody",
   "displayName": "Tetra Body",
   "expo": {
+    "scheme": "TetraBody",
     "name": "TetraBody",
     "slug": "expo-template-bare",
     "privacy": "unlisted",
