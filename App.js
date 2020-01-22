@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Root} from "native-base";
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { Button, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import SearchBar from 'react-native-searchbar';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -14,17 +15,17 @@ import ProgressScreen from './Pages/ProgressScreen.js';
 export default class App extends Component {
   render() {
     return (
+      
       <Root>
-        <AppContainer />
+        <AppContainer/>
       </Root> 
     );
   }
 }
 
-
+// Bottom navigation to go to Home, Favorite, Workouts, and Progress pages
 const bottomTabNavigator = createBottomTabNavigator(
   {
-  
     Home: { 
       screen: HomeScreen,
       navigationOptions: {
@@ -65,17 +66,32 @@ const bottomTabNavigator = createBottomTabNavigator(
     },
 
     Progress: { 
-    screen: ProgressScreen,
-    navigationOptions: {
-      tabBarIcon: ({ tintColor, focused }) => (
-        <Icon
-          name={'chart-line'}
-          size={20}
-          style={{ color: tintColor }}
-        />
+      screen: ProgressScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'chart-line'}
+            size={20}
+            style={{ color: tintColor }}
+          />
       )
     }
   },
+
+}, {
+  tabBarOptions: {
+    activeTintColor: '#00cccc',
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: '#121212',
+      borderTopWidth: 0,
+      shadowOffset: { width: 5, height: 3 },
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      elevation: 5,
+      paddingVertical: 5
+    },
+  }
 
 },{
     initialRouteName: 'Home',
@@ -88,22 +104,43 @@ const AppContainer = createAppContainer(createStackNavigator({
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: "#121212",
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
         borderBottomWidth: 0
       },
-      headerLeft: <Image
-        source={ require('./Pages/TetraLogo.png') }
-        style={{ flex: 1, height: 20, width: 98, marginLeft: 1, resizeMode: 'contain',}}
+
+      // Top left header contains TetraBody logo
+      headerLeft: () => 
+      <Image
+        source={ require('./Pages/logo.png') }
+        style={
+          { 
+            flex: 1,
+            height: 20, 
+            width: 100, 
+            marginLeft: 10, 
+            resizeMode: 'contain',
+          }
+        }
       />,
-      headerRight: (
-        <View style={{ flexDirection: 'row', marginRight: 10 }}>
+      
+      // Top right header contains Search and Account buttons
+      headerRight: () =>
+        <View style={{ flexDirection: 'row', marginRight: 20 }}>
           <TouchableOpacity style={{ paddingHorizontal: 15 }}>
-            <Icon name='search' size={25} color={'#fff'} />
+            <Icon name='search' size={25} color={'white'} onPress ={() => this.searchBar.show()}/>
+
+              <SearchBar style={{}}
+                ref={(ref) => this.searchBar = ref}
+              />
+
           </TouchableOpacity>
+
           <TouchableOpacity style={{ paddingHorizontal: 15 }}>
-            <Icon name='user-circle' size={25} color={'#fff'} />
+            <Icon name='user-circle' size={25} color={'white'} />
           </TouchableOpacity>
         </View>
-      )
+
     }
   }
 ));
