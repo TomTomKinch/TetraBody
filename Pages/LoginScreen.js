@@ -16,6 +16,15 @@ export default class LoginScreen extends Component {
     };
   }
 
+  handleSignIn = () => {
+    const { email, password } = this.state;
+    Auth.signIn(email, password)
+      // Navigate to Home screen if successful
+      .then(user => this.props.navigation.navigate('Progress'))
+      // Display error if failed
+      .catch(err => console.log(err));
+  }
+
   handleSignUp = () => {
     // Show the current state object
     const { email, password, confirmPassword } = this.state;
@@ -40,7 +49,7 @@ export default class LoginScreen extends Component {
     Auth.confirmSignUp(email, confirmationCode, {})
       .then(() => {
         this.setState({ modalVisible: false });
-        this.props.navigation.navigate('Home')
+        this.props.navigation.navigate('Progress')
       })
       .catch(err => console.log(err));
   }
@@ -49,7 +58,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Login Screen</Text>
-        <Input
+        <Input // Begin Sign Up form
           label='Email'
           leftIcon={{ type: 'font-awesome', name: 'envelope' }}
           onChangeText={
@@ -83,7 +92,31 @@ export default class LoginScreen extends Component {
           onPress={ this.handleSignUp }
           title='Submit'
         />
-        <Modal
+        <Input // Begin Sign In form
+          label='Email'
+          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+          onChangeText={
+            // Set this.state.email to the input value
+            (value) => this.setState({ email: value })
+          }
+          placeholder=''
+        />
+        <Input
+          label='Password'
+          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          onChangeText={
+            // Set this.state.password to the input value
+            (value) => this.setState({ password: value })
+          }
+          placeholder=''
+          secureTextEntry
+        />
+        <Button
+          style={ styles.button }
+          onPress={ this.handleSignIn }
+          title='Submit'
+        />
+        <Modal // pops up once Sign Up form is submitted. expecting confirmation code
           visible={ this.state.modalVisible }
         >
           <View
