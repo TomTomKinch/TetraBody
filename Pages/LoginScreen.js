@@ -7,7 +7,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Login Screen</Text>
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Sign In"/>
       </View>
     );
   }

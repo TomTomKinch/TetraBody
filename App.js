@@ -6,8 +6,8 @@ import SearchBar from 'react-native-searchbar';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import HomeScreen from './Pages/HomeScreen.js';
 import LoginScreen from './Pages/LoginScreen.js';
+import HomeScreen from './Pages/HomeScreen.js';
 import FavoriteScreen from './Pages/FavoriteScreen.js';
 import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
@@ -15,7 +15,6 @@ import ProgressScreen from './Pages/ProgressScreen.js';
 export default class App extends Component {
   render() {
     return (
-      
       <Root>
         <AppContainer/>
       </Root> 
@@ -95,10 +94,11 @@ const bottomTabNavigator = createBottomTabNavigator(
 
 },{
     initialRouteName: 'Home',
-  },
+  }
 );
 
 const AppContainer = createAppContainer(createStackNavigator({
+  Login: LoginScreen,
   bottomTabNavigator: bottomTabNavigator
   },{
     defaultNavigationOptions: {
@@ -111,18 +111,18 @@ const AppContainer = createAppContainer(createStackNavigator({
 
       // Top left header contains TetraBody logo
       headerLeft: () => 
-      <Image
-        source={ require('./Pages/logo.png') }
-        style={
-          { 
-            flex: 1,
-            height: 20, 
-            width: 100, 
-            marginLeft: 10, 
-            resizeMode: 'contain',
+        <Image
+          source={ require('./Pages/logo.png') }
+            style={
+            { 
+              flex: 1,
+              height: 20, 
+              width: 100, 
+              marginLeft: 10, 
+              resizeMode: 'contain',
+            }
           }
-        }
-      />,
+        />,
       
       // Top right header contains Search and Account buttons
       headerRight: () =>
@@ -142,5 +142,10 @@ const AppContainer = createAppContainer(createStackNavigator({
         </View>
 
     }
+  
+  // App starts at the Login Page
+  },{
+    initialRouteName: 'Login',
   }
+
 ));
