@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import {StatusBar} from 'react-native'
-import Amplify from '@aws-amplify/core'
-import {Authenticator} from 'aws-amplify-react-native'
-import awsconfig from './aws-exports'
-
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
-});
+import {Root} from "native-base";
+import { Button, View, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import SearchBar from 'react-native-searchbar';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {createStackNavigator} from 'react-navigation-stack';
+import HomeScreen from './Pages/HomeScreen.js';
+import LoginScreen from './Pages/LoginScreen.js';
+import FavoriteScreen from './Pages/FavoriteScreen.js';
+import WorkoutsScreen from './Pages/WorkoutsScreen.js';
+import ProgressScreen from './Pages/ProgressScreen.js';
 
 Amplify.configure({
   ...awsconfig,
@@ -23,56 +23,132 @@ Amplify.configure({
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-
-        <StatusBar barStyle="dark-content" />
-        <Authenticator usernameAttributes="email" />
-        <Icon name="comments" size={30} color="#900" />
-
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      
+      <Root>
+        <AppContainer/>
+      </Root> 
     );
   }
 }
 
-const signUpConfig = {
-  hideAllDefaults: true,
-  signUpFields: [
-    {
-      label: 'Email',
-      key: 'email',
-      required: true,
-      displayOrder: 1,
-      type: 'string',
+// Bottom navigation to go to Home, Favorite, Workouts, and Progress pages
+const bottomTabNavigator = createBottomTabNavigator(
+  {
+    Home: { 
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'home'}
+            size={20}
+            style={{ color: tintColor }}
+          />
+        )
+      }
     },
-    {
-      label: 'Password',
-      key: 'password',
-      required: true,
-      displayOrder: 2,
-      type: 'password',
+    
+    Favorite: { 
+      screen: FavoriteScreen,
+      navigationOptions: { 
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'heart'}
+            size={20}
+            style={{ color: tintColor }}
+          />
+        )
+      }
     },
-  ],
-}
 
+    Workouts: {
+      screen: WorkoutsScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'calendar-alt'}
+            size={20}
+            style={{ color: tintColor }}
+          />
+        )
+      }
+    },
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    Progress: { 
+      screen: ProgressScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Icon
+            name={'chart-line'}
+            size={20}
+            style={{ color: tintColor }}
+          />
+      )
+    }
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+}, {
+  tabBarOptions: {
+    activeTintColor: '#00cccc',
+    inactiveTintColor: 'white',
+    style: {
+      backgroundColor: '#121212',
+      borderTopWidth: 0,
+      shadowOffset: { width: 5, height: 3 },
+      shadowColor: 'black',
+      shadowOpacity: 0.5,
+      elevation: 5,
+      paddingVertical: 5
+    },
+  }
+
+},{
+    initialRouteName: 'Home',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+);
+
+const AppContainer = createAppContainer(createStackNavigator({
+  bottomTabNavigator: bottomTabNavigator
+  },{
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#121212",
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        borderBottomWidth: 0
+      },
+
+      // Top left header contains TetraBody logo
+      headerLeft: () => 
+      <Image
+        source={ require('./Pages/logo.png') }
+        style={
+          { 
+            flex: 1,
+            height: 20, 
+            width: 100, 
+            marginLeft: 10, 
+            resizeMode: 'contain',
+          }
+        }
+      />,
+      
+      // Top right header contains Search and Account buttons
+      headerRight: () =>
+        <View style={{ flexDirection: 'row', marginRight: 20 }}>
+          <TouchableOpacity style={{ paddingHorizontal: 15 }}>
+            <Icon name='search' size={25} color={'white'} onPress ={() => this.searchBar.show()}/>
+
+              <SearchBar style={{}}
+                ref={(ref) => this.searchBar = ref}
+              />
+
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ paddingHorizontal: 15 }}>
+            <Icon name='user-circle' size={25} color={'white'} />
+          </TouchableOpacity>
+        </View>
+
+    }
+  }
+));
