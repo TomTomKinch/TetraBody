@@ -58,6 +58,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Login Screen</Text>
+<<<<<<< HEAD
         <Input // Begin Sign Up form
           label='Email'
           leftIcon={{ type: 'font-awesome', name: 'envelope' }}
@@ -136,6 +137,9 @@ export default class LoginScreen extends Component {
             />
           </View>
         </Modal>
+=======
+        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Sign In"/>
+>>>>>>> 8858d4a999b2100e154a3eb6e81b9321a090448e
       </View>
     );
   }
