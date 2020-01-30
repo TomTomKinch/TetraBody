@@ -11,6 +11,9 @@ import LoginScreen from './Pages/LoginScreen.js';
 import FavoriteScreen from './Pages/FavoriteScreen.js';
 import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
+import Amplify, { Auth } from 'aws-amplify';
+import AWSConfig from './aws-exports';
+Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
 
