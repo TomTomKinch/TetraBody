@@ -38,6 +38,7 @@ function Item({ title }) {
 export default class HomeScreen extends Component {
   render() {
     return (
+<<<<<<< HEAD
       <SafeAreaView style={ styles.container }>
         <Text style={ styles.title }>TetraBody - Video Feed</Text>
         <FlatList
@@ -48,6 +49,13 @@ export default class HomeScreen extends Component {
         
         <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/>
       </SafeAreaView>
+=======
+      <View style={ styles.container }>
+        <Text style={ styles.title }>TetraBody</Text>
+        <Text style={ styles.title }>(Home Page)</Text>
+        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Sign Out"/>
+      </View>
+>>>>>>> origin/master
     );
   }
 }
