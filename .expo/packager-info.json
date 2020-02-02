@@ -1,1 +1,9 @@
-
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 19012,
+  "expoServerNgrokUrl": "https://a4-4q2.johnli56.tetrabody.exp.direct",
+  "packagerNgrokUrl": "https://packager.a4-4q2.johnli56.tetrabody.exp.direct",
+  "ngrokPid": 13732
+}
