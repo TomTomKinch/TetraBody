@@ -8,6 +8,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import SearchHeader from 'react-native-search-header';
 import HomeScreen from './Pages/HomeScreen.js';
 import LoginScreen from './Pages/LoginScreen.js';
+import SignUpScreen from './Pages/SignUpScreen.js';
 import FavoriteScreen from './Pages/FavoriteScreen.js';
 import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
@@ -104,6 +105,13 @@ const bottomTabNavigator = createBottomTabNavigator({
 const AppContainer = createAppContainer(createStackNavigator({
   Login: { 
     screen: LoginScreen,
+    navigationOptions: {
+      headerShown: false,
+    } 
+  },
+
+  SignUp: { 
+    screen: SignUpScreen,
     navigationOptions: {
       headerShown: false,
     } 
