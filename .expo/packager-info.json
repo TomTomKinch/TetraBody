@@ -1,5 +1,20 @@
 {
+<<<<<<< HEAD
   "devToolsPort": 19002,
+=======
+  "packagerPort": 19001,
+<<<<<<< HEAD
+  "packagerPid": 1392,
+  "expoServerNgrokUrl": "https://a4-4q2.anonymous.tetrabody.exp.direct",
+  "packagerNgrokUrl": "https://packager.a4-4q2.anonymous.tetrabody.exp.direct",
+  "ngrokPid": 4692,
+=======
+  "packagerPid": 2984,
+  "expoServerNgrokUrl": "https://si-759.sneakwolf777.tetrabody.exp.direct",
+  "packagerNgrokUrl": "https://packager.si-759.sneakwolf777.tetrabody.exp.direct",
+  "ngrokPid": 11992,
+>>>>>>> origin/master
+>>>>>>> 4b080eeeffd537564016fd625b93673b869599ac
   "expoServerPort": 19000,
   "packagerPort": 19001,
   "packagerPid": 8536,
