@@ -11,7 +11,6 @@ export default class LoginScreen extends Component {
     this.state = {
       email: '',
       password: '',
-      modalVisible: false,
     };
   }
 
@@ -76,12 +75,15 @@ export default class LoginScreen extends Component {
           </LinearGradient>
         </View>
         
-        <Button
-          style={ styles.button }
-          onPress={ user => this.props.navigation.navigate('SignUp') }
-          title='Sign Up'
-          color='white'
-        />
+        <View>
+          <Button
+            style={ styles.button }
+            onPress={ user => this.props.navigation.navigate('SignUp') }
+            title='Sign Up'
+            color='white'
+          />
+        </View>
+        
 <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
       </View>
     );

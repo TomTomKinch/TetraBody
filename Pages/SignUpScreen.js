@@ -52,7 +52,7 @@ export default class SignUpScreen extends Component {
           <Image
           source={ require('../Pages/logo-symbol.png') }
           style={styles.image}
-        />
+          />
 
         <Text style={styles.title}>Create Your Account</Text>
 
@@ -102,7 +102,7 @@ export default class SignUpScreen extends Component {
             style={styles.linearGradient}>
               <Button
                 style={ styles.button }
-                onPress={ this.handleSignIn }
+                onPress={ this.handleSignUp }
                 title='Sign Up'
                 color= 'white'
               />
@@ -118,7 +118,6 @@ export default class SignUpScreen extends Component {
             <View style={ styles.input }>
                <Input
                 label='Confirmation Code'
-                leftIcon={{ type: 'font-awesome', name: 'lock' }}
                 onChangeText={
                   // Set this.state.confirmationCode to the input value
                   (value) => this.setState({ confirmationCode: value })
@@ -127,7 +126,7 @@ export default class SignUpScreen extends Component {
             </View>
            
             <View>
-                <LinearGradient
+              <LinearGradient
                     start={[0, 0.5]}
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}
@@ -137,11 +136,10 @@ export default class SignUpScreen extends Component {
                 onPress={ this.handleConfirmationCode }
                 title='Submit'
                 color='white'
-            />
-          </LinearGradient>
-        </View>
+               />
+              </LinearGradient>
+            </View>
 
-           
           </View>
         </Modal>
       </View>
