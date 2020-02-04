@@ -1,5 +1,9 @@
 {
-  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 1392,
+  "expoServerNgrokUrl": "https://a4-4q2.anonymous.tetrabody.exp.direct",
+  "packagerNgrokUrl": "https://packager.a4-4q2.anonymous.tetrabody.exp.direct",
+  "ngrokPid": 4692,
   "expoServerPort": 19000,
   "packagerPort": 19001,
   "packagerPid": 6588,
