@@ -1,19 +1,10 @@
 {
-<<<<<<< HEAD
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": "https://g5-9dm.anonymous.tetrabody.exp.direct",
-  "packagerNgrokUrl": "https://packager.g5-9dm.anonymous.tetrabody.exp.direct",
-  "ngrokPid": 9396,
-  "expoServerPort": null,
-=======
   "packagerPort": 19001,
   "packagerPid": 2984,
   "expoServerNgrokUrl": "https://si-759.sneakwolf777.tetrabody.exp.direct",
   "packagerNgrokUrl": "https://packager.si-759.sneakwolf777.tetrabody.exp.direct",
   "ngrokPid": 11992,
   "expoServerPort": 19000,
->>>>>>> 9ef38c04f22020927e5aca608f926969e8d52576
   "webpackServerPort": null,
   "devToolsPort": 19002
 }
