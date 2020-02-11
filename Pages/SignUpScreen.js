@@ -102,7 +102,7 @@ export default class SignUpScreen extends Component {
             style={styles.linearGradient}>
               <Button
                 style={ styles.button }
-                onPress={ this.handleSignIn }
+                onPress={ this.handleSignUp }
                 title='Sign Up'
                 color= 'white'
               />
