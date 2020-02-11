@@ -1,10 +1,11 @@
 import React, { Component, useRef } from 'react';
 import {Root} from "native-base";
-import { View, Image, TouchableOpacity, Dimensions} from 'react-native';
+import { View, Image, TouchableOpacity, Dimensions, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 import SearchHeader from 'react-native-search-header';
 import HomeScreen from './Pages/HomeScreen.js';
 import LoginScreen from './Pages/LoginScreen.js';
@@ -18,7 +19,11 @@ Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
 
+
 export default class App extends Component {
+  constructor (props) {
+    super(props);
+}
   render() {
     return (
       
@@ -28,6 +33,12 @@ export default class App extends Component {
     );
   }
 }
+
+/*
+const drawerNavigator = createDrawerNavigator(
+  <Button onPress={ () => this.props.navigation.navigate('Login') } title="Sign Out"/>
+);
+*/
 
 // Bottom navigation to go to Home, Favorite, Workouts, and Progress pages
 const bottomTabNavigator = createBottomTabNavigator({
@@ -80,8 +91,8 @@ const bottomTabNavigator = createBottomTabNavigator({
           style={{ color: tintColor }}
         />
       )
-  }
-},
+    }
+  },
 
 },{
   tabBarOptions: {
@@ -138,6 +149,7 @@ const AppContainer = createAppContainer(createStackNavigator({
     headerRight: () => {
 
       const searchHeaderRef = React.createRef(null);
+      
       return(
          <View style = {{
             flex: 1,
@@ -175,7 +187,7 @@ const AppContainer = createAppContainer(createStackNavigator({
               </TouchableOpacity>
 
               <TouchableOpacity style={{ paddingHorizontal: 15 }}>
-               <Icon name='user-circle' size={20} color={'white'}/>
+               <Icon name='user-circle' size={20} color={'white'} onPress={() => navigation.openDrawer()}/>
               </TouchableOpacity>
            </View>
 

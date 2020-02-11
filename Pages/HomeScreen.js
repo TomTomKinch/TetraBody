@@ -46,7 +46,7 @@ export default class HomeScreen extends Component {
         keyExtractor={item => item.id}
         />
         
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/>
+        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Sign Out"/>
       </SafeAreaView>
     );
   }
