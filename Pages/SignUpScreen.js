@@ -1,9 +1,10 @@
 // Sign Up Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, Modal } from 'react-native';
+import { Image, Button, StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native';
 import { Input } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 export default class SignUpScreen extends Component {
   constructor(props) {
@@ -100,12 +101,12 @@ export default class SignUpScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <Button
+              <TouchableHighlight
                 style={ styles.button }
                 onPress={ this.handleSignUp }
-                title='Sign Up'
-                color= 'white'
-              />
+              >
+                <Text style={styles.slogan}>Sign Up</Text>
+              </TouchableHighlight>
           </LinearGradient>
         </View>
         
@@ -131,12 +132,12 @@ export default class SignUpScreen extends Component {
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}
                     style={styles.linearGradient}>
-               <Button
+               <TouchableOpacity
                 style={ styles.button }
                 onPress={ this.handleConfirmationCode }
-                title='Submit'
-                color='white'
-               />
+               >
+                  <Text style={styles.slogan}>Submit</Text>
+               </TouchableOpacity>
               </LinearGradient>
             </View>
 
@@ -162,6 +163,7 @@ const styles = StyleSheet.create({
         color: '#00cccc',
       },
       slogan: {
+        marginTop: 5,
         marginBottom: 50,
         fontSize: 20,
         textAlign: 'center',

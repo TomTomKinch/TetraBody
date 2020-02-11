@@ -1,9 +1,10 @@
 // Login Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, Modal } from 'react-native';
+import { Image, Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Input } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -66,22 +67,22 @@ export default class LoginScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <Button
+              <TouchableOpacity
                 style={ styles.button }
                 onPress={ this.handleSignIn }
-                title='Login'
-                color= 'white'
-              />
+              >
+                <Text style={styles.slogan}>Login</Text>
+              </TouchableOpacity>
           </LinearGradient>
         </View>
         
         <View>
-          <Button
+          <TouchableOpacity
             style={ styles.button }
             onPress={ user => this.props.navigation.navigate('SignUp') }
-            title='Sign Up'
-            color='white'
-          />
+          >
+            <Text style={styles.slogan}>Sign Up</Text>
+          </TouchableOpacity>
         </View>
         
 <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
     color: '#00cccc',
   },
   slogan: {
+    marginTop: 5,
     marginBottom: 50,
     fontSize: 20,
     textAlign: 'center',
