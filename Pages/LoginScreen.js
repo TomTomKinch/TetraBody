@@ -89,7 +89,7 @@ export default class LoginScreen extends Component {
         </View>
         
           <TouchableOpacity
-            style={ styles.button }
+            style={ styles.button, {paddingVertical: 10} }
             onPress={ user => this.props.navigation.navigate('SignUp') }
           >
             <View>
