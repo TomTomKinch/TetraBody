@@ -12,6 +12,7 @@ import SignUpScreen from './Pages/SignUpScreen.js';
 import FavoriteScreen from './Pages/FavoriteScreen.js';
 import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
+import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify, { Auth } from 'aws-amplify';
 import AWSConfig from './aws-exports';
 Amplify.configure(AWSConfig);
@@ -117,10 +118,17 @@ const AppContainer = createAppContainer(createStackNavigator({
     } 
   },
 
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptiomns: {
+      headerShown: false,
+    }
+  },
+
   bottomTabNavigator: bottomTabNavigator
   
   },{
-  defaultNavigationOptions: {
+  defaultNavigationOptions: ({navigation}) => ({
     headerTitle: () => null,
       headerStyle: { 
         height: 56,
@@ -175,7 +183,7 @@ const AppContainer = createAppContainer(createStackNavigator({
               </TouchableOpacity>
 
               <TouchableOpacity style={{ paddingHorizontal: 15 }}>
-               <Icon name='user-circle' size={20} color={'white'}/>
+               <Icon name='user-circle' size={20} color={'white'} onPress = {() => navigation.navigate('Profile')} />
               </TouchableOpacity>
            </View>
 
@@ -202,6 +210,6 @@ const AppContainer = createAppContainer(createStackNavigator({
         </View>
         );
       }
-    }
+    })
   }
 ));

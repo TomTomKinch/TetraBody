@@ -55,6 +55,8 @@ export default class HomeScreen extends Component {
         />
         
         <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
+        {/* <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/> */}
+        {/* <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Profile') } title="Profile"/> */}
       </SafeAreaView>
     );
   }
