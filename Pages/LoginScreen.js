@@ -1,10 +1,11 @@
 // Login Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, Button, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import { Input } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -27,8 +28,14 @@ export default class LoginScreen extends Component {
   render() {
     return (
 
-      <View style={styles.container}>
-
+      <KeyboardAwareScrollView
+        style={styles.container} 
+        contentContainerStyle={{ 
+          justifyContent: 'flex-start', 
+          alignItems: 'center', 
+          paddingTop: 100, 
+          paddingBottom:500}}
+        behavior="padding" enabled>
         <Image
           source={ require('../Pages/logo-symbol.png') }
           style={styles.image}
@@ -36,6 +43,7 @@ export default class LoginScreen extends Component {
 
         <Text style={styles.slogan}>"A workout Every Day for Every Body"</Text>
 
+        <Text style={ styles.title }>Welcome</Text>
 
         <View style={ styles.input }>
           <Input // Begin Sign In form
@@ -90,60 +98,55 @@ export default class LoginScreen extends Component {
           </TouchableOpacity>
 
 <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#4d4d4d',
-  },
-  title: {
-    fontSize: 40,
-    textAlign: 'center',
-    margin: 10,
-    color: '#00cccc',
-  },
-  slogan: {
-    marginTop: 5,
-    marginBottom: 50,
-    fontSize: 20,
-    textAlign: 'center',
-    color: 'white',
-  },
-  image: {
-    marginTop: 100,
-    marginBottom: 10,
-    height: 100, 
-    width: 100, 
-    resizeMode: 'contain',
-  },
-  linearGradient: {
-    justifyContent: 'center',
-    borderRadius: 20,
-    height: 45,
-    width: 350,
-  },
-  input: {
-    width:"85%",
-    backgroundColor:"#c7ffe3",
-    borderRadius:25,
-    height:75,
-    marginBottom:20,
-    justifyContent:"center",
-    padding:20
-  },
-  button : {
-    paddingVertical: 10,
-  },
-  buttonText: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: 'white',
-  }
+      flex: 1,
+      flexDirection: 'column',
+      backgroundColor: '#4d4d4d',
+    },
+    title: {
+      fontSize: 32,
+      textAlign: 'center',
+      margin: 10,
+      color: '#00cccc',
+    },
+    slogan: {
+      marginTop: 5,
+      marginBottom: 50,
+      fontSize: 20,
+      textAlign: 'center',
+      color: 'white',
+    },
+    image: {
+      marginBottom: 10,
+      height: 100, 
+      width: 350, 
+      resizeMode: 'contain',
+    },
+    linearGradient: {
+      justifyContent: 'center',
+      borderRadius: 20,
+      height: 45,
+      width: 350,
+    },
+    input: {
+      width:"85%",
+      backgroundColor:"#c7ffe3",
+      borderRadius:25,
+      height:75,
+      marginBottom:20,
+      justifyContent:"center",
+      padding:20
+    },
+    buttonText: {
+      justifyContent:'center',
+      fontSize: 20,
+      textAlign: 'center',
+      color: 'white',
+    }
 });

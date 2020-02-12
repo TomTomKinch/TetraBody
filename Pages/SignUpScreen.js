@@ -1,10 +1,11 @@
 // Sign Up Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native';
+import { Image, Button, StyleSheet, Text, View, Modal } from 'react-native';
 import { Input } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class SignUpScreen extends Component {
   constructor(props) {
@@ -49,7 +50,14 @@ export default class SignUpScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAwareScrollView 
+        style={styles.container} 
+        contentContainerStyle={{ 
+          justifyContent: 'flex-start', 
+          alignItems: 'center', 
+          paddingTop: 100, 
+          paddingBottom:500}}
+        behavior="padding" enabled>
           <Image
           source={ require('../Pages/logo-symbol.png') }
           style={styles.image}
@@ -145,7 +153,7 @@ export default class SignUpScreen extends Component {
 
           </View>
         </Modal>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -154,12 +162,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
         backgroundColor: '#4d4d4d',
       },
       title: {
-        fontSize: 40,
+        fontSize: 32,
         textAlign: 'center',
         margin: 10,
         color: '#00cccc',
@@ -172,10 +178,9 @@ const styles = StyleSheet.create({
         color: 'white',
       },
       image: {
-        marginTop: 100,
         marginBottom: 10,
-        height: 50, 
-        width: 50, 
+        height: 100, 
+        width: 350, 
         resizeMode: 'contain',
       },
       linearGradient: {
