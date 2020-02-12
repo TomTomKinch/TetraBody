@@ -26,6 +26,7 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
+
       <View style={styles.container}>
 
         <Image
@@ -67,24 +68,27 @@ export default class LoginScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <TouchableOpacity
-                style={ styles.button }
+             <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.handleSignIn }
-              >
-                <Text style={styles.slogan}>Login</Text>
-              </TouchableOpacity>
+                underlayColor='#00cccc'
+             >
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableHighlight> 
           </LinearGradient>
+              
+          
         </View>
         
-        <View>
           <TouchableOpacity
             style={ styles.button }
             onPress={ user => this.props.navigation.navigate('SignUp') }
           >
-            <Text style={styles.slogan}>Sign Up</Text>
+            <View>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </View>
           </TouchableOpacity>
-        </View>
-        
+
 <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
       </View>
     );
@@ -120,12 +124,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   linearGradient: {
-    paddingLeft: 15,
-    paddingRight: 15,
+    justifyContent: 'center',
     borderRadius: 20,
-    marginTop:16,
     height: 45,
-    width:350,
+    width: 350,
   },
   input: {
     width:"85%",
@@ -136,4 +138,12 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     padding:20
   },
+  button : {
+    paddingVertical: 10,
+  },
+  buttonText: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'white',
+  }
 });

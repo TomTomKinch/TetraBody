@@ -102,10 +102,11 @@ export default class SignUpScreen extends Component {
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
               <TouchableHighlight
-                style={ styles.button }
+                style={ styles.linearGradient }
                 onPress={ this.handleSignUp }
+                underlayColor='#00cccc'
               >
-                <Text style={styles.slogan}>Sign Up</Text>
+                <Text style={styles.buttonText}>Sign Up</Text>
               </TouchableHighlight>
           </LinearGradient>
         </View>
@@ -132,12 +133,13 @@ export default class SignUpScreen extends Component {
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}
                     style={styles.linearGradient}>
-               <TouchableOpacity
-                style={ styles.button }
+               <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.handleConfirmationCode }
+                underlayColor='#00cccc'
                >
-                  <Text style={styles.slogan}>Submit</Text>
-               </TouchableOpacity>
+                  <Text style={styles.buttonText}>Submit</Text>
+               </TouchableHighlight>
               </LinearGradient>
             </View>
 
@@ -177,12 +179,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
       },
       linearGradient: {
-        paddingLeft: 15,
-        paddingRight: 15,
+        justifyContent: 'center',
         borderRadius: 20,
-        marginTop:16,
         height: 45,
-        width:350,
+        width: 350,
       },
       input: {
         width:"85%",
@@ -193,4 +193,10 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         padding:20
       },
+      buttonText: {
+        justifyContent:'center',
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white',
+      }
 });

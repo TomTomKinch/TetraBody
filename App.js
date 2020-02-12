@@ -3,6 +3,7 @@ import {Root} from "native-base";
 import { View, Image, TouchableOpacity, Dimensions, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Orientation, { orientation } from "react-native-orientation";
+import { TouchableHighlight } from 'react-native-gesture-handler';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -195,11 +196,20 @@ const AppContainer = createAppContainer(createStackNavigator({
            />
               
               <TouchableOpacity style={{ paddingHorizontal: 15 }}>
-                <Icon name='search' size={20} color={'white'} onPress = {() => searchHeaderRef.current.show()}/>
+                <Icon
+                  name='search' 
+                  size={20} 
+                  color={'white'} 
+                  onPress = {() => searchHeaderRef.current.show()}
+                 />
               </TouchableOpacity>
 
               <TouchableOpacity style={{ paddingHorizontal: 20 }}>
-               <Icon name='user-circle' size={20} color={'white'} onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+                <Icon 
+                  underlayColor='#00cccc' 
+                  name='user-circle' size={20} 
+                  color={'white'} 
+                  onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
               </TouchableOpacity>
            </View>
 
