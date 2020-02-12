@@ -1,6 +1,7 @@
 // Home Screen
 import React, { Component } from 'react';
 import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { Auth } from 'aws-amplify';
 
 //Placeholder data to put into the scrolling feed once the database ready for integration
 const DATA = [
@@ -36,6 +37,13 @@ function Item({ title }) {
 }
 
 export default class HomeScreen extends Component {
+  // This eventually belongs in the drawer navigation in App.js
+  handleSignOut = () => {
+    Auth.signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <SafeAreaView style={ styles.container }>
@@ -46,7 +54,7 @@ export default class HomeScreen extends Component {
         keyExtractor={item => item.id}
         />
         
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/>
+        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
       </SafeAreaView>
     );
   }

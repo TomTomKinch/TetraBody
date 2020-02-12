@@ -13,7 +13,9 @@
         },
         "categories": {
             "auth": {
-                "tetrabody79c7c01d": {}
+                "tetrabody79c7c01d": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"636408373820357\",\"client_secret\":\"823f26c8f4277b6498e0ba1337ee52c8\"},{\"ProviderName\":\"Google\",\"client_id\":\"319785040461-7vgra67qkp0e2sip165ara6r98c2jd3t.apps.googleusercontent.com\",\"client_secret\":\"Q0cDFYARp3jhxFLczU2oa1R-\"}]"
+                }
             }
         }
     },
