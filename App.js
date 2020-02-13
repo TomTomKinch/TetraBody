@@ -217,7 +217,7 @@ const AppContainer = createAppContainer(createStackNavigator({
                   underlayColor='#00cccc' 
                   name='user-circle' size={20} 
                   color={'white'} 
-                  onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+                  onPress={() => navigation.navigate('Profile')} />
               </TouchableOpacity>
            </View>
 

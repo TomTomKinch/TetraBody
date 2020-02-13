@@ -18,7 +18,7 @@ export default class LoginScreen extends Component {
 
   handleSignIn = () => {
     const { email, password } = this.state;
-    Auth.signIn(email, password)
+    Auth.signIn(email.toLowerCase(), password)
       // Navigate to Home screen if successful
       .then(user => this.props.navigation.navigate('Home'))
       // Display error if failed
