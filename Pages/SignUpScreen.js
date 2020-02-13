@@ -4,6 +4,8 @@ import { Image, Button, StyleSheet, Text, View, Modal } from 'react-native';
 import { Input } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default class SignUpScreen extends Component {
   constructor(props) {
@@ -20,7 +22,8 @@ export default class SignUpScreen extends Component {
   handleSignUp = () => {
     // Show the current state object
     const { email, password, confirmPassword } = this.state;
-
+    email = email.toLowerCase();
+    
     if (password == confirmPassword) {
       Auth.signUp({
         username: email,
@@ -48,11 +51,18 @@ export default class SignUpScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAwareScrollView 
+        style={styles.container} 
+        contentContainerStyle={{ 
+          justifyContent: 'flex-start', 
+          alignItems: 'center', 
+          paddingTop: 100, 
+          paddingBottom:500}}
+        behavior="padding" enabled>
           <Image
           source={ require('../Pages/logo-symbol.png') }
           style={styles.image}
-        />
+          />
 
         <Text style={styles.title}>Create Your Account</Text>
 
@@ -100,12 +110,13 @@ export default class SignUpScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <Button
-                style={ styles.button }
+              <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.handleSignUp }
-                title='Sign Up'
-                color= 'white'
-              />
+                underlayColor='#00cccc'
+              >
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableHighlight>
           </LinearGradient>
         </View>
         
@@ -118,7 +129,6 @@ export default class SignUpScreen extends Component {
             <View style={ styles.input }>
                <Input
                 label='Confirmation Code'
-                leftIcon={{ type: 'font-awesome', name: 'lock' }}
                 onChangeText={
                   // Set this.state.confirmationCode to the input value
                   (value) => this.setState({ confirmationCode: value })
@@ -127,24 +137,24 @@ export default class SignUpScreen extends Component {
             </View>
            
             <View>
-                <LinearGradient
+              <LinearGradient
                     start={[0, 0.5]}
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}
                     style={styles.linearGradient}>
-               <Button
-                style={ styles.button }
+               <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.handleConfirmationCode }
-                title='Submit'
-                color='white'
-            />
-          </LinearGradient>
-        </View>
+                underlayColor='#00cccc'
+               >
+                  <Text style={styles.buttonText}>Submit</Text>
+               </TouchableHighlight>
+              </LinearGradient>
+            </View>
 
-           
           </View>
         </Modal>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -153,36 +163,32 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
         backgroundColor: '#4d4d4d',
       },
       title: {
-        fontSize: 40,
+        fontSize: 32,
         textAlign: 'center',
         margin: 10,
         color: '#00cccc',
       },
       slogan: {
+        marginTop: 5,
         marginBottom: 50,
         fontSize: 20,
         textAlign: 'center',
         color: 'white',
       },
       image: {
-        marginTop: 100,
         marginBottom: 10,
-        height: 50, 
-        width: 50, 
+        height: 100, 
+        width: 350, 
         resizeMode: 'contain',
       },
       linearGradient: {
-        paddingLeft: 15,
-        paddingRight: 15,
+        justifyContent: 'center',
         borderRadius: 20,
-        marginTop:16,
         height: 45,
-        width:350,
+        width: 350,
       },
       input: {
         width:"85%",
@@ -193,4 +199,10 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         padding:20
       },
+      buttonText: {
+        justifyContent:'center',
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white',
+      }
 });
