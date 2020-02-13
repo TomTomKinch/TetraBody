@@ -1,46 +1,68 @@
 // Home Screen
 import React, { Component } from 'react';
 import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 //Placeholder data to put into the scrolling feed once the database ready for integration
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     title: 'First Item',
+    desc: 'This is the description of the first video, lets test the length of the box!',
+    icon: 'flight-takeoff'
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+    id: 'a',
     title: 'Second Item',
+    desc: 'Second Desc',
+    icon: 'flight-takeoff'
   },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: '4',
-    title: 'FOURTH Item',
-  },
-  {
-    id: '5',
-    title: 'Vth Item',
-  },
+  
 ];
 
-//Placerholder for a video to select
-function Item({ title }) {
-  return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
+
+
+
 
 export default class HomeScreen extends Component {
+  renderItem = ({ item }) => {
+    return (
+      //Placeholder for a video to select
+      <SafeAreaView style={{flexDirection: 'row', height: 100, width: '98%', backgroundColor: '#1c1c1c', margin: 10
+      , justifyContent: 'center', textAlign: 'center', borderRadius: 10
+      }}>
+        <View style={ styles.thumbnail }>
+          <Icon
+            name={'tv'}
+            size={50}
+            style={{color: '#FFFFFF'}}
+          />
+        </View>
+        <View style={ styles.videoTextArea}>
+          <Text style={ styles.videoTitle }>{item.title}</Text>
+          <Text style={ styles.videoDesc }>{item.desc}</Text>
+        </View>
+      </SafeAreaView>
+  
+    );
+  }
+
   render() {
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         <Text style={ styles.title }>TetraBody</Text>
-        <Text style={ styles.title }>(Home Page)</Text>
+
+        <FlatList
+        style={{ width: '100%', marginRight: 10}}
+        data={DATA}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.id}
+        renderItem={this.renderItem}
+        />
+        
+        
+      
+        
         <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Sign Out"/>
       </View>
     );
@@ -49,15 +71,16 @@ export default class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#4d4d4d',
   },
   title: {
     fontSize: 32,
     textAlign: 'center',
-    margin: 10,
+    margin: 30,
     color: '#00cccc',
   },
   item: {
@@ -72,6 +95,29 @@ const styles = StyleSheet.create({
     margin: 10,
     color: '#FFFFFF',
     //overflow-y: scroll,
+  },
+  thumbnail:{
+    flex: 25,
+    flexDirection: 'row',
+    margin: 10,
+    backgroundColor: '#111111',
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  videoTitle:{
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#555555',
+  },
+  videoDesc:{
+    textAlign: 'center',
+    color: '#555555',
+  },
+  videoTextArea:{
+    flex: 75,
+    width: '90%',
+    justifyContent: 'center',
+    textAlign: 'center',
   }
 
 });
