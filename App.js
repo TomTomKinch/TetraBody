@@ -142,6 +142,13 @@ const AppContainer = createAppContainer(createStackNavigator({
     } 
   },
 
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+    headerShown: false,
+    }
+  },
+
   Main: drawerNavigator,
   bottomTabNavigator: bottomTabNavigator
   
