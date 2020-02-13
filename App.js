@@ -215,7 +215,8 @@ const AppContainer = createAppContainer(createStackNavigator({
               <TouchableOpacity style={{ paddingHorizontal: 20 }}>
                 <Icon 
                   underlayColor='#00cccc' 
-                  name='user-circle' size={20} 
+                  name='user-circle' 
+                  size={20} 
                   color={'white'} 
                   onPress={() => navigation.navigate('Profile')} />
               </TouchableOpacity>
