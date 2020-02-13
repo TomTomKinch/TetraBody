@@ -47,4 +47,6 @@ target 'TetraBody' do
 
   pod 'RNSearchBar', :path => '../node_modules/react-native-search-bar'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
 end
