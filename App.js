@@ -15,6 +15,7 @@ import SignUpScreen from './Pages/SignUpScreen.js';
 import FavoriteScreen from './Pages/FavoriteScreen.js';
 import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
+import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify, { Auth } from 'aws-amplify';
 import AWSConfig from './aws-exports';
 Amplify.configure(AWSConfig);
