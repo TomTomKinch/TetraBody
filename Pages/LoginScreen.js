@@ -82,7 +82,9 @@ export default class LoginScreen extends Component {
           title='Sign Up'
           color='white'
         />
-<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Login with Facebook"/>
+        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Login with Google"/>
+        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
       </View>
     );
   }
