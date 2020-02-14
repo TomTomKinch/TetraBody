@@ -107,3 +107,123 @@ export function deleteVideoTag(name, id){
         return response;
     }))
 }
+
+/*
+*Inputs ()
+*This function returns an array of JSON objects containing tags that can be used on videos
+*Objects in format tagname: "tag goes here"
+*/
+export function getVideoTags(){
+    var dest = 'https://epbuidyooa.execute-api.us-west-2.amazonaws.com/DEV';
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs ()
+*This function returns the most recently uploaded videos in a JSON array of objects containing:
+*   videoID, description, uploadUserName, videoName, videoDateTime
+*/
+export function getRecentVideos(){
+    var dest = 'https://156oopdhb8.execute-api.us-west-2.amazonaws.com/DEV';
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs (name)
+*This function returns a list of stats in a JSON array of objects, one for each stat.
+*Pass in a username to get a list of stats they can track (including customs) or nothing for default list.
+*/
+export function getStatList(name){
+    var dest = 'https://e3jaydvywi.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs (name, stat)
+*This function returns a a JSON array of objects for each entry for a specific tracked stat for a user.
+*Pass in a username and a stat, objects contain statName, statValue, statDate.
+*/
+export function getUserStat(name, stat){
+    var dest = 'https://hfpvnoa3jc.execute-api.us-west-2.amazonaws.com/DEV?name=' + name + '&stat=' + stat;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs (name)
+*This function returns a JSON array of objects for each entry of recently entered stats for a user.
+*Pass in a username, objects contain statName, statValue, statDate.
+*/
+export function getUserStatSnapshot(name){
+    var dest = 'https://fvkcdshqb5.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs (name)
+*This function returns a JSON video object based on a passed in video name
+*unknown return formate - unable to test right now
+*/
+export function getVideoByName(name){
+    var dest = 'https://nvtdkj3xoe.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs (name)
+*This function returns a JSON video object based on a passed in tag
+*unknown return formate - unable to test right now, might return an array of video objects or something
+*/
+export function getVideoByTag(name){
+    var dest = 'https://hw1o6ug24b.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs (name)
+*This function returns a JSON array of video objects uploaded by a specific user from a passed in username
+*Elements in the objects: videoID, description, uploadUserName, videoName, videoDateTime
+*/
+export function getVideoByUploader(name){
+    var dest = 'https://7c1swj45yb.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
