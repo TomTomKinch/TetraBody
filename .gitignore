@@ -69,3 +69,7 @@ awsconfiguration.json
 amplifyconfiguration.json
 amplify-gradle-config.json
 amplifyxc.config
+
+#expo stuff
+/.expo
+./.expo

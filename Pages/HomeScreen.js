@@ -1,6 +1,7 @@
 // Home Screen
 import React, { Component } from 'react';
 import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { Auth } from 'aws-amplify';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 //Placeholder data to put into the scrolling feed once the database ready for integration
@@ -29,6 +30,13 @@ const DATA = [
 
 
 export default class HomeScreen extends Component {
+  // This eventually belongs in the drawer navigation in App.js
+  handleSignOut = () => {
+    Auth.signOut()
+      .then(() => this.props.navigation.navigate('Login'))
+      .catch(err => console.log(err));
+  }
+  
   renderItem = ({ item }) => {
     return (
       //Placeholder for a video to select
@@ -56,9 +64,8 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={ styles.title }>TetraBody</Text>
-
+      <SafeAreaView style={ styles.container }>
+        <Text style={ styles.title }>TetraBody - Video Feed</Text>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         data={DATA}
@@ -67,11 +74,10 @@ export default class HomeScreen extends Component {
         renderItem={this.renderItem}
         />
         
-        
-      
-        
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Sign Out"/>
-      </View>
+        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
+        {/* <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/> */}
+        {/* <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Profile') } title="Profile"/> */}
+      </SafeAreaView>
     );
   }
 }
@@ -85,6 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4d4d4d',
   },
   title: {
+    paddingTop: 45,
     fontSize: 32,
     textAlign: 'center',
     margin: 30,

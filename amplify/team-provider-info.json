@@ -10,6 +10,31 @@
             "StackName": "amplify-tetrabody-tetra-10541",
             "StackId": "arn:aws:cloudformation:us-west-2:623934114830:stack/amplify-tetrabody-tetra-10541/0ad959c0-36ad-11ea-b7b3-0678f540705a",
             "AmplifyAppId": "d2p9w8fzs3m1se"
+        },
+        "categories": {
+            "auth": {
+                "tetrabody79c7c01d": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"636408373820357\",\"client_secret\":\"823f26c8f4277b6498e0ba1337ee52c8\"},{\"ProviderName\":\"Google\",\"client_id\":\"319785040461-7vgra67qkp0e2sip165ara6r98c2jd3t.apps.googleusercontent.com\",\"client_secret\":\"Q0cDFYARp3jhxFLczU2oa1R-\"}]"
+                }
+            }
+        }
+    },
+    "authtest": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tetrabody-authtest-12419-authRole",
+            "UnauthRoleArn": "arn:aws:iam::623934114830:role/amplify-tetrabody-authtest-12419-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::623934114830:role/amplify-tetrabody-authtest-12419-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-tetrabody-authtest-12419-deployment",
+            "UnauthRoleName": "amplify-tetrabody-authtest-12419-unauthRole",
+            "StackName": "amplify-tetrabody-authtest-12419",
+            "StackId": "arn:aws:cloudformation:us-west-2:623934114830:stack/amplify-tetrabody-authtest-12419/24c7f890-390b-11ea-a169-0ab88639bbc6",
+            "AmplifyAppId": "d1ukc0chsss8se"
+        },
+        "categories": {
+            "auth": {
+                "tetrabody79c7c01d": {}
+            }
         }
     }
 }

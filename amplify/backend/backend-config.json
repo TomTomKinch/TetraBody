@@ -1,1 +1,10 @@
-{}
+{
+    "auth": {
+        "tetrabody79c7c01d": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [],
+            "customAuth": false
+        }
+    }
+}
