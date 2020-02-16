@@ -28,13 +28,14 @@ export default class LoginScreen extends Component {
   render() {
     return (
 
+      // Allows scrolling and shifts up or down if pressing inputs
       <KeyboardAwareScrollView
         style={styles.container} 
         contentContainerStyle={{ 
           justifyContent: 'flex-start', 
           alignItems: 'center', 
-          paddingTop: 100, 
-          paddingBottom:500}}
+          paddingTop: 90, 
+          paddingBottom: 300}}
         behavior="padding" enabled>
         <Image
           source={ require('../Pages/logo-symbol.png') }
@@ -42,7 +43,6 @@ export default class LoginScreen extends Component {
         />
 
         <Text style={styles.slogan}>"A workout Every Day for Every Body"</Text>
-
         <Text style={ styles.title }>Welcome</Text>
 
         <View style={ styles.input }>
@@ -84,8 +84,6 @@ export default class LoginScreen extends Component {
                 <Text style={styles.buttonText}>Login</Text>
               </TouchableHighlight> 
           </LinearGradient>
-              
-          
         </View>
         
           <TouchableOpacity
