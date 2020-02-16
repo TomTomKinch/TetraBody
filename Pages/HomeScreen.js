@@ -35,7 +35,7 @@ export default class HomeScreen extends Component {
           <Icon
             name={'tv'}
             size={50}
-            style={{color: '#FFFFFF'}}
+            style={{color: '#FFFFFE'}}
           />
         </View>
         <View style={ styles.videoTextArea}>
