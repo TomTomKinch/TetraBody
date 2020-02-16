@@ -7,15 +7,19 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    desc: 'This is the description of the first video, lets test the length of the box!',
+    title: 'First Video Title',
+    desc: 'This is the description of the first video, lets test the length of the box! YEAH',
+    views: '200',
+    faves: '100',
     icon: 'flight-takeoff'
   },
   {
     id: 'a',
     title: 'Second Item',
     desc: 'Second Desc',
-    icon: 'flight-takeoff'
+    icon: 'flight-takeoff',
+    views: '200',
+    faves: '100',
   },
   
 ];
@@ -35,13 +39,16 @@ export default class HomeScreen extends Component {
           <Icon
             name={'tv'}
             size={50}
-            style={{color: '#FFFFFE'}}
+            style={{color: '#FFFFFF', top: 15}}
           />
         </View>
         <View style={ styles.videoTextArea}>
           <Text style={ styles.videoTitle }>{item.title}</Text>
           <Text style={ styles.videoDesc }>{item.desc}</Text>
+          <Text style={ styles.videoStat }>Views: {item.views} Faves: {item.faves}</Text>
+          
         </View>
+        
       </SafeAreaView>
   
     );
@@ -105,13 +112,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   videoTitle:{
+    position: 'relative',
+    top: 0,
     textAlign: 'center',
     fontSize: 20,
-    color: '#555555',
+    color: '#00cccc',
   },
   videoDesc:{
-    textAlign: 'center',
+    textAlign: 'left',
     color: '#555555',
+  },
+  videoStat:{
+    position: 'relative',
+    bottom: 5,
+    textAlign: 'left',
+    color: '#777777',
   },
   videoTextArea:{
     flex: 75,
@@ -119,5 +134,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
   }
+  
 
 });
