@@ -18,6 +18,7 @@ import ProgressScreen from './Pages/ProgressScreen.js';
 import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify, { Auth } from 'aws-amplify';
 import AWSConfig from './aws-exports';
+import tetraAPI from './API.js';
 Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
