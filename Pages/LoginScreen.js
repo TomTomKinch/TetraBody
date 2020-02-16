@@ -18,7 +18,7 @@ export default class LoginScreen extends Component {
 
   handleSignIn = () => {
     const { email, password } = this.state;
-    Auth.signIn(email, password)
+    Auth.signIn(email.toLowerCase(), password)
       // Navigate to Home screen if successful
       .then(user => this.props.navigation.navigate('Home'))
       // Display error if failed
@@ -28,14 +28,13 @@ export default class LoginScreen extends Component {
   render() {
     return (
 
-      // Allows scrolling and shifts up or down if pressing inputs
       <KeyboardAwareScrollView
         style={styles.container} 
         contentContainerStyle={{ 
           justifyContent: 'flex-start', 
           alignItems: 'center', 
-          paddingTop: 90, 
-          paddingBottom: 300}}
+          paddingTop: 100, 
+          paddingBottom:500}}
         behavior="padding" enabled>
         <Image
           source={ require('../Pages/logo-symbol.png') }
@@ -84,10 +83,12 @@ export default class LoginScreen extends Component {
                 <Text style={styles.buttonText}>Login</Text>
               </TouchableHighlight> 
           </LinearGradient>
+              
+          
         </View>
         
           <TouchableOpacity
-            style={ styles.button, {paddingVertical: 10} }
+            style={ styles.button }
             onPress={ user => this.props.navigation.navigate('SignUp') }
           >
             <View>
@@ -95,7 +96,10 @@ export default class LoginScreen extends Component {
             </View>
           </TouchableOpacity>
 
-<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+          <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Login with Facebook"/>
+          <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Login with Google"/>
+          <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+      
       </KeyboardAwareScrollView>
     );
   }

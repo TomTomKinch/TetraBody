@@ -22,7 +22,8 @@ export default class SignUpScreen extends Component {
   handleSignUp = () => {
     // Show the current state object
     const { email, password, confirmPassword } = this.state;
-
+    email = email.toLowerCase();
+    
     if (password == confirmPassword) {
       Auth.signUp({
         username: email,

@@ -18,6 +18,7 @@ import ProgressScreen from './Pages/ProgressScreen.js';
 import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify, { Auth } from 'aws-amplify';
 import AWSConfig from './aws-exports';
+import tetraAPI from './API.js';
 Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
@@ -142,6 +143,13 @@ const AppContainer = createAppContainer(createStackNavigator({
     } 
   },
 
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+    headerShown: false,
+    }
+  },
+
   Main: drawerNavigator,
   bottomTabNavigator: bottomTabNavigator
   
@@ -207,9 +215,11 @@ const AppContainer = createAppContainer(createStackNavigator({
 
               <TouchableOpacity style={{ paddingHorizontal: 20 }}>
                 <Icon 
-                  name='user-circle' size={20} 
+                  underlayColor='#00cccc' 
+                  name='user-circle' 
+                  size={20} 
                   color={'white'} 
-                  onPress={() => navigation.dispatch(DrawerActions.openDrawer())} />
+                  onPress={() => navigation.navigate('Profile')} />
               </TouchableOpacity>
            </View>
 
