@@ -5,6 +5,7 @@ import { Image, Button, StyleSheet, Text, View, Dimensions } from 'react-native'
 export default class WorkoutsScreen extends Component {
   render() {
     return (
+    /*
       <View style={styles.main}>
             <View style={styles.monthHeader}><Text style={styles.imageText}>January</Text></View>
             <View style={styles.daysHeaderHolder}>
@@ -74,6 +75,7 @@ export default class WorkoutsScreen extends Component {
             </View>
            
       </View>
+      */
     );
   }
 }

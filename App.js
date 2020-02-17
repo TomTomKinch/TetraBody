@@ -1,13 +1,12 @@
 import React, { Component, useRef } from 'react';
 import {Root} from "native-base";
-import { View, Image, TouchableOpacity, Dimensions, Button} from 'react-native';
+import { View, Image, TouchableOpacity, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Orientation, { orientation } from "react-native-orientation";
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createDrawerNavigator,DrawerActions,DrawerContentScrollView,DrawerItemList,DrawerItem} from 'react-navigation-drawer';
 import SearchHeader from 'react-native-search-header';
 import HomeScreen from './Pages/HomeScreen.js';
 import LoginScreen from './Pages/LoginScreen.js';
@@ -43,17 +42,6 @@ export default class App extends Component {
     );
   }
 }
-
-
-const drawerNavigator = createDrawerNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: {
-      drawerLabel: "Sign Out"
-    }
-  }
-  
-});
 
 // Bottom navigation to go to Home, Favorite, Workouts, and Progress pages
 const bottomTabNavigator = createBottomTabNavigator({
@@ -150,7 +138,6 @@ const AppContainer = createAppContainer(createStackNavigator({
     }
   },
 
-  Main: drawerNavigator,
   bottomTabNavigator: bottomTabNavigator
   
   },{
