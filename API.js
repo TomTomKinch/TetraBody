@@ -1,7 +1,7 @@
 //Copyright 2020, Erik Jastad, All rights reserved.
 
 //Old type before making in to objecT:   export function getUser(name){....
-var tetraAPI = {
+export var tetraAPI = {
     /*
     *Inputs ('username')
     *Outputs an array with the attributes            (.userName and .accountType .dateCreated)               example: result[0].accountType would contain 'ANON' or 'USER'  
