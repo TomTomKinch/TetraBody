@@ -2,34 +2,32 @@
 import React, { Component } from 'react';
 import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import { Auth } from 'aws-amplify';
+import tetraAPI from '../API.js';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-//Placeholder data to put into the scrolling feed once the database ready for integration
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Video Title',
-    desc: 'This is the description of the first video, lets test the length of the box! YEAH',
-    views: '200',
-    faves: '100',
-    icon: 'flight-takeoff'
-  },
-  {
-    id: 'a',
-    title: 'Second Item',
-    desc: 'Second Desc',
-    icon: 'flight-takeoff',
-    views: '200',
-    faves: '100',
-  },
-  
-];
+//This is where we get info for the feed, the default feed just shows recent videos
 
 
 
 
 
 export default class HomeScreen extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        data: [],
+    }
+  }
+
+  async getRecent(){
+    var DATA = await tetraAPI.getRecentVideos() 
+        this.setState({ 
+            data: DATA,
+        })
+  }
+  componentDidMount() {
+    this.getRecent()
+  }
   // This eventually belongs in the drawer navigation in App.js
   handleSignOut = () => {
     Auth.signOut()
@@ -37,6 +35,7 @@ export default class HomeScreen extends Component {
       .catch(err => console.log(err));
   }
   
+  //An individual feed item
   renderItem = ({ item }) => {
     return (
       //Placeholder for a video to select
@@ -51,9 +50,9 @@ export default class HomeScreen extends Component {
           />
         </View>
         <View style={ styles.videoTextArea}>
-          <Text style={ styles.videoTitle }>{item.title}</Text>
-          <Text style={ styles.videoDesc }>{item.desc}</Text>
-          <Text style={ styles.videoStat }>Views: {item.views} Faves: {item.faves}</Text>
+          <Text style={ styles.videoTitle }>{item.videoName}</Text>
+          <Text style={ styles.videoDesc }>{item.description}</Text>
+          {/*<Text style={ styles.videoStat }>Views: {item.views} Faves: {item.faves}</Text>*/}
           
         </View>
         
@@ -62,13 +61,15 @@ export default class HomeScreen extends Component {
     );
   }
 
+  //Feed Area
   render() {
     return (
       <SafeAreaView style={ styles.container }>
         <Text style={ styles.title }>TetraBody - Video Feed</Text>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
-        data={DATA}
+        //IMPORTANT: The following line calls for the database
+        data={this.state.data}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}

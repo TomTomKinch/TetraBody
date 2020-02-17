@@ -1,6 +1,7 @@
 //Copyright 2020, Erik Jastad, All rights reserved.
 
 //Old type before making in to objecT:   export function getUser(name){....
+
 var tetraAPI = {
     /*
     *Inputs ('username')
@@ -489,6 +490,7 @@ var tetraAPI = {
             return response;
         }))
     }
-
+    
 
 };
+export default tetraAPI;
