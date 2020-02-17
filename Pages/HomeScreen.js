@@ -71,7 +71,7 @@ export default class HomeScreen extends Component {
         //IMPORTANT: The following line calls for the database
         data={this.state.data}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.videoID}
         renderItem={this.renderItem}
         />
         

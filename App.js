@@ -23,7 +23,6 @@ Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
 
-
 export default class App extends Component {
   constructor (props) {
     super(props);
