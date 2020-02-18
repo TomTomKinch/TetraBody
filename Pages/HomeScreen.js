@@ -65,7 +65,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={ styles.container }>
-        <Text style={ styles.title }>TetraBody - Video Feed</Text>
+        <Text style={ styles.title }>Video Feed</Text>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
@@ -74,10 +74,6 @@ export default class HomeScreen extends Component {
         keyExtractor={item => item.videoID}
         renderItem={this.renderItem}
         />
-        
-        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
-        {/* <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Login') } title="Login"/> */}
-        {/* <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Profile') } title="Profile"/> */}
       </SafeAreaView>
     );
   }

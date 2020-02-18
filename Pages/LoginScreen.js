@@ -1,7 +1,7 @@
 // Login Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Image, Button, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Input, SocialIcon } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -42,7 +42,6 @@ export default class LoginScreen extends Component {
         />
 
         <Text style={styles.slogan}>"A workout Every Day for Every Body"</Text>
-
         <Text style={ styles.title }>Welcome</Text>
 
         <View style={ styles.input }>
@@ -97,8 +96,29 @@ export default class LoginScreen extends Component {
             </View>
           </TouchableOpacity>
 
-          <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Login with Facebook"/>
-          <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Login with Google"/>
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) }
+          >
+            <SocialIcon
+              type='facebook'
+              button
+              title='Sign in with Facebook'
+            />
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ () => Auth.federatedSignIn({ provider: "Google"}) }
+          >
+            <SocialIcon
+              type='google'
+              button
+              title='Sign In with Google'
+            />
+          </TouchableOpacity>
+
           <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
       
       </KeyboardAwareScrollView>
@@ -151,5 +171,6 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
       color: 'white',
+      paddingVertical: 5 
     }
 });
