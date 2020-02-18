@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, View, TouchableHighlight, Image, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableHighlight, TouchableNativeFeedback, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Header } from 'react-native-elements'
 import { getUser } from '../API.js'
 import tempJson from './temp.json'
@@ -39,16 +40,29 @@ export default class ProfileScreen extends Component {
     }
 
     render() {
+
+        const {goBack} = this.props.navigation;
+
         return (
             <View style={styles.container}>
 
                 <Header
                     headerTitle="header"
-                />
+                    containerStyle={styles.Header}
+                >
+                    <TouchableHighlight onPress={() => goBack()} underlayColor="#00cccc" style={styles.highlight}>
+                        <Icon 
+                            name={'times'}
+                            size={25}
+                            color="white"
+                            
+                        />
+                    </TouchableHighlight>
+                </Header>
 
                 <Text style={styles.title}>Account</Text>
                 {/* <Button onPress={ () => this.getUserInfo() } title="TEST"/> */}
-                <Image style={styles.avatar}></Image>
+                <Image style={styles.avatar} source={ require('./default-profile.png') }></Image>
                 <Text style={styles.body}>{this.state.userName} </Text>
                 <Text style={styles.body}>{this.state.accountType} </Text>
 
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       flexDirection: 'column',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
       backgroundColor: '#4d4d4d',
     },
@@ -118,4 +132,15 @@ const styles = StyleSheet.create({
         height: 45,
         width: 125,
     },
+    Header:{
+        backgroundColor: 'black',
+        alignItems: 'center',
+        borderBottomWidth: 0,
+    },
+    highlight:{
+        paddingVertical: 8, 
+        paddingHorizontal: 13, 
+        width:45, height: 45, 
+        borderRadius: 30
+    }
   });

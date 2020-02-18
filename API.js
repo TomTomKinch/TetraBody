@@ -1,14 +1,63 @@
 //Copyright 2020, Erik Jastad, All rights reserved.
 
-//Old type before making in to objecT:   export function getUser(name){....
-export var tetraAPI = {
-    /*
-    *Inputs ('username')
-    *Outputs an array with the attributes            (.userName and .accountType .dateCreated)               example: result[0].accountType would contain 'ANON' or 'USER'  
-    *This function returns account information on the user
-    */
-    getUser: function(name){
-        var dest = 'https://baxsdrrhvj.execute-api.us-west-2.amazonaws.com/Dev?name=' + name;
+/*
+*Inputs ('username')
+*Outputs an array with the attributes            (.userName and .accountType .dateCreated)               example: result[0].accountType would contain 'ANON' or 'USER'  
+*This function returns account information on the user
+*/
+export function getUser(name){
+    var dest = 'https://baxsdrrhvj.execute-api.us-west-2.amazonaws.com/Dev?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs ('username') 
+*Outputs an array with the attributes       (.description .uploadUserName .videoDateTime .videoID .videoName)     example: result[0].description 
+*This function returns the user favorited videos
+*/
+export function getFavoriteVideos(name){
+    var dest = 'https://oozffhq4h9.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs ()
+*Outputs an array with the attributes        (.description .uploadUserName .videoDateTime .videoID .videoName)         example: result[0].description 
+*This function get the most popular videos of all time
+*/
+export function getMostPopularVideos(){
+    var dest = 'https://c7s3qs2qjg.execute-api.us-west-2.amazonaws.com/DEV';
+    
+    return fetch(dest)
+    .then((response) => response.json())
+    .then((response => {
+        return response;
+    }))
+}
+
+/*
+*Inputs ('username','accountType')
+*Outputs an array of rows changed or affected.. or contains errorMessages
+*This function is used to add a new user to the app, input the username and account type
+*/
+export function addUser(name, type){
+    var dest = 'https://48ur58t8tg.execute-api.us-west-2.amazonaws.com/Dev?name=' + name + '&type=' + type;
+    return fetch(dest, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
         
       })
     .then((response) => response.json())
@@ -60,7 +109,8 @@ export function deleteVideoTag(name, id){
 }//Copyright 2020, Erik Jastad, All rights reserved.
 
 //Old type before making in to objecT:   export function getUser(name){....
-export var tetraAPI = {
+
+var tetraAPI = {
     /*
     *Inputs ('username')
     *Outputs an array with the attributes            (.userName and .accountType .dateCreated)               example: result[0].accountType would contain 'ANON' or 'USER'  
@@ -548,6 +598,7 @@ export var tetraAPI = {
             return response;
         }))
     }
-
+    
 
 };
+export default tetraAPI;
