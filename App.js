@@ -18,17 +18,6 @@ Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
 
-export default class App extends Component {
-  render() {
-    return (
-      
-      <Root>
-        <AppContainer/>
-      </Root> 
-    );
-  }
-}
-
 // Bottom navigation to go to Home, Favorite, Workouts, and Progress pages
 const bottomTabNavigator = createBottomTabNavigator({
   Home: { 
@@ -205,3 +194,35 @@ const AppContainer = createAppContainer(createStackNavigator({
     }
   }
 ));
+
+var userId;
+
+function checkAuth() {
+  Auth.currentAuthenticatedUser()
+    .then(user => console.log({ user }))
+    .catch(err => console.log(err))
+}
+
+function getSub() {
+  Auth.currentAuthenticatedUser()
+    .then((user) => {
+      console.log(user.attributes.sub);
+      userId = user.attributes.sub;
+      console.log('sub grab success: ' + userId)
+    })
+    .catch(err => console.log('user sub error: ', err))
+}
+
+export default class App extends Component {
+
+  render() {
+    return (
+      
+      <Root>
+        <AppContainer
+          onNavigationStateChange = {getSub()}
+        />
+      </Root> 
+    );
+  }
+}

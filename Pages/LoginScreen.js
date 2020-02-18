@@ -15,13 +15,17 @@ export default class LoginScreen extends Component {
     };
   }
 
-  handleSignIn = () => {
+  SignIn = async () => {
     const { email, password } = this.state;
-    Auth.signIn(email, password)
+    try {
+      await Auth.signIn(email, password)
+      console.log('SignIn success:\n', Auth.currentAuthenticatedUser().user)
       // Navigate to Home screen if successful
-      .then(user => this.props.navigation.navigate('Home'))
+      this.props.navigation.navigate('Home')
+    } catch (err) {
       // Display error if failed
-      .catch(err => console.log(err));
+      console.log('SignIn error: ', err);
+    }
   }
 
   render() {
@@ -69,7 +73,7 @@ export default class LoginScreen extends Component {
             style={styles.linearGradient}>
               <Button
                 style={ styles.button }
-                onPress={ this.handleSignIn }
+                onPress={ this.SignIn }
                 title='Login'
                 color= 'white'
               />
@@ -82,8 +86,8 @@ export default class LoginScreen extends Component {
           title='Sign Up'
           color='white'
         />
-        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Login with Facebook"/>
-        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Login with Google"/>
+        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Sign in with Facebook"/>
+        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Sign in with Google"/>
         <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
       </View>
     );

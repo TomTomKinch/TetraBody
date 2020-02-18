@@ -17,20 +17,24 @@ export default class SignUpScreen extends Component {
     };
   }
 
-  handleSignUp = () => {
+  SignUp = async () => {
     // Show the current state object
     const { email, password, confirmPassword } = this.state;
 
     if (password == confirmPassword) {
-      Auth.signUp({
-        username: email,
-        password,
-        attributes: { email },
-      })
-      // On success, show Confirmation Code Modal
-      .then(() => this.setState({ modalVisible: true }))
-      // On failure display error in console
-      .catch(err => console.log(err));
+      try {
+        await Auth.signUp({
+          username: email,
+          password,
+          attributes: { email },
+        })
+        console.log('SignUp success')
+        // On success, show Confirmation Code Modal
+        this.setState({ modalVisible: true })
+      } catch (err) {
+        // On failure display error in console
+        console.log('SignUp error:', err)
+      }
     } else {
       alert('Passwords do not match.');
     }
@@ -102,7 +106,7 @@ export default class SignUpScreen extends Component {
             style={styles.linearGradient}>
               <Button
                 style={ styles.button }
-                onPress={ this.handleSignUp }
+                onPress={ this.SignUp }
                 title='Sign Up'
                 color= 'white'
               />
