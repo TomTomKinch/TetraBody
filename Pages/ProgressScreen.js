@@ -1,7 +1,7 @@
 // Progress Screen
 import React, { Component } from 'react';
 import { Image, Button, StyleSheet, Text, View } from 'react-native';
-import tetraAPI from './API.js';
+import tetraAPI from '../API.js';
 
 export default class ProgressScreen extends Component {
   render() {
