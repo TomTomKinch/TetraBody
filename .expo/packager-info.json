@@ -1,9 +1,9 @@
 {
-  "expoServerNgrokUrl": "https://5z-jj7.sneakwolf777.tetrabody.exp.direct",
-  "packagerNgrokUrl": "https://packager.5z-jj7.sneakwolf777.tetrabody.exp.direct",
-  "ngrokPid": 5312,
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 6540
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
