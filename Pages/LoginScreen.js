@@ -7,6 +7,8 @@ import { Auth } from 'aws-amplify';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+export var globalEmail = 'UNSET';
+
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +51,7 @@ export default class LoginScreen extends Component {
             label='Email:'
             onChangeText={
               // Set this.state.email to the input value
+              globalEmail = value,
             ( value) => this.setState({ email: value })
             }
             placeholder=''
