@@ -1,57 +1,97 @@
 // Home Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList, TouchableHighlight } from 'react-native';
 import { Auth } from 'aws-amplify';
+import tetraAPI from '../API.js';
+import { Video } from 'expo-av';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
-//Placeholder data to put into the scrolling feed once the database ready for integration
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: '4',
-    title: 'FOURTH Item',
-  },
-  {
-    id: '5',
-    title: 'Vth Item',
-  },
-];
-
-//Placerholder for a video to select
-function Item({ title }) {
-  return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
-    </View>
-  );
-}
-
+//This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+        data: [],
+    }
+  }
+
+  async getRecent(){
+    var DATA = await tetraAPI.getRecentVideos() 
+    
+      this.setState({ 
+            data: DATA,
+      })
+    
+    
+  }
+  componentDidMount() {
+    this.getRecent()
+  }
   // This eventually belongs in the drawer navigation in App.js
   handleSignOut = () => {
     Auth.signOut()
       .then(() => this.props.navigation.navigate('Login'))
       .catch(err => console.log(err));
   }
+  
+  //An individual feed item
+  renderItem = ({ item }) => {
+    
+    
+    return (
+      <SafeAreaView style={{flexDirection: 'row', height: 100, width: '98%', backgroundColor: '#1c1c1c', margin: 10
+      , justifyContent: 'center', textAlign: 'center', borderRadius: 10
+      }}>
+        <View style={ styles.thumbnail }>
+        <Video
+            onPress={ () => this.props.navigation.navigate('Login') }
+            source={{ uri: item.videoID}}
+            resizeMode="cover"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </View>
+        <View style={ styles.videoTextArea}>
+        <TouchableHighlight
+          onPress={ () => this.props.navigation.navigate('Favorite') }
+        >
+          <Text style={ styles.videoTitle }>{item.videoName}</Text>
+        </TouchableHighlight>
+          <Text style={ styles.videoDesc }>{item.description}</Text>
+          <Text style={ styles.videoStat }>
+            Uploader: {item.videoAuthor}               Uploaded: {item.videoDate}{"\n"}
+            Views: {item.videoViews}                    Likes: {item.videoLikes}
+          </Text>
+        <TouchableHighlight
+          style={ styles.faveIcon }
+          onPress={ () => this.props.navigation.navigate('Favorite') }
+        >
+             <Icon
+              name={'heart'}
+              size={25}
+              style={ styles.faveIcon }
+              /> 
+        </TouchableHighlight>
+         
+          
+        </View>
+        
+      </SafeAreaView>
+  
+    );
+  }
 
+  //Feed Area
   render() {
     return (
       <SafeAreaView style={ styles.container }>
-        <Text style={ styles.title }>TetraBody - Video Feed</Text>
+        <Text style={ styles.title }>Video Feed</Text>
         <FlatList
-        data={DATA}
-        renderItem={({ item }) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
+        style={{ width: '100%', marginRight: 10}}
+        //IMPORTANT: The following line calls for the database
+        data={this.state.data}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={item => item.videoID}
+        renderItem={this.renderItem}
         />
         
         <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
@@ -62,15 +102,17 @@ export default class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#4d4d4d',
   },
   title: {
+    paddingTop: 45,
     fontSize: 32,
     textAlign: 'center',
-    margin: 10,
+    margin: 30,
     color: '#00cccc',
   },
   item: {
@@ -84,7 +126,47 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: '#FFFFFF',
-    //overflow-y: scroll,
-  }
+  },
+  thumbnail:{
+    flex: 30,
+    flexDirection: 'row',
+    margin: 10,
+    backgroundColor: '#555555',
+    textAlign: 'center',
+    justifyContent: 'center',
+  },
+  
+  videoTitle:{
+    position: 'relative',
+    top: 0,
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#00cccc',
+    
+  },
+  videoDesc:{
+    textAlign: 'left',
+    color: '#555555',
+  },
+  videoStat:{
+    position: 'absolute',
+    bottom: 5,
+    color: '#FFFFFF',
+  },
+  videoTextArea:{
+    flex: 75,
+    width: '90%',
+    // justifyContent: 'center',
+    textAlign: 'center',
+  },
+  faveIcon:{
+    position: 'absolute',
+    width: 25,
+    bottom: 0,
+    right: 5,
+    color: '#FFFFFF',
+  },
+
+  
 
 });

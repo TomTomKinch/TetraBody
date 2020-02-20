@@ -84,6 +84,7 @@ var screenWidth2 = (window.innerWidth > 0) ? window.innerWidth : Dimensions.get(
 const styles = StyleSheet.create({
   //Sets all text to this color by default
   main: {
+    paddingTop: 55,
     flexDirection: 'column',
     flex: 1,
     backgroundColor: "#777777",
