@@ -1,16 +1,12 @@
 // Home Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList } from 'react-native';
+import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList, TouchableHighlight } from 'react-native';
 import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
+import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 //This is where we get info for the feed, the default feed just shows recent videos
-
-
-
-
-
 export default class HomeScreen extends Component {
   constructor(props){
     super(props);
@@ -21,9 +17,12 @@ export default class HomeScreen extends Component {
 
   async getRecent(){
     var DATA = await tetraAPI.getRecentVideos() 
-        this.setState({ 
+    
+      this.setState({ 
             data: DATA,
-        })
+      })
+    
+    
   }
   componentDidMount() {
     this.getRecent()
@@ -37,22 +36,42 @@ export default class HomeScreen extends Component {
   
   //An individual feed item
   renderItem = ({ item }) => {
+    
+    
     return (
-      //Placeholder for a video to select
       <SafeAreaView style={{flexDirection: 'row', height: 100, width: '98%', backgroundColor: '#1c1c1c', margin: 10
       , justifyContent: 'center', textAlign: 'center', borderRadius: 10
       }}>
         <View style={ styles.thumbnail }>
-          <Icon
-            name={'tv'}
-            size={50}
-            style={{color: '#FFFFFF', top: 15}}
+        <Video
+            onPress={ () => this.props.navigation.navigate('Login') }
+            source={{ uri: item.videoID}}
+            resizeMode="cover"
+            style={{ width: "100%", height: "100%" }}
           />
         </View>
         <View style={ styles.videoTextArea}>
+        <TouchableHighlight
+          onPress={ () => this.props.navigation.navigate('Favorite') }
+        >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
+        </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>
-          {/*<Text style={ styles.videoStat }>Views: {item.views} Faves: {item.faves}</Text>*/}
+          <Text style={ styles.videoStat }>
+            Uploader: {item.videoAuthor}               Uploaded: {item.videoDate}{"\n"}
+            Views: {item.videoViews}                    Likes: {item.videoLikes}
+          </Text>
+        <TouchableHighlight
+          style={ styles.faveIcon }
+          onPress={ () => this.props.navigation.navigate('Favorite') }
+        >
+             <Icon
+              name={'heart'}
+              size={25}
+              style={ styles.faveIcon }
+              /> 
+        </TouchableHighlight>
+         
           
         </View>
         
@@ -74,6 +93,8 @@ export default class HomeScreen extends Component {
         keyExtractor={item => item.videoID}
         renderItem={this.renderItem}
         />
+        
+        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
       </SafeAreaView>
     );
   }
@@ -105,39 +126,47 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     color: '#FFFFFF',
-    //overflow-y: scroll,
   },
   thumbnail:{
-    flex: 25,
+    flex: 30,
     flexDirection: 'row',
     margin: 10,
-    backgroundColor: '#111111',
+    backgroundColor: '#555555',
     textAlign: 'center',
     justifyContent: 'center',
   },
+  
   videoTitle:{
     position: 'relative',
     top: 0,
     textAlign: 'center',
     fontSize: 20,
     color: '#00cccc',
+    
   },
   videoDesc:{
     textAlign: 'left',
     color: '#555555',
   },
   videoStat:{
-    position: 'relative',
+    position: 'absolute',
     bottom: 5,
-    textAlign: 'left',
-    color: '#777777',
+    color: '#FFFFFF',
   },
   videoTextArea:{
     flex: 75,
     width: '90%',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     textAlign: 'center',
-  }
+  },
+  faveIcon:{
+    position: 'absolute',
+    width: 25,
+    bottom: 0,
+    right: 5,
+    color: '#FFFFFF',
+  },
+
   
 
 });
