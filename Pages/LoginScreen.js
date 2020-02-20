@@ -51,8 +51,8 @@ export default class LoginScreen extends Component {
             label='Email:'
             onChangeText={
               // Set this.state.email to the input value
-              globalEmail = value,
-            ( value) => this.setState({ email: value })
+            ( value ) => {this.setState({ email: value });
+            globalEmail = value}
             }
             placeholder=''
             inputContainerStyle = {{ borderBottomWidth: 0 }}

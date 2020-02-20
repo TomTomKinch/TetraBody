@@ -18,7 +18,7 @@ export default class ProfileScreen extends Component {
         }
     }
 
-    async getUserInfo(name) {
+    async getUserInfo(name) { // Obtain Profile Info of current user signed
         let response = tempJson;    //Local Call
         //let response = await getUser('erik');  //Actual API Call
         let APIobj = response[0];
@@ -51,11 +51,10 @@ export default class ProfileScreen extends Component {
                     containerStyle={styles.Header}
                 >
                     <TouchableHighlight onPress={() => goBack()} underlayColor="#00cccc" style={styles.highlight}>
-                        <Icon 
+                        <Icon // Go back to previous page
                             name={'times'}
                             size={25}
                             color="white"
-                            
                         />
                     </TouchableHighlight>
                 </Header>
@@ -72,10 +71,10 @@ export default class ProfileScreen extends Component {
                     colors={['cyan', 'green', 'cyan']}
                     style={styles.linearGradient}>
                     
-                    <TouchableHighlight
-                    style={ styles.linearGradient }
-                    onPress={ user => this.props.navigation.navigate('Login') }
-                    underlayColor='#00cccc'
+                    <TouchableHighlight // Sign out of you account back to Login Page
+                        style={ styles.linearGradient }
+                        onPress={ user => this.props.navigation.navigate('Login') }
+                        underlayColor='#00cccc'
                     >
                         <View>
                             <Text style={styles.buttonText}>Sign Out</Text>
