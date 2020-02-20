@@ -18,13 +18,17 @@ export default class LoginScreen extends Component {
     };
   }
 
-  handleSignIn = () => {
+  SignIn = async () => {
     const { email, password } = this.state;
-    Auth.signIn(email.toLowerCase(), password)
+    try {
+      await Auth.signIn(email, password)
+      console.log('SignIn success:\n', Auth.currentAuthenticatedUser().user)
       // Navigate to Home screen if successful
-      .then(user => this.props.navigation.navigate('Home'))
+      this.props.navigation.navigate('Home')
+    } catch (err) {
       // Display error if failed
-      .catch(err => console.log(err));
+      console.log('SignIn error: ', err);
+    }
   }
 
   render() {
@@ -80,7 +84,7 @@ export default class LoginScreen extends Component {
             style={styles.linearGradient}>
              <TouchableHighlight
                 style={ styles.linearGradient }
-                onPress={ this.handleSignIn }
+                onPress={ this.SignIn }
                 underlayColor='#00cccc'
              >
                 <Text style={styles.buttonText}>Login</Text>
