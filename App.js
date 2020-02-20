@@ -216,9 +216,9 @@ const AppContainer = createAppContainer(createStackNavigator({
   )}
 ));
 
-var userId;
+export var userId;
 
-function getSub() {
+export function getSub() {
   Auth.currentAuthenticatedUser()
     .then((user) => {
       userId = user.attributes.sub;
@@ -234,7 +234,7 @@ export default class App extends Component {
       
       <Root>
         <AppContainer
-          onNavigationStateChange = {getSub()}
+          //onNavigationStateChange = {}
         />
       </Root> 
     );
