@@ -11,7 +11,10 @@ export default class HomeScreen extends Component {
   constructor(props){
     super(props);
     this.state = {
-        data: [],
+        isLoading: true,
+        page: 0,   //Current amount of pages in the feed
+        data: [],  //Array of video data
+        
     }
   }
 
@@ -19,11 +22,18 @@ export default class HomeScreen extends Component {
     var DATA = await tetraAPI.getRecentVideos() 
     
       this.setState({ 
-            data: DATA,
-      })
+            isLoading: false,
+            page: 0,
+            dataPosts: DATA,
+      }, function() {
+      //Call a function to pull the initial records
+        this.addItems(0);
+      });
     
-    
+  
   }
+
+  //Executes on page load
   componentDidMount() {
     this.getRecent()
   }
@@ -32,6 +42,28 @@ export default class HomeScreen extends Component {
     Auth.signOut()
       .then(() => this.props.navigation.navigate('Login'))
       .catch(err => console.log(err));
+  }
+
+  // This adds items from the feed
+  addItems = (page) => {
+    //Change the number 5 to change the number of new videos per page
+    const newItems=[]
+    for(var i = page * 5, il = i + 5; i < il && i < this.state.dataPosts.length; i++){
+      newItems.push(this.state.dataPosts[i]);
+    }
+
+    this.setState({
+      data: [...this.state.data, ...newItems]
+    });
+    
+  }
+  // This handles when we reach the end of the feed, and there's more to display
+  handleScroll = () => {
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this.addItems(this.state.page);
+    });
   }
   
   //An individual feed item
@@ -92,6 +124,8 @@ export default class HomeScreen extends Component {
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
+        onEndReached={this.handleScroll}
+        onEndThreshold={0}
         />
         
         <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
