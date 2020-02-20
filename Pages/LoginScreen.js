@@ -20,7 +20,7 @@ export default class LoginScreen extends Component {
     const { email, password } = this.state;
     try {
       await Auth.signIn(email, password)
-      console.log('SignIn success:\n', Auth.currentAuthenticatedUser().user)
+      console.log('SignIn success:\n', await Auth.currentAuthenticatedUser())
       // Navigate to Home screen if successful
       this.props.navigation.navigate('Home')
     } catch (err) {
@@ -53,7 +53,7 @@ export default class LoginScreen extends Component {
             label='Email:'
             onChangeText={
               // Set this.state.email to the input value
-            ( value) => this.setState({ email: value })
+            ( value) => this.setState({ email: value.toLowerCase() })
             }
             placeholder=''
             inputContainerStyle = {{ borderBottomWidth: 0 }}
