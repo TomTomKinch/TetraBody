@@ -197,16 +197,9 @@ const AppContainer = createAppContainer(createStackNavigator({
 
 var userId;
 
-function checkAuth() {
-  Auth.currentAuthenticatedUser()
-    .then(user => console.log({ user }))
-    .catch(err => console.log(err))
-}
-
 function getSub() {
   Auth.currentAuthenticatedUser()
     .then((user) => {
-      console.log(user.attributes.sub);
       userId = user.attributes.sub;
       console.log('sub grab success: ' + userId)
     })
