@@ -33,7 +33,6 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-
       <KeyboardAwareScrollView
         style={styles.container} 
         contentContainerStyle={{ 
