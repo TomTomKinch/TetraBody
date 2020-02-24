@@ -1,11 +1,13 @@
 // Login Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Image, Button, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Input, SocialIcon } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Auth } from 'aws-amplify';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
+export var globalEmail = 'UNSET';
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -16,13 +18,17 @@ export default class LoginScreen extends Component {
     };
   }
 
-  handleSignIn = () => {
+  SignIn = async () => {
     const { email, password } = this.state;
-    Auth.signIn(email.toLowerCase(), password)
+    try {
+      await Auth.signIn(email, password)
+      console.log('SignIn success:\n', Auth.currentAuthenticatedUser().user)
       // Navigate to Home screen if successful
-      .then(user => this.props.navigation.navigate('Home'))
+      this.props.navigation.navigate('Home')
+    } catch (err) {
       // Display error if failed
-      .catch(err => console.log(err));
+      console.log('SignIn error: ', err);
+    }
   }
 
   render() {
@@ -42,7 +48,6 @@ export default class LoginScreen extends Component {
         />
 
         <Text style={styles.slogan}>"A workout Every Day for Every Body"</Text>
-
         <Text style={ styles.title }>Welcome</Text>
 
         <View style={ styles.input }>
@@ -50,7 +55,8 @@ export default class LoginScreen extends Component {
             label='Email:'
             onChangeText={
               // Set this.state.email to the input value
-            ( value) => this.setState({ email: value })
+            ( value ) => {this.setState({ email: value });
+            globalEmail = value}
             }
             placeholder=''
             inputContainerStyle = {{ borderBottomWidth: 0 }}
@@ -76,31 +82,26 @@ export default class LoginScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-             <TouchableHighlight
-                style={ styles.linearGradient }
-                onPress={ this.handleSignIn }
-                underlayColor='#00cccc'
-             >
-                <Text style={styles.buttonText}>Login</Text>
-              </TouchableHighlight> 
+              <Button
+                style={ styles.button }
+                onPress={ this.SignIn }
+                title='Login'
+                color= 'white'
+              />
           </LinearGradient>
               
           
         </View>
         
-          <TouchableOpacity
-            style={ styles.button }
-            onPress={ user => this.props.navigation.navigate('SignUp') }
-          >
-            <View>
-              <Text style={styles.buttonText}>Sign Up</Text>
-            </View>
-          </TouchableOpacity>
-
-          <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Login with Facebook"/>
-          <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Login with Google"/>
-          <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
-      
+        <Button
+          style={ styles.button }
+          onPress={ user => this.props.navigation.navigate('SignUp') }
+          title='Sign Up'
+          color='white'
+        />
+        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Sign in with Facebook"/>
+        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Sign in with Google"/>
+        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
       </KeyboardAwareScrollView>
     );
   }
@@ -151,5 +152,6 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
       color: 'white',
+      paddingVertical: 5 
     }
 });

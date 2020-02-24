@@ -116,13 +116,13 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={ styles.container }>
-        <Text style={ styles.title }>TetraBody - Video Feed</Text>
+        <Text style={ styles.title }>Video Feed</Text>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
         data={this.state.data}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.videoID}
         renderItem={this.renderItem}
         onEndReached={this.handleScroll}
         onEndThreshold={0}
