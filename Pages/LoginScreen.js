@@ -22,7 +22,7 @@ export default class LoginScreen extends Component {
     const { email, password } = this.state;
     try {
       await Auth.signIn(email, password)
-      console.log('SignIn success:\n', Auth.currentAuthenticatedUser().user)
+      console.log('SignIn success:\n', await Auth.currentAuthenticatedUser())
       // Navigate to Home screen if successful
       this.props.navigation.navigate('Home')
     } catch (err) {
@@ -33,7 +33,6 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-
       <KeyboardAwareScrollView
         style={styles.container} 
         contentContainerStyle={{ 
@@ -55,8 +54,7 @@ export default class LoginScreen extends Component {
             label='Email:'
             onChangeText={
               // Set this.state.email to the input value
-            ( value ) => {this.setState({ email: value });
-            globalEmail = value}
+            ( value) => this.setState({ email: value.toLowerCase() })
             }
             placeholder=''
             inputContainerStyle = {{ borderBottomWidth: 0 }}
@@ -82,26 +80,52 @@ export default class LoginScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <Button
-                style={ styles.button }
+             <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.SignIn }
-                title='Login'
-                color= 'white'
-              />
+                underlayColor='#00cccc'
+             >
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableHighlight> 
           </LinearGradient>
               
           
         </View>
         
-        <Button
-          style={ styles.button }
-          onPress={ user => this.props.navigation.navigate('SignUp') }
-          title='Sign Up'
-          color='white'
-        />
-        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Sign in with Facebook"/>
-        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Sign in with Google"/>
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ user => this.props.navigation.navigate('SignUp') }
+          >
+            <View>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) }
+          >
+            <SocialIcon
+              type='facebook'
+              button
+              title='Sign in with Facebook'
+            />
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ () => Auth.federatedSignIn({ provider: "Google"}) }
+          >
+            <SocialIcon
+              type='google'
+              button
+              title='Sign In with Google'
+            />
+          </TouchableOpacity>
+
+          <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+      
       </KeyboardAwareScrollView>
     );
   }

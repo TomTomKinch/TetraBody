@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, TouchableHighlight, TouchableNativeFeedback, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Header } from 'react-native-elements'
-import { getUser } from '../API.js'
-import tempJson from './temp.json'
 import { LinearGradient } from 'expo-linear-gradient';
+import { tetraAPI } from '../API.js'
+import tempJson from './temp.json'
+import { globalEmail } from './LoginScreen'
 
 export default class ProfileScreen extends Component {
     constructor(props){
@@ -14,29 +15,32 @@ export default class ProfileScreen extends Component {
             data: [],
             userName: null,
             dateCreated: null,
-            accountType: null, 
+            accountType: null,
+            email: null, 
         }
     }
 
-    async getUserInfo(name) { // Obtain Profile Info of current user signed
-        let response = tempJson;    //Local Call
-        //let response = await getUser('erik');  //Actual API Call
+    async getUserInfo(name) {
+        //let response = tempJson;    //Local Call
+        let response = await tetraAPI.getUser(name);  //Actual API Call
         let APIobj = response[0];
         let userName = APIobj.userName;
         let dateCreated = APIobj.dateCreated;
         let accountType = APIobj.accountType;
+        let email = globalEmail; //Set on LoginScreen.js
         this.setState({
             isLoaded: true,
             data: APIobj,
             userName: userName,
             dateCreated: dateCreated,
-            accountType: accountType, 
+            accountType: accountType,
+            email: email, 
         })
     }
 
     //Runs code when app loads
     componentDidMount() {
-        this.getUserInfo('erik');    
+        this.getUserInfo('erik'); //change to globalEmail
     }
 
     render() {

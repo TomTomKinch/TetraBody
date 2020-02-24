@@ -5,6 +5,7 @@ import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { userId, getSub } from '../App'
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -36,6 +37,9 @@ export default class HomeScreen extends Component {
   //Executes on page load
   componentDidMount() {
     this.getRecent()
+    // update userId with sub value when loading home screen
+    // this userId is used for API calls
+    getSub()
   }
   // This eventually belongs in the drawer navigation in App.js
   handleSignOut = () => {
