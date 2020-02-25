@@ -82,7 +82,7 @@ export default class SignUpScreen extends Component {
         </View>
            
         <View style={ styles.input }>
-          <Input
+          <Input // Enter password
             label='Password:'
             onChangeText={
               // Set this.state.password to the input value
@@ -95,7 +95,7 @@ export default class SignUpScreen extends Component {
         </View>
 
         <View style={ styles.input }>
-            <Input
+            <Input // Enter password again for confirmation
               label='Confirm Password'
               onChangeText={
                 // Set this.state.confirmPassword to the input value
@@ -108,7 +108,7 @@ export default class SignUpScreen extends Component {
         </View>
 
          <View>
-          <LinearGradient
+          <LinearGradient // Hit Sign Up button to send confirmation email
             start={[0, 0.5]}
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
@@ -140,7 +140,7 @@ export default class SignUpScreen extends Component {
             </View>
            
             <View>
-              <LinearGradient
+              <LinearGradient // Enter confirmation code to add new user
                     start={[0, 0.5]}
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}
