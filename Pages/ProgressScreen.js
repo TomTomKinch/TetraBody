@@ -21,6 +21,7 @@ export default class ProgressScreen extends Component {
       statPos: 0,
       statToChangeValue: null,
       isModalVisible: false,
+      statObj: "",
     }
   } 
 
@@ -87,6 +88,21 @@ export default class ProgressScreen extends Component {
     }
   }
 
+  async getStatWrapper(userName, statToFind) {
+    let response = await tetraAPI.getUserStat(userName, statToFind);
+    //var testOutput = []
+    //this.stateObj = JSON.stringify(response);
+    let statOutput = ""
+    response.map((s) => {
+      let name = s.statName;
+      let value = s.statValue;
+      let date = s.statDate;
+      //console.log(name);
+      statOutput = statOutput + name + ": " + value + " " + date + "\n";
+    });
+    this.setState({statObj: statOutput});
+  }
+
   //Runs code when app loads
   async componentDidMount() {
     await this.getUserStatsSnapshot('erik'); //change to globalEmail
@@ -123,6 +139,7 @@ export default class ProgressScreen extends Component {
           return <Text 
           style={ styles.input }
           onPress={ () => {
+            this.getStatWrapper('erik', this.state.statNameList[key]);
             console.log(this.state.statNameList[key]);
             this.setState({ isModalVisible: true });
           }}
@@ -133,7 +150,7 @@ export default class ProgressScreen extends Component {
               onBackdropPress={() => this.setState({ isModalVisible: false })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={styles.input}>I am the modal content!</Text>
+                <Text style={styles.input}>{this.state.statObj}</Text>
               </View>
             </Modal>
           </View>
