@@ -9,17 +9,26 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
-  TouchableHighlight,
-  TouchableOpacity
+  TouchableHighlight
 } from "react-native";
 import { Auth } from "aws-amplify";
 import tetraAPI from "../API.js";
 import { Video } from "expo-av";
+import VideoScreen from "./VideoScreen.js";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { userId, getSub } from "../App";
-import { Storage } from "aws-amplify";
 import * as ImagePicker from "expo-image-picker";
 import { RNS3 } from "react-native-aws3";
+
+export var userId;
+
+export function getSub() {
+  Auth.currentAuthenticatedUser()
+    .then(user => {
+      userId = user.attributes.sub;
+      console.log("sub grab success: " + userId);
+    })
+    .catch(err => console.log("user sub error: ", err));
+}
 
 const options = {
   keyPrefix: "",
@@ -82,7 +91,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent() {
-    var DATA = await tetraAPI.getRecentVideos();
+    var DATA = await tetraAPI.getRecentVideos("erik");
 
     this.setState(
       {
@@ -110,6 +119,11 @@ export default class HomeScreen extends Component {
       .then(() => this.props.navigation.navigate("Login"))
       .catch(err => console.log(err));
   };
+  //This handles when a user favorites a video
+  handleFavorite = item => {
+    console.log("function works");
+    this.props.navigation.navigate("VideoPlayer", { item });
+  };
 
   // This adds items from the feed
   addItems = page => {
@@ -127,15 +141,15 @@ export default class HomeScreen extends Component {
       data: [...this.state.data, ...newItems]
     });
   };
-  // This handles when we reach the end of the feed, and there's more to display
-  handleScroll = () => {
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.addItems(this.state.page);
-      }
+
+  // Pass video url and info to Video Player Page
+  passVideo = ({ item }) => {
+    return (
+      <VideoScreen
+        videoURL={item.videoID}
+        videoTitle={item.videoName}
+        videoUploader={item.videoUploader}
+      />
     );
   };
 
@@ -164,19 +178,23 @@ export default class HomeScreen extends Component {
         </View>
         <View style={styles.videoTextArea}>
           <TouchableHighlight
-            onPress={() => this.props.navigation.navigate("Favorite")}
+            onPress={() =>
+              this.props.navigation.navigate("VideoPlayer", {
+                videoData: item.videoID
+              })
+            }
           >
             <Text style={styles.videoTitle}>{item.videoName}</Text>
           </TouchableHighlight>
           <Text style={styles.videoDesc}>{item.description}</Text>
           <Text style={styles.videoStat}>
-            Uploader: {item.videoAuthor} Uploaded: {item.videoDate}
+            Uploader: {item.videoUploadName} Uploaded: {item.videoDateTime}
             {"\n"}
-            Views: {item.videoViews} Likes: {item.videoLikes}
+            Views: {item.views} Likes: {item.favorited}
           </Text>
           <TouchableHighlight
             style={styles.faveIcon}
-            onPress={() => this.props.navigation.navigate("Favorite")}
+            onPress={() => console.log("function works")}
           >
             <Icon name={"heart"} size={25} style={styles.faveIcon} />
           </TouchableHighlight>
@@ -190,6 +208,7 @@ export default class HomeScreen extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Video Feed</Text>
+
         <FlatList
           style={{ width: "100%", marginRight: 10 }}
           //IMPORTANT: The following line calls for the database
