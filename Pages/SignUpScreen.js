@@ -22,7 +22,6 @@ export default class SignUpScreen extends Component {
   SignUp = async () => {
     // Show the current state object
     const { email, password, confirmPassword } = this.state;
-
     if (password == confirmPassword) {
       try {
         await Auth.signUp({
@@ -74,7 +73,7 @@ export default class SignUpScreen extends Component {
               label='Email:'
               onChangeText={
                 // Set this.state.email to the input value
-                (value) => this.setState({ email: value })
+                (value) => this.setState({ email: value.toLowerCase() })
               }
               placeholder=''
               inputContainerStyle = {{ borderBottomWidth: 0 }}
@@ -145,13 +144,12 @@ export default class SignUpScreen extends Component {
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}
                     style={styles.linearGradient}>
-               <TouchableHighlight
-                style={ styles.linearGradient }
+               <Button
+                style={ styles.button }
                 onPress={ this.handleConfirmationCode }
-                underlayColor='#00cccc'
-               >
-                  <Text style={styles.buttonText}>Submit</Text>
-               </TouchableHighlight>
+                title= 'Submit'
+                color='white'
+               />
               </LinearGradient>
             </View>
 

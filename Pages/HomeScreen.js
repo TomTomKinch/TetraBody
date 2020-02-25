@@ -4,9 +4,19 @@ import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatLi
 import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { userId, getSub } from '../App'
 import VideoScreen from './VideoScreen.js';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+export var userId;
+
+export function getSub() {
+  Auth.currentAuthenticatedUser()
+    .then((user) => {
+      userId = user.attributes.sub;
+      console.log('sub grab success: ' + userId)
+    })
+    .catch(err => console.log('user sub error: ', err))
+}
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
