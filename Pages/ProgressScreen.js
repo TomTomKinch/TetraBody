@@ -18,7 +18,6 @@ export default class ProgressScreen extends Component {
       statDateList: [],
       statToChange: null,
       statPos: 0,
-      statToChangeDate: null,
       statToChangeValue: null,
     }
   } 
@@ -26,6 +25,7 @@ export default class ProgressScreen extends Component {
   //Calls API to get Current User Stats
   async getUserStatsSnapshot(name) {
     let response = await tetraAPI.getUserStatSnapshot(name);  //API Call
+    console.log(response);
     var statNameList = [];
     var statValueList = [];
     var statDateList = [];
@@ -76,13 +76,14 @@ export default class ProgressScreen extends Component {
     console.log(this.state.statToChangeValue);
     if(this.state.statToChange != null && this.state.statToChangeValue != null){
       await tetraAPI.addUserStat(this.state.statToChange, 'erik', this.state.statToChangeValue); //Add Stat
+      await this.getUserStatsSnapshot('erik');
+      this.forceUpdate();
       console.log('Updated Stat');
     }
     else{
       console.log("Didnt ADD");
     }
   }
-
 
   //Runs code when app loads
   async componentDidMount() {
@@ -117,14 +118,13 @@ export default class ProgressScreen extends Component {
           <Button title = 'Update' onPress={ () => this.updateStat() }/>
         </View>
         {Object.keys(this.state.statNameList).map((key) => {  
-          return <Text style={ styles.input }> {this.state.statNameList[key]}: {this.state.statValueList[key]} {this.state.statDateList[key]}</Text>
+          return <Text style={ styles.input }> {this.state.statNameList[key]}: {this.state.statValueList[key]}</Text>
         })}
         </ScrollView>
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
