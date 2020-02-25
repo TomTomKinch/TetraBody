@@ -5,8 +5,7 @@ import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { userId, getSub } from '../App'
-import VideoScreen from './VideoScreen.js';
+import { userId, getSub } from '../App';
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -16,7 +15,6 @@ export default class HomeScreen extends Component {
         isLoading: true,
         page: 0,   //Current amount of pages in the feed
         data: [],  //Array of video data
-        
     }
   }
 
@@ -31,8 +29,6 @@ export default class HomeScreen extends Component {
       //Call a function to pull the initial records
         this.addItems(0);
       });
-    
-  
   }
 
   //Executes on page load
@@ -49,9 +45,9 @@ export default class HomeScreen extends Component {
       .catch(err => console.log(err));
   }
   //This handles when a user favorites a video
-  handleFavorite = () => {
+  handleFavorite = ( item ) => {
     console.log("function works")
-    this.props.navigation.navigate('RouteName', { /* params go here */ })
+    this.props.navigation.navigate('VideoPlayer', { item })
 
 
   }
@@ -69,6 +65,7 @@ export default class HomeScreen extends Component {
     });
     
   }
+
   // This handles when we reach the end of the feed, and there's more to display
   handleScroll = () => {
     this.setState({
@@ -76,17 +73,6 @@ export default class HomeScreen extends Component {
     }, () => {
       this.addItems(this.state.page);
     });
-  }
-  
-  // Pass video url and info to Video Player Page
-  passVideo = ({ item }) => {
-    return(
-      <VideoScreen
-        videoURL = { item.videoID }
-        videoTitle = { item.videoName }
-        videoUploader = { item.videoUploader}
-      />
-    );
   }
 
   //An individual feed item
@@ -98,8 +84,7 @@ export default class HomeScreen extends Component {
       , justifyContent: 'center', textAlign: 'center', borderRadius: 10
       }}>
         <View style={ styles.thumbnail }>
-        <Video
-            onPress={ () => this.props.navigation.navigate('Login') }
+          <Video
             source={{ uri: item.videoID}}
             resizeMode="cover"
             style={{ width: "100%", height: "100%" }}
@@ -107,7 +92,11 @@ export default class HomeScreen extends Component {
         </View>
         <View style={ styles.videoTextArea}>
         <TouchableHighlight
-          onPress={ () => this.handleFavorite() }
+          onPress={ () => 
+            this.props.navigation.navigate('VideoPlayer', { 
+              videoData: item.videoID,
+              videoTitle: item.videoUploader })
+          }
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
@@ -118,13 +107,15 @@ export default class HomeScreen extends Component {
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
-          onPress={ () => this.handleFavorite() }
+          onPress={ () => 
+            console.log("function works")
+            }
         >
              <Icon
               name={'heart'}
               size={25}
               style={ styles.faveIcon }
-              /> 
+             /> 
         </TouchableHighlight>
           
         </View>
@@ -139,12 +130,7 @@ export default class HomeScreen extends Component {
     return (
       <SafeAreaView style={ styles.container }>
         <Text style={ styles.title }>Video Feed</Text>
-<Button
-//remove later
-style = { styles.button }
-onPress={ () => this.props.navigation.navigate('VideoPlayer') }
-title="go to video"
-/>
+
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
@@ -156,12 +142,6 @@ title="go to video"
         onEndThreshold={0}
         />
         
-<Button
-//remove later
-style = { styles.button } 
-onPress={ this.handleSignOut }
-title="Sign Out"
-/>
       </SafeAreaView>
     );
   }
@@ -231,9 +211,6 @@ const styles = StyleSheet.create({
     width: 25,
     bottom: 0,
     right: 5,
-    color: '#FFFFFF',
   },
-
-  
 
 });

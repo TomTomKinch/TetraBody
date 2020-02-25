@@ -1,9 +1,8 @@
 import React, { Component, useRef } from 'react';
 import {Root} from "native-base";
-import { View, Image, TouchableOpacity, Dimensions} from 'react-native';
+import { View, Image, TouchableHighlight, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Orientation, { orientation } from "react-native-orientation";
-import { TouchableHighlight } from 'react-native-gesture-handler';
+//import { TouchableHighlight } from 'react-native-gesture-handler';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -18,7 +17,6 @@ import ProfileScreen from './Pages/ProfileScreen.js';
 import VideoScreen from './Pages/VideoScreen.js';
 import Amplify, { Auth } from 'aws-amplify';
 import AWSConfig from './aws-exports';
-import tetraAPI from './API.js';
 Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
@@ -173,28 +171,32 @@ const AppContainer = createAppContainer(createStackNavigator({
                 flexDirection: 'row',
                 height: 23, 
                 width: 100, 
-                marginRight: 190, 
+                marginRight: 180, 
                 resizeMode: 'contain',
               }}
            />
               
-              <TouchableOpacity style={{ paddingHorizontal: 15 }}>
+              <TouchableHighlight 
+                onPress = {() => searchHeaderRef.current.show()} 
+                underlayColor="#00cccc" 
+                style={{ paddingVertical: 8, paddingHorizontal: 15, width: 50, height: 40, borderRadius: 30 }}>
                 <Icon
                   name='search' 
                   size={20} 
                   color={'white'} 
-                  onPress = {() => searchHeaderRef.current.show()}
                  />
-              </TouchableOpacity>
+              </TouchableHighlight>
 
-              <TouchableOpacity style={{ paddingHorizontal: 20 }}>
+              <TouchableHighlight
+                onPress={() => navigation.navigate('Profile')}
+                underlayColor='#00cccc'
+                style={{ marginRight: 10, paddingVertical: 8, paddingHorizontal: 15, width: 50, height: 40, borderRadius: 30 }}>
                 <Icon 
-                  underlayColor='#00cccc' 
                   name='user-circle' 
                   size={20} 
                   color={'white'} 
-                  onPress={() => navigation.navigate('Profile')} />
-              </TouchableOpacity>
+                 />
+              </TouchableHighlight>
            </View>
 
            <SearchHeader
