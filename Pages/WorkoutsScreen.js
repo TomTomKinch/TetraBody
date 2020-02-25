@@ -21,7 +21,7 @@ export default class WorkoutsScreen extends Component {
     return (
       <View style={styles.main}>
             <View>
-            <Calendar
+            <Calendar // Interactable calendar
                 onDayPress={day => this.setState({ selectedDate: day.dateString })}
                 markedDates={{
                             ...this.state.events,
