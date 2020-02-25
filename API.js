@@ -160,7 +160,7 @@ export var tetraAPI = {
     * The following API will get the most recent videos
     * TetraNEWGetRecentVideos
     */  
-    getRecentVideos: function(username){
+    getRecentVideos: function(name){
         var dest = 'https://0hkxfgl1w6.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
 
         return fetch(dest)

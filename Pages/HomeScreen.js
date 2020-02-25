@@ -20,7 +20,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getRecentVideos() 
+    var DATA = await tetraAPI.getRecentVideos(userId) 
     
       this.setState({ 
             isLoading: false,
@@ -107,7 +107,6 @@ export default class HomeScreen extends Component {
               style={ styles.faveIcon }
               /> 
         </TouchableHighlight>
-         
           
         </View>
         
@@ -121,6 +120,12 @@ export default class HomeScreen extends Component {
     return (
       <SafeAreaView style={ styles.container }>
         <Text style={ styles.title }>Video Feed</Text>
+<Button
+//remove later
+style = { styles.button }
+onPress={ () => this.props.navigation.navigate('VideoPlayer') }
+title="go to video"
+/>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
@@ -132,7 +137,12 @@ export default class HomeScreen extends Component {
         onEndThreshold={0}
         />
         
-        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
+<Button
+//remove later
+style = { styles.button } 
+onPress={ this.handleSignOut }
+title="Sign Out"
+/>
       </SafeAreaView>
     );
   }
