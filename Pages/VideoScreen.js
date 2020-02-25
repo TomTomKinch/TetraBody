@@ -20,7 +20,7 @@ export default class VideoScreen extends Component {
     render(){
 
       const {goBack} = this.props.navigation;
-
+      //console.log(this.props.navigation.state.params.videoData)
       return (
         <View style={styles.container}>
             <Header
@@ -35,19 +35,14 @@ export default class VideoScreen extends Component {
                     />
                 </TouchableHighlight>
             </Header>
-
-            <Video
-              source={{ uri: 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_1280_10MG.mp4' }}
-              shouldPlay
-              useNativeControls
-              style={{ width: "100%", height: "45%" }}
-            />
-
+            
+            
+            
             <Text style = {styles.videoText}>{ this.props.videoURL }</Text>
       <Text>{this.videoTitle}</Text>
 
             <Video
-              source={{ uri: this.props.videoURL }}
+              source={{ uri: this.props.navigation.state.params.videoData }}
               shouldPlay
               useNativeControls
               style={{ width: "100%", height: "45%" }}
