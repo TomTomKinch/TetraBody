@@ -6,6 +6,7 @@ import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { userId, getSub } from '../App'
+import VideoScreen from './VideoScreen.js';
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -20,7 +21,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getRecentVideos('Erik') 
+    var DATA = await tetraAPI.getRecentVideos('erik') 
     
       this.setState({ 
             isLoading: false,
@@ -77,6 +78,17 @@ export default class HomeScreen extends Component {
     });
   }
   
+  // Pass video url and info to Video Player Page
+  passVideo = ({ item }) => {
+    return(
+      <VideoScreen
+        videoURL = { item.videoID }
+        videoTitle = { item.videoName }
+        videoUploader = { item.videoUploader}
+      />
+    );
+  }
+
   //An individual feed item
   renderItem = ({ item }) => {
     
@@ -114,7 +126,6 @@ export default class HomeScreen extends Component {
               style={ styles.faveIcon }
               /> 
         </TouchableHighlight>
-         
           
         </View>
         
@@ -128,6 +139,12 @@ export default class HomeScreen extends Component {
     return (
       <SafeAreaView style={ styles.container }>
         <Text style={ styles.title }>Video Feed</Text>
+<Button
+//remove later
+style = { styles.button }
+onPress={ () => this.props.navigation.navigate('VideoPlayer') }
+title="go to video"
+/>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
@@ -139,7 +156,12 @@ export default class HomeScreen extends Component {
         onEndThreshold={0}
         />
         
-        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
+<Button
+//remove later
+style = { styles.button } 
+onPress={ this.handleSignOut }
+title="Sign Out"
+/>
       </SafeAreaView>
     );
   }
