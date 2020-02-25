@@ -65,9 +65,13 @@ export default class HomeScreen extends Component {
     if (pickerResult.cancelled === true) {
       return;
     } else {
+      var date = new Date().toString();
+      var dateNoSpaces = date.replace(/\s+/g, "");
+      console.log(dateNoSpaces);
+
       let file = {
         uri: pickerResult.uri,
-        name: pickerResult.uri,
+        name: dateNoSpaces + "workout_video.mp4",
         type: "multipart/form-data"
       };
       RNS3.put(file, options)
