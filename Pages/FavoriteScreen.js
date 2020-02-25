@@ -85,8 +85,8 @@ export default class HomeScreen extends Component {
         </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
-            Uploader: {item.videoAuthor}               Uploaded: {item.videoDate}{"\n"}
-            Views: {item.videoViews}                    Likes: {item.videoLikes}
+            Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
+            Views: {item.views}                    Likes: {item.favorited}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }

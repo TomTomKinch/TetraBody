@@ -20,7 +20,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getRecentVideos() 
+    var DATA = await tetraAPI.getRecentVideos('Erik') 
     
       this.setState({ 
             isLoading: false,
@@ -46,6 +46,13 @@ export default class HomeScreen extends Component {
     Auth.signOut()
       .then(() => this.props.navigation.navigate('Login'))
       .catch(err => console.log(err));
+  }
+  //This handles when a user favorites a video
+  handleFavorite = () => {
+    console.log("function works")
+    this.props.navigation.navigate('RouteName', { /* params go here */ })
+
+
   }
 
   // This adds items from the feed
@@ -88,18 +95,18 @@ export default class HomeScreen extends Component {
         </View>
         <View style={ styles.videoTextArea}>
         <TouchableHighlight
-          onPress={ () => this.props.navigation.navigate('Favorite') }
+          onPress={ () => this.handleFavorite() }
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
-            Uploader: {item.videoAuthor}               Uploaded: {item.videoDate}{"\n"}
-            Views: {item.videoViews}                    Likes: {item.videoLikes}
+            Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
+            Views: {item.views}                    Likes: {item.favorited}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
-          onPress={ () => this.props.navigation.navigate('Favorite') }
+          onPress={ () => this.handleFavorite() }
         >
              <Icon
               name={'heart'}
