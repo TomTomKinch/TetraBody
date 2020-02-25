@@ -61,7 +61,7 @@ export default class HomeScreen extends Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos
     });
     console.log(pickerResult);
-    console.log(pickerResult.fileName);
+    console.log(pickerResult.uri.split('/')[pickerResult.uri.split('/').length - 1]);
     if (pickerResult.cancelled === true) {
       return;
     } else {
@@ -71,7 +71,7 @@ export default class HomeScreen extends Component {
 
       let file = {
         uri: pickerResult.uri,
-        name: dateNoSpaces + "workout_video.mp4",
+        name: dateNoSpaces + pickerResult.uri.split('/')[pickerResult.uri.split('/').length - 1],//String(Date.now()) + pickerResult.uri.split('/')[pickerResult.uri.split('/').length - 1],//dateNoSpaces + "workout_video.mp4",
         type: "multipart/form-data"
       };
       RNS3.put(file, options)
