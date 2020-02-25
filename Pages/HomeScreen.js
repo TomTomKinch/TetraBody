@@ -6,6 +6,7 @@ import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { userId, getSub } from '../App'
+import VideoScreen from './VideoScreen.js';
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -70,6 +71,17 @@ export default class HomeScreen extends Component {
     });
   }
   
+  // Pass video url and info to Video Player Page
+  passVideo = ({ item }) => {
+    return(
+      <VideoScreen
+        videoURL = { item.videoID }
+        videoTitle = { item.videoName }
+        videoUploader = { item.videoUploader}
+      />
+    );
+  }
+
   //An individual feed item
   renderItem = ({ item }) => {
     
@@ -88,8 +100,8 @@ export default class HomeScreen extends Component {
         </View>
         <View style={ styles.videoTextArea}>
         <TouchableHighlight
-          onPress={ () => this.props.navigation.navigate('Favorite') }
-        >
+passVideo = { this.passVideo }
+          onPress={ () => this.props.navigation.navigate('VideoPlayer')}>
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>

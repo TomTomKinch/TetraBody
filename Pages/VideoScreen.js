@@ -14,8 +14,7 @@ export default class VideoScreen extends Component {
       super(props);
       this.state = {
           isLoading: true,
-          
-       }
+      }
     }
 
     render(){
@@ -38,10 +37,20 @@ export default class VideoScreen extends Component {
             </Header>
 
             <Video
-                source={{ uri: 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_1280_10MG.mp4' }}
-                shouldPlay
-                useNativeControls
-                style={{ width: "100%", height: "45%" }}
+              source={{ uri: 'https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_1280_10MG.mp4' }}
+              shouldPlay
+              useNativeControls
+              style={{ width: "100%", height: "45%" }}
+            />
+
+            <Text style = {styles.videoText}>{ this.props.videoURL }</Text>
+      <Text>{this.videoTitle}</Text>
+
+            <Video
+              source={{ uri: this.props.videoURL }}
+              shouldPlay
+              useNativeControls
+              style={{ width: "100%", height: "45%" }}
             />
         </View>
       );
@@ -56,13 +65,13 @@ const styles = StyleSheet.create({
       backgroundColor: '#4d4d4d',
     },
 
-      Header:{
+    Header:{
       backgroundColor: 'black',
       alignItems: 'center',
       borderBottomWidth: 0,
     },
 
-      buttonText: {
+    buttonText: {
       justifyContent:'center',
       fontSize: 20,
       textAlign: 'center',
@@ -70,10 +79,15 @@ const styles = StyleSheet.create({
       paddingVertical: 5 
     },
 
-      highlight:{
+    highlight:{
       paddingVertical: 8, 
       paddingHorizontal: 13, 
       width:54, height: 40, 
       borderRadius: 30
+    },
+
+    videoText:{
+      fontSize: 25,
+      color: 'red',
     },
   });
