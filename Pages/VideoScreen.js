@@ -1,12 +1,11 @@
 // Video Screen
 import React, { Component } from 'react';
-import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatList, TouchableHighlight} from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import { Header } from 'react-native-elements';
-import { Auth } from 'aws-amplify';
-import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { userId, getSub } from '../App'
+import { tetraAPI } from '../API.js';
+import { userId, getSub } from '../App';
 
 export default class VideoScreen extends Component {
 
@@ -36,17 +35,15 @@ export default class VideoScreen extends Component {
                 </TouchableHighlight>
             </Header>
             
-            
-            
-            <Text style = {styles.videoText}>{ this.props.videoURL }</Text>
-      <Text>{this.videoTitle}</Text>
-
             <Video
               source={{ uri: this.props.navigation.state.params.videoData }}
               shouldPlay
               useNativeControls
               style={{ width: "100%", height: "45%" }}
             />
+
+<Text style = {styles.videoText}>{ this.props.navigation.state.params.videoTitle }</Text>
+
         </View>
       );
     }

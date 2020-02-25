@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, View, TouchableHighlight, TouchableNativeFeedback, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Header } from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient';
 import { tetraAPI } from '../API.js'
 import tempJson from './temp.json'
-import { globalEmail } from './LoginScreen'
+import { globalEmail } from './LoginScreen.js'
 
 export default class ProfileScreen extends Component {
     constructor(props){

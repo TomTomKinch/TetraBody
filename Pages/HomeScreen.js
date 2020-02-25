@@ -156,26 +156,28 @@ export default class HomeScreen extends Component {
       />
     );
   };
+    
+  //}
+
+
+  // This handles when we reach the end of the feed, and there's more to display
+  handleScroll = () => {
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this.addItems(this.state.page);
+    });
+  }
 
   //An individual feed item
   renderItem = ({ item }) => {
     return (
-      <SafeAreaView
-        style={{
-          flexDirection: "row",
-          height: 100,
-          width: "98%",
-          backgroundColor: "#1c1c1c",
-          margin: 10,
-          justifyContent: "center",
-          textAlign: "center",
-          borderRadius: 10
-        }}
-      >
-        <View style={styles.thumbnail}>
+      <SafeAreaView style={{flexDirection: 'row', height: 100, width: '98%', backgroundColor: '#1c1c1c', margin: 10
+      , justifyContent: 'center', textAlign: 'center', borderRadius: 10
+      }}>
+        <View style={ styles.thumbnail }>
           <Video
-            onPress={() => this.props.navigation.navigate("Login")}
-            source={{ uri: item.videoID }}
+            source={{ uri: item.videoID}}
             resizeMode="cover"
             style={{ width: "100%", height: "100%" }}
           />
@@ -206,6 +208,7 @@ export default class HomeScreen extends Component {
       </SafeAreaView>
     );
   };
+
 
   //Feed Area
   render() {
@@ -239,6 +242,9 @@ export default class HomeScreen extends Component {
     );
   }
 }
+
+  
+
 
 const styles = StyleSheet.create({
   container: {
@@ -302,6 +308,5 @@ const styles = StyleSheet.create({
     width: 25,
     bottom: 0,
     right: 5,
-    color: "#FFFFFF"
-  }
+  },
 });
