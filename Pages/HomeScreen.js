@@ -94,8 +94,9 @@ export default class HomeScreen extends Component {
         <TouchableHighlight
           onPress={ () => 
             this.props.navigation.navigate('VideoPlayer', { 
-              videoData: item.videoID,
-              videoTitle: item.videoUploader })
+              videoData: item.videoID })
+          
+          
           }
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>

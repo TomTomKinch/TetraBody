@@ -4,6 +4,7 @@ import { Button, StyleSheet, Text, View, Picker, ScrollView} from 'react-native'
 import { Input } from 'react-native-elements';
 import { tetraAPI } from '../API.js'
 import { globalEmail } from './LoginScreen'
+import Modal from "react-native-modal";
 
 export default class ProgressScreen extends Component {
   constructor(props){
@@ -18,14 +19,15 @@ export default class ProgressScreen extends Component {
       statDateList: [],
       statToChange: null,
       statPos: 0,
-      statToChangeDate: null,
       statToChangeValue: null,
+      isModalVisible: false,
     }
   } 
 
   //Calls API to get Current User Stats
   async getUserStatsSnapshot(name) {
     let response = await tetraAPI.getUserStatSnapshot(name);  //API Call
+    console.log(response);
     var statNameList = [];
     var statValueList = [];
     var statDateList = [];
@@ -76,13 +78,14 @@ export default class ProgressScreen extends Component {
     console.log(this.state.statToChangeValue);
     if(this.state.statToChange != null && this.state.statToChangeValue != null){
       await tetraAPI.addUserStat(this.state.statToChange, 'erik', this.state.statToChangeValue); //Add Stat
+      await this.getUserStatsSnapshot('erik');
+      this.forceUpdate();
       console.log('Updated Stat');
     }
     else{
       console.log("Didnt ADD");
     }
   }
-
 
   //Runs code when app loads
   async componentDidMount() {
@@ -117,14 +120,28 @@ export default class ProgressScreen extends Component {
           <Button title = 'Update' onPress={ () => this.updateStat() }/>
         </View>
         {Object.keys(this.state.statNameList).map((key) => {  
-          return <Text style={ styles.input }> {this.state.statNameList[key]}: {this.state.statValueList[key]} {this.state.statDateList[key]}</Text>
+          return <Text 
+          style={ styles.input }
+          onPress={ () => {
+            console.log(this.state.statNameList[key]);
+            this.setState({ isModalVisible: true });
+          }}
+          > {this.state.statNameList[key]}: {this.state.statValueList[key]}</Text>
         })}
+          <View>
+            <Modal isVisible={this.state.isModalVisible}
+              onBackdropPress={() => this.setState({ isModalVisible: false })}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={styles.input}>I am the modal content!</Text>
+              </View>
+            </Modal>
+          </View>
         </ScrollView>
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

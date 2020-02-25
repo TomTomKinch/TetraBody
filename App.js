@@ -14,8 +14,8 @@ import FavoriteScreen from './Pages/FavoriteScreen.js';
 import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
 import ProfileScreen from './Pages/ProfileScreen.js';
+import Amplify from 'aws-amplify';
 import VideoScreen from './Pages/VideoScreen.js';
-import Amplify, { Auth } from 'aws-amplify';
 import AWSConfig from './aws-exports';
 Amplify.configure(AWSConfig);
 
@@ -226,26 +226,13 @@ const AppContainer = createAppContainer(createStackNavigator({
   )}
 ));
 
-export var userId;
-
-export function getSub() {
-  Auth.currentAuthenticatedUser()
-    .then((user) => {
-      userId = user.attributes.sub;
-      console.log('sub grab success: ' + userId)
-    })
-    .catch(err => console.log('user sub error: ', err))
-}
-
 export default class App extends Component {
 
   render() {
     return (
       
       <Root>
-        <AppContainer
-          //onNavigationStateChange = {}
-        />
+        <AppContainer/>
       </Root> 
     );
   }
