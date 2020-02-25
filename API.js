@@ -570,6 +570,25 @@ export var tetraAPI = {
     },
 
     /*
+    *Inputs (username, videoID, favoriteValue))
+    *Pass in a username and videoID, as well as a value (0 for false, 1 for true) for favorite status to update it for a user
+    */
+    updateUserVideoFavorite: function(name, id, value){
+        var dest = 'https://3ew54pnm3m.execute-api.us-west-2.amazonaws.com/DEV?name=' + name + '&id=' + id + "&value=" + value;
+        return fetch(dest, {
+            method: 'PUT',
+            headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            }
+            
+        })
+        .then((response) => response.json())
+        .then((response => {
+            return response;
+        }))
+    },
+    /*
     *Inputs (videoName, userName, id, desc)
     *Update a video description and name
     
