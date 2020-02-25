@@ -19,7 +19,7 @@ export default class VideoScreen extends Component {
     render(){
 
       const {goBack} = this.props.navigation;
-      //console.log(this.props.navigation.state.params.videoData)
+      
       return (
         <View style={styles.container}>
             <Header

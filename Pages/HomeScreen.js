@@ -18,6 +18,7 @@ import VideoScreen from "./VideoScreen.js";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
 import { RNS3 } from "react-native-aws3";
+//import { userId, getSub } from '../App'
 
 export var userId;
 
@@ -182,28 +183,39 @@ export default class HomeScreen extends Component {
             style={{ width: "100%", height: "100%" }}
           />
         </View>
-        <View style={styles.videoTextArea}>
-          <TouchableHighlight
-            onPress={() =>
-              this.props.navigation.navigate("VideoPlayer", {
-                videoData: item.videoID
-              })
-            }
-          >
-            <Text style={styles.videoTitle}>{item.videoName}</Text>
-          </TouchableHighlight>
-          <Text style={styles.videoDesc}>{item.description}</Text>
-          <Text style={styles.videoStat}>
-            Uploader: {item.videoUploadName} Uploaded: {item.videoDateTime}
-            {"\n"}
-            Views: {item.views} Likes: {item.favorited}
+        <View style={ styles.videoTextArea}>
+        <TouchableHighlight
+          onPress={ () => 
+            this.props.navigation.navigate('VideoPlayer', { 
+              videoData: item.videoID })
+          
+          
+          }
+        >
+          <Text style={ styles.videoTitle }>{item.videoName}</Text>
+        </TouchableHighlight>
+          <Text style={ styles.videoDesc }>{item.description}</Text>
+          <Text style={ styles.videoStat }>
+            Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
+            Views: {item.views}                    Likes: {item.likes}
           </Text>
-          <TouchableHighlight
-            style={styles.faveIcon}
-            onPress={() => console.log("function works")}
-          >
-            <Icon name={"heart"} size={25} style={styles.faveIcon} />
-          </TouchableHighlight>
+        <TouchableHighlight
+          style={ styles.faveIcon }
+          onPress={ () => this.handleFavorite(item.favorited) }
+        >
+             <Icon
+              name={ item.favorited == 1 ? 'heartbeat' : 'heart'}
+              size={25}
+              style={ { 
+                color: item.favorited == 1 ? "#00cccc" : "#FFFFFF",
+                position: 'absolute',
+                width: 25,
+                bottom: 0,
+                right: 5,
+              } }
+              /> 
+        </TouchableHighlight>
+          
         </View>
       </SafeAreaView>
     );

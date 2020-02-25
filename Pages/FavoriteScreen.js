@@ -5,6 +5,7 @@ import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+//import { userId, getSub } from '../App'
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -19,7 +20,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getFavoriteVideos("erik") 
+    var DATA = await tetraAPI.getFavoriteVideos('erik') 
     
       this.setState({ 
             isLoading: false,
@@ -36,6 +37,7 @@ export default class HomeScreen extends Component {
   //Executes on page load
   componentDidMount() {
     this.getRecent()
+    //getSub()
   }
   
 
@@ -86,16 +88,22 @@ export default class HomeScreen extends Component {
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
             Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
-            Views: {item.views}                    Likes: {item.favorited}
+            Views: {item.views}                    Likes: {item.likes}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
           onPress={ () => this.props.navigation.navigate('Favorite') }
         >
              <Icon
-              name={'heart'}
+              name={ item.favorited == 1 ? 'heartbeat' : 'heart'}
               size={25}
-              style={ styles.faveIcon }
+              style={ { 
+                color: item.favorited == 1 ? "#00cccc" : "#FFFFFF",
+                position: 'absolute',
+                width: 25,
+                bottom: 0,
+                right: 5,
+              } }
               /> 
         </TouchableHighlight>
          
@@ -194,8 +202,8 @@ const styles = StyleSheet.create({
     width: 25,
     bottom: 0,
     right: 5,
-    color: '#FFFFFF',
   },
+  
 
   
 
