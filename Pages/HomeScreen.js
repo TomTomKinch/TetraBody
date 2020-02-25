@@ -6,7 +6,7 @@ import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { userId, getSub } from '../App'
-import VideoScreen from './VideoScreen.js';
+
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -21,7 +21,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getRecentVideos('erik') 
+    var DATA = await tetraAPI.getRecentVideos(userId) 
     
       this.setState({ 
             isLoading: false,
@@ -48,13 +48,7 @@ export default class HomeScreen extends Component {
       .then(() => this.props.navigation.navigate('Login'))
       .catch(err => console.log(err));
   }
-  //This handles when a user favorites a video
-  handleFavorite = ( item ) => {
-    console.log("function works")
-    this.props.navigation.navigate('VideoPlayer', { item })
 
-
-  }
 
   // This adds items from the feed
   addItems = (page) => {
@@ -69,16 +63,22 @@ export default class HomeScreen extends Component {
     });
     
   }
-  
-  // Pass video url and info to Video Player Page
-  passVideo = ({ item }) => {
-    return(
-      <VideoScreen
-        videoURL = { item.videoID }
-        videoTitle = { item.videoName }
-        videoUploader = { item.videoUploader}
-      />
-    );
+  // This handles when we reach the end of the feed, and there's more to display
+  handleScroll = () => {
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this.addItems(this.state.page);
+    });
+  }
+  // This handles when the favorite icon is pushed
+  handleFavorite = (isFave) => {
+    if (isFave == 1){
+      console.log("This item is favorited")
+    }
+    else{
+      console.log("This item is unfavorited")
+    }
   }
 
   //An individual feed item
@@ -111,20 +111,22 @@ export default class HomeScreen extends Component {
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
             Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
-            Views: {item.views}                    Likes: {item.favorited}
+            Views: {item.views}                    Likes: {item.likes}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
-          onPress={ () => 
-            console.log("function works")
-            
-        
-            }
+          onPress={ () => this.handleFavorite(item.favorited) }
         >
              <Icon
-              name={'heart'}
+              name={ item.favorited == 1 ? 'heartbeat' : 'heart'}
               size={25}
-              style={ styles.faveIcon }
+              style={ { 
+                color: item.favorited == 1 ? "#00cccc" : "#FFFFFF",
+                position: 'absolute',
+                width: 25,
+                bottom: 0,
+                right: 5,
+              } }
               /> 
         </TouchableHighlight>
           
@@ -227,7 +229,6 @@ const styles = StyleSheet.create({
     width: 25,
     bottom: 0,
     right: 5,
-    color: '#FFFFFF',
   },
 
   
