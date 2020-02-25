@@ -16,6 +16,7 @@ import WorkoutsScreen from './Pages/WorkoutsScreen.js';
 import ProgressScreen from './Pages/ProgressScreen.js';
 import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify from 'aws-amplify';
+import VideoScreen from './Pages/VideoScreen.js';
 import AWSConfig from './aws-exports';
 import tetraAPI from './API.js';
 Amplify.configure(AWSConfig);
@@ -112,6 +113,13 @@ const AppContainer = createAppContainer(createStackNavigator({
 
   Profile: {
     screen: ProfileScreen,
+    navigationOptions: {
+    headerShown: false,
+    }
+  },
+
+  VideoPlayer: {
+    screen: VideoScreen,
     navigationOptions: {
     headerShown: false,
     }

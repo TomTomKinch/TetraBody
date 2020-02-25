@@ -4,6 +4,7 @@ import { Image, Button, StyleSheet, Text, View, SafeAreaView, ScrollView, FlatLi
 import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
+import VideoScreen from './VideoScreen.js';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export var userId;
@@ -22,19 +23,29 @@ export default class HomeScreen extends Component {
   constructor(props){
     super(props);
     this.state = {
-        data: [],
+        isLoading: true,
+        page: 0,   //Current amount of pages in the feed
+        data: [],  //Array of video data
+        
     }
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getRecentVideos() 
+    var DATA = await tetraAPI.getRecentVideos('erik') 
     
       this.setState({ 
-            data: DATA,
-      })
+            isLoading: false,
+            page: 0,
+            dataPosts: DATA,
+      }, function() {
+      //Call a function to pull the initial records
+        this.addItems(0);
+      });
     
-    
+  
   }
+
+  //Executes on page load
   componentDidMount() {
     this.getRecent()
     // update userId with sub value when loading home screen
@@ -47,7 +58,47 @@ export default class HomeScreen extends Component {
       .then(() => this.props.navigation.navigate('Login'))
       .catch(err => console.log(err));
   }
+  //This handles when a user favorites a video
+  handleFavorite = () => {
+    console.log("function works")
+    this.props.navigation.navigate('RouteName', { /* params go here */ })
+
+
+  }
+
+  // This adds items from the feed
+  addItems = (page) => {
+    //Change the number 5 to change the number of new videos per page
+    const newItems=[]
+    for(var i = page * 5, il = i + 5; i < il && i < this.state.dataPosts.length; i++){
+      newItems.push(this.state.dataPosts[i]);
+    }
+
+    this.setState({
+      data: [...this.state.data, ...newItems]
+    });
+    
+  }
+  // This handles when we reach the end of the feed, and there's more to display
+  handleScroll = () => {
+    this.setState({
+      page: this.state.page + 1
+    }, () => {
+      this.addItems(this.state.page);
+    });
+  }
   
+  // Pass video url and info to Video Player Page
+  passVideo = ({ item }) => {
+    return(
+      <VideoScreen
+        videoURL = { item.videoID }
+        videoTitle = { item.videoName }
+        videoUploader = { item.videoUploader}
+      />
+    );
+  }
+
   //An individual feed item
   renderItem = ({ item }) => {
     
@@ -66,18 +117,18 @@ export default class HomeScreen extends Component {
         </View>
         <View style={ styles.videoTextArea}>
         <TouchableHighlight
-          onPress={ () => this.props.navigation.navigate('Favorite') }
+          onPress={ () => this.handleFavorite() }
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
-            Uploader: {item.videoAuthor}               Uploaded: {item.videoDate}{"\n"}
-            Views: {item.videoViews}                    Likes: {item.videoLikes}
+            Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
+            Views: {item.views}                    Likes: {item.favorited}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
-          onPress={ () => this.props.navigation.navigate('Favorite') }
+          onPress={ () => this.handleFavorite() }
         >
              <Icon
               name={'heart'}
@@ -85,7 +136,6 @@ export default class HomeScreen extends Component {
               style={ styles.faveIcon }
               /> 
         </TouchableHighlight>
-         
           
         </View>
         
@@ -99,6 +149,12 @@ export default class HomeScreen extends Component {
     return (
       <SafeAreaView style={ styles.container }>
         <Text style={ styles.title }>Video Feed</Text>
+<Button
+//remove later
+style = { styles.button }
+onPress={ () => this.props.navigation.navigate('VideoPlayer') }
+title="go to video"
+/>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
@@ -106,9 +162,16 @@ export default class HomeScreen extends Component {
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.videoID}
         renderItem={this.renderItem}
+        onEndReached={this.handleScroll}
+        onEndThreshold={0}
         />
         
-        <Button style = { styles.button } onPress={ this.handleSignOut } title="Sign Out"/>
+<Button
+//remove later
+style = { styles.button } 
+onPress={ this.handleSignOut }
+title="Sign Out"
+/>
       </SafeAreaView>
     );
   }

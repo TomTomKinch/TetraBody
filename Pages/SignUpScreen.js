@@ -22,16 +22,14 @@ export default class SignUpScreen extends Component {
   SignUp = async () => {
     // Show the current state object
     const { email, password, confirmPassword } = this.state;
-    //email = email.toLowerCase();
-    
     if (password == confirmPassword) {
       try {
         await Auth.signUp({
-          username: email,
-          password,
-          attributes: { email },
-        })
-        console.log('SignUp success')
+        username: email,
+        password,
+        attributes: { email },
+      })
+      console.log('SignUp success')
         // On success, show Confirmation Code Modal
         this.setState({ modalVisible: true })
       } catch (err) {
@@ -83,7 +81,7 @@ export default class SignUpScreen extends Component {
         </View>
            
         <View style={ styles.input }>
-          <Input
+          <Input // Enter password
             label='Password:'
             onChangeText={
               // Set this.state.password to the input value
@@ -96,7 +94,7 @@ export default class SignUpScreen extends Component {
         </View>
 
         <View style={ styles.input }>
-            <Input
+            <Input // Enter password again for confirmation
               label='Confirm Password'
               onChangeText={
                 // Set this.state.confirmPassword to the input value
@@ -109,17 +107,18 @@ export default class SignUpScreen extends Component {
         </View>
 
          <View>
-          <LinearGradient
+          <LinearGradient // Hit Sign Up button to send confirmation email
             start={[0, 0.5]}
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <Button
-                style={ styles.button }
+              <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.SignUp }
-                title='Sign Up'
-                color= 'white'
-              />
+                underlayColor='#00cccc'
+              >
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableHighlight>
           </LinearGradient>
         </View>
         
@@ -140,7 +139,7 @@ export default class SignUpScreen extends Component {
             </View>
            
             <View>
-              <LinearGradient
+              <LinearGradient // Enter confirmation code to add new user
                     start={[0, 0.5]}
                     end={[1, 0.5]}
                     colors={['cyan', 'green', 'cyan']}

@@ -7,6 +7,8 @@ import { Auth } from 'aws-amplify';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+export var globalEmail = 'UNSET';
+
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +33,6 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-
       <KeyboardAwareScrollView
         style={styles.container} 
         contentContainerStyle={{ 
@@ -79,26 +80,52 @@ export default class LoginScreen extends Component {
             end={[1, 0.5]}
             colors={['cyan', 'green', 'cyan']}
             style={styles.linearGradient}>
-              <Button
-                style={ styles.button }
+             <TouchableHighlight
+                style={ styles.linearGradient }
                 onPress={ this.SignIn }
-                title='Login'
-                color= 'white'
-              />
+                underlayColor='#00cccc'
+             >
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableHighlight> 
           </LinearGradient>
               
           
         </View>
         
-        <Button
-          style={ styles.button }
-          onPress={ user => this.props.navigation.navigate('SignUp') }
-          title='Sign Up'
-          color='white'
-        />
-        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) } title="Sign in with Facebook"/>
-        <Button style = { styles.button } onPress={ () => Auth.federatedSignIn({ provider: "Google"}) } title="Sign in with Google"/>
-        <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ user => this.props.navigation.navigate('SignUp') }
+          >
+            <View>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ () => Auth.federatedSignIn({ provider: "Facebook"}) }
+          >
+            <SocialIcon
+              type='facebook'
+              button
+              title='Sign in with Facebook'
+            />
+
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={ styles.button }
+            onPress={ () => Auth.federatedSignIn({ provider: "Google"}) }
+          >
+            <SocialIcon
+              type='google'
+              button
+              title='Sign In with Google'
+            />
+          </TouchableOpacity>
+
+          <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+      
       </KeyboardAwareScrollView>
     );
   }

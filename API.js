@@ -1,116 +1,8 @@
 //Copyright 2020, Erik Jastad, All rights reserved.
 
-/*
-*Inputs ('username')
-*Outputs an array with the attributes            (.userName and .accountType .dateCreated)               example: result[0].accountType would contain 'ANON' or 'USER'  
-*This function returns account information on the user
-*/
-export function getUser(name){
-    var dest = 'https://baxsdrrhvj.execute-api.us-west-2.amazonaws.com/Dev?name=' + name;
-    
-    return fetch(dest)
-    .then((response) => response.json())
-    .then((response => {
-        return response;
-    }))
-}
-
-/*
-*Inputs ('username') 
-*Outputs an array with the attributes       (.description .uploadUserName .videoDateTime .videoID .videoName)     example: result[0].description 
-*This function returns the user favorited videos
-*/
-export function getFavoriteVideos(name){
-    var dest = 'https://oozffhq4h9.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
-    
-    return fetch(dest)
-    .then((response) => response.json())
-    .then((response => {
-        return response;
-    }))
-}
-
-/*
-*Inputs ()
-*Outputs an array with the attributes        (.description .uploadUserName .videoDateTime .videoID .videoName)         example: result[0].description 
-*This function get the most popular videos of all time
-*/
-export function getMostPopularVideos(){
-    var dest = 'https://c7s3qs2qjg.execute-api.us-west-2.amazonaws.com/DEV';
-    
-    return fetch(dest)
-    .then((response) => response.json())
-    .then((response => {
-        return response;
-    }))
-}
-
-/*
-*Inputs ('username','accountType')
-*Outputs an array of rows changed or affected.. or contains errorMessages
-*This function is used to add a new user to the app, input the username and account type
-*/
-export function addUser(name, type){
-    var dest = 'https://48ur58t8tg.execute-api.us-west-2.amazonaws.com/Dev?name=' + name + '&type=' + type;
-    return fetch(dest, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-        
-      })
-    .then((response) => response.json())
-    .then((response => {
-        return response;
-    }))
-}
-
-/*
-*Inputs ('videoName','userName','videoID','description')
-*Outputs an array of rows changed or affected.. or contains errorMessages
-*This function is used to update the video name and description of an existing videoID and uploader
-*/
-export function updateVideo(vname, uname, id, desc){
-    var dest = 'https://mntonrj3cj.execute-api.us-west-2.amazonaws.com/DEV?vname=' + vname + '&uname=' + uname + '&id=' + id + '&desc=' + desc;
-    return fetch(dest, {
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-        
-      })
-    .then((response) => response.json())
-    .then((response => {
-        return response;
-    }))
-}
-
-/*
-*Inputs ('tagName','videoID')
-*Outputs an array of rows changed or affected.. or contains errorMessages
-*This function is used to delete a video.
-*/
-export function deleteVideoTag(name, id){
-    var dest = 'https://6bn8fsdcp9.execute-api.us-west-2.amazonaws.com/DEV?name=' + name + '&id=' + id;
-    return fetch(dest, {
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        }
-        
-      })
-    .then((response) => response.json())
-    .then((response => {
-        return response;
-    }))
-}//Copyright 2020, Erik Jastad, All rights reserved.
-
 //Old type before making in to objecT:   export function getUser(name){....
 
-var tetraAPI = {
+export var tetraAPI = {
     /*
     *Inputs ('username')
     *Outputs an array with the attributes            (.userName and .accountType .dateCreated)               example: result[0].accountType would contain 'ANON' or 'USER'  
@@ -131,8 +23,8 @@ var tetraAPI = {
     *Outputs an array with the attributes       (.description .uploadUserName .videoDateTime .videoID .videoName)     example: result[0].description 
     *This function returns the user favorited videos
     */
-    getFavoriteVideos: function(name){
-        var dest = 'https://oozffhq4h9.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    getFavoriteVideos: function(username){
+        var dest = 'https://amvlhv7lwa.execute-api.us-west-2.amazonaws.com/DEV?name=' + username;
         
         return fetch(dest)
         .then((response) => response.json())
@@ -223,9 +115,23 @@ var tetraAPI = {
     *Inputs ()
     *This function returns an array of JSON objects containing tags that can be used on videos
     *Objects in format tagname: "tag goes here"
-    */
+    
     getVideoTags: function(){
         var dest = 'https://epbuidyooa.execute-api.us-west-2.amazonaws.com/DEV';
+        
+        return fetch(dest)
+        .then((response) => response.json())
+        .then((response => {
+            return response;
+        }))
+    }duplicate,*/
+
+    /*
+    * Inputs(username, list)
+    * This function takes in a video name and returns the found videos for the user.
+    */
+    getVideoByTags: function(username, list){
+        var dest = 'https://b61mlem030.execute-api.us-west-2.amazonaws.com/DEV?name=' + username + '&list=' + list;
         
         return fetch(dest)
         .then((response) => response.json())
@@ -239,14 +145,29 @@ var tetraAPI = {
     *This function returns the most recently uploaded videos in a JSON array of objects containing:
     *   videoID, description, uploadUserName, videoName, videoDateTime
     */
-    getRecentVideos: function(){
-        var dest = 'https://156oopdhb8.execute-api.us-west-2.amazonaws.com/DEV';
+    // getRecentVideos: function(){
+    //     var dest = 'https://156oopdhb8.execute-api.us-west-2.amazonaws.com/DEV';
         
+    //     return fetch(dest)
+    //     .then((response) => response.json())
+    //     .then((response => {
+    //         return response;
+    //     }))
+    // },
+
+    /*
+    * Inputs(username)
+    * The following API will get the most recent videos
+    * TetraNEWGetRecentVideos
+    */  
+    getRecentVideos: function(name){
+        var dest = 'https://0hkxfgl1w6.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+
         return fetch(dest)
-        .then((response) => response.json())
-        .then((response => {
-            return response;
-        }))
+            .then((response) => response.json())
+            .then((response => {
+                return response;
+            }))
     },
 
     /*
@@ -295,12 +216,12 @@ var tetraAPI = {
     },
 
     /*
-    *Inputs (name)
+    *Inputs (username, videoname)
     *This function returns a JSON video object based on a passed in video name
     *unknown return formate - unable to test right now
     */
-    getVideoByName: function(name){
-        var dest = 'https://nvtdkj3xoe.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+    getVideosByName: function(username, videoname){
+        var dest = 'https://4zisndnw3a.execute-api.us-west-2.amazonaws.com/DEV?name=' + username + '&videoname=' + videoname;
         
         return fetch(dest)
         .then((response) => response.json())
@@ -324,13 +245,41 @@ var tetraAPI = {
         }))
     },
 
+    /* 
+    * Inputs (id)
+    * This function takes in a video id and returns the tags for the video
+    */
+    getVideoTags: function(id) {
+        var dest = 'https://7naf9v7n0g.execute-api.us-west-2.amazonaws.com/DEV?id=' + id;
+
+        return fetch(dest)
+        .then((response) => response.json())
+        .then((response => {
+            return response;
+        }))
+    },
+
     /*
-    *Inputs (name)
-    *This function returns a JSON array of video objects uploaded by a specific user from a passed in username
+    *Inputs (username, uploadername)
+    *This function takes in a username and uploadername and returns the uploaders videos from the DB.
     *Elements in the objects: videoID, description, uploadUserName, videoName, videoDateTime
     */
-     getVideoByUploader: function(name){
-        var dest = 'https://7c1swj45yb.execute-api.us-west-2.amazonaws.com/DEV?name=' + name;
+     getVideosByUploader: function(username, uploadername){
+        var dest = 'https://34s65ecub4.execute-api.us-west-2.amazonaws.com/DEV?username=' + username + '&uploadername=' + uploadername;
+        
+        return fetch(dest)
+        .then((response) => response.json())
+        .then((response => {
+            return response;
+        }))
+    },
+
+    /* 
+    * Inputs (name, offset)
+    * This function takes in a username and month offset to get popular videos.
+    */
+    getPopularvideos: function(name, offset){
+        var dest = 'https://j579let7u8.execute-api.us-west-2.amazonaws.com/DEV?name=' + name + '&offset=' + offset;
         
         return fetch(dest)
         .then((response) => response.json())
@@ -364,7 +313,7 @@ var tetraAPI = {
     *Add a stat association between the user and the video
     */
     addUserVideoStat: function(favorite, count, name, id){
-        var dest = 'https://k617y0hsz7.execute-api.us-west-2.amazonaws.com/DEV?favorite=' + favorite + '&count=' + count + '&name=' + name + '&id' + id;
+        var dest = 'https://k617y0hsz7.execute-api.us-west-2.amazonaws.com/DEV?favorite=' + favorite + '&count=' + count + '&name=' + name + '&id=' + id;
         return fetch(dest, {
             method: 'POST',
             headers: {
@@ -384,7 +333,7 @@ var tetraAPI = {
     *Add video info to the database
     */
     addVideo: function(userName, videoName, id, desc){
-        var dest = 'https://b9oewzsfch.execute-api.us-west-2.amazonaws.com/DEV?userName=' + userName + '&videoName=' + videoName + '&id=' + id + '&desc' + desc;
+        var dest = 'https://b9oewzsfch.execute-api.us-west-2.amazonaws.com/DEV?userName=' + userName + '&videoName=' + videoName + '&id=' + id + '&desc=' + desc;
         return fetch(dest, {
             method: 'POST',
             headers: {
@@ -412,6 +361,48 @@ var tetraAPI = {
             'Content-Type': 'application/json',
             }
             
+        })
+        .then((response) => response.json())
+        .then((response => {
+            return response;
+        }))
+    },
+
+    /*
+    * Inputs (id, names)
+    * The following API will take in a videoID(URL) and a comma seperated list of tags to apply to the video    comma list example = (Core,UpperBody,LowerBody)
+    */
+
+    tetraAddVideoTags: function(id, names){
+        var dest = 'https://q2r2sv3kab.execute-api.us-west-2.amazonaws.com/DEV?id='+ id + '&names=' + names;
+
+        return fetch(dest, {
+            method: 'POST',
+            headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            }
+            
+        })
+        .then((response) => response.json())
+        .then((response => {
+            return response;
+        }))
+    },
+
+    /*
+    * Inputs(username, id)
+    * The following API will increment the views for the week on the passed in videoID, if the current week does not exist it will be created for the video.
+    */
+    tetraUpdatevideoPopularity: function(username, id){
+        var dest = 'https://02tbtdh082.execute-api.us-west-2.amazonaws.com/Dev?name=' + username + '&id=' + id;
+        
+        return fetch(dest, {
+            method: 'PUT',
+            headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            }
         })
         .then((response) => response.json())
         .then((response => {
@@ -480,11 +471,10 @@ var tetraAPI = {
     },
 
     /*
-    *Inputs (name, id)
-    *Remove a video and tag association
+    * This function takes in a video id and a comma seperated tag list and removes all the tags that match the video and a tag in the list.
     */
-    removeVideoTag: function(name, id){
-        var dest = 'https://6bn8fsdcp9.execute-api.us-west-2.amazonaws.com/DEV?name=' + name + '&id=' + id;
+    removeVideoTags: function(id, list){
+        var dest = 'https://4j24kr2jyi.execute-api.us-west-2.amazonaws.com/DEV?id=' + id + '&list=' + list;
         return fetch(dest, {
             method: 'DELETE',
             headers: {
@@ -582,7 +572,7 @@ var tetraAPI = {
     /*
     *Inputs (videoName, userName, id, desc)
     *Update a video description and name
-    */
+    
     updateVideo: function(vname, uname, id, desc){
         var dest = 'https://mntonrj3cj.execute-api.us-west-2.amazonaws.com/DEV?vname=' + vname + '&uname=' + uname + '&id=' + id + '&desc=' + desc;
         return fetch(dest, {
@@ -597,7 +587,7 @@ var tetraAPI = {
         .then((response => {
             return response;
         }))
-    }
+    }duplicate*/
     
 
 };
