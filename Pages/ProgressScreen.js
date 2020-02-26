@@ -5,6 +5,7 @@ import { Input } from 'react-native-elements';
 import { tetraAPI } from '../API.js'
 import { globalEmail } from './LoginScreen'
 import Modal from "react-native-modal";
+import PureChart from 'react-native-pure-chart';
 
 export default class ProgressScreen extends Component {
   constructor(props){
@@ -22,6 +23,7 @@ export default class ProgressScreen extends Component {
       statToChangeValue: null,
       isModalVisible: false,
       statObj: "",
+      statData: []
     }
   } 
 
@@ -93,14 +95,17 @@ export default class ProgressScreen extends Component {
     //var testOutput = []
     //this.stateObj = JSON.stringify(response);
     let statOutput = ""
+    let statDataTemp = []
     response.map((s) => {
       let name = s.statName;
       let value = s.statValue;
-      let date = s.statDate;
+      let date = s.statDate;//.split("T")[0];
+      statDataTemp.push({x: date.split("T")[0], y: value});
       //console.log(name);
       statOutput = statOutput + name + ": " + value + " " + date + "\n";
     });
     this.setState({statObj: statOutput});
+    this.setState({statData: statDataTemp});
   }
 
   //Runs code when app loads
@@ -147,10 +152,13 @@ export default class ProgressScreen extends Component {
         })}
           <View>
             <Modal isVisible={this.state.isModalVisible}
+             style={styles.input}
               onBackdropPress={() => this.setState({ isModalVisible: false })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={styles.input}>{this.state.statObj}</Text>
+                <Text>{this.state.statObj.split(' ')[0]}</Text>
+                
+                <PureChart data={this.state.statData} type='line' height={250}/>
               </View>
             </Modal>
           </View>
