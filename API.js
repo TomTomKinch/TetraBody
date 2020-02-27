@@ -395,7 +395,7 @@ export var tetraAPI = {
     * The following API will increment the views for the week on the passed in videoID, if the current week does not exist it will be created for the video.
     */
     tetraUpdatevideoPopularity: function(username, id){
-        var dest = 'https://02tbtdh082.execute-api.us-west-2.amazonaws.com/Dev?name=' + username + '&id=' + id;
+        var dest = 'https://02tbtdh082.execute-api.us-west-2.amazonaws.com/DEV?name=' + username + '&id=' + id;
         
         return fetch(dest, {
             method: 'PUT',
