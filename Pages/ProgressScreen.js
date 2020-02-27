@@ -7,6 +7,8 @@ import { globalEmail } from './LoginScreen'
 import Modal from "react-native-modal";
 import PureChart from 'react-native-pure-chart';
 
+var USERNAME ='erik';
+
 export default class ProgressScreen extends Component {
   constructor(props){
     super(props);
@@ -80,8 +82,8 @@ export default class ProgressScreen extends Component {
     console.log(this.state.statToChange);
     console.log(this.state.statToChangeValue);
     if(this.state.statToChange != null && this.state.statToChangeValue != null){
-      await tetraAPI.addUserStat(this.state.statToChange, 'erik', this.state.statToChangeValue); //Add Stat
-      await this.getUserStatsSnapshot('erik');
+      await tetraAPI.addUserStat(this.state.statToChange, USERNAME, this.state.statToChangeValue); //Add Stat
+      await this.getUserStatsSnapshot(USERNAME);
       this.forceUpdate();
       console.log('Updated Stat');
     }
@@ -110,7 +112,7 @@ export default class ProgressScreen extends Component {
 
   //Runs code when app loads
   async componentDidMount() {
-    await this.getUserStatsSnapshot('erik'); //change to globalEmail
+    await this.getUserStatsSnapshot(USERNAME);
     console.log("----------------");
     await this.getStatList();
   }
@@ -122,7 +124,7 @@ export default class ProgressScreen extends Component {
         <Text style={ styles.title }>Progress</Text>
         <Text style = {styles.text}> Stats : </Text>
         <View style= { styles.addStatInput }>
-          <Text>Add Stat</Text>
+          <Text>Add a Stat to Track</Text>
           <Picker 
             mode="dropdown" 
             style={{height: 30, width: 280}}
@@ -132,7 +134,7 @@ export default class ProgressScreen extends Component {
               this.changeStat(statName, statPos);
             }}
           >
-            <Picker.Item label='Add a Stat' value='0'/>
+            <Picker.Item label='Add a Stat to Track' value='0'/>
             {this.state.statList.map((item, index) => {
               return ( <Picker.Item label = {item} value={index} />);
             })}
@@ -141,14 +143,27 @@ export default class ProgressScreen extends Component {
           <Button title = 'Update' onPress={ () => this.updateStat() }/>
         </View>
         {Object.keys(this.state.statNameList).map((key) => {  
-          return <Text 
-          style={ styles.input }
-          onPress={ () => {
-            this.getStatWrapper('erik', this.state.statNameList[key]);
-            console.log(this.state.statNameList[key]);
-            this.setState({ isModalVisible: true });
-          }}
-          > {this.state.statNameList[key]}: {this.state.statValueList[key]}</Text>
+          var statName = this.state.statNameList[key];
+          var statVal = this.state.statValueList[key];
+          return (
+            <View style = { styles.input }>
+              <Input
+                label = {statName + ' :   ' + statVal}
+                placeholder = 'Enter New Value'
+                //{this.state.statValueList[key]}
+                onChangeText = { async (newVal) => {
+                  //Change FrontEnd
+                  this.setState({ statToChangeValue: newVal });
+                  var Name = this.state.statList[key];
+                  this.changeStat(Name, key);
+                  //Change Backend
+                  tetraAPI.updateUserStat(this.state.statNameList[key], this.state.statDateList[key], newVal, USERNAME); //stat, date, value, name
+                  await this.getUserStatsSnapshot(USERNAME);
+                  this.forceUpdate();
+                }}
+              />
+            </View>
+          )
         })}
           <View>
             <Modal isVisible={this.state.isModalVisible}
