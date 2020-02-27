@@ -6,6 +6,7 @@ import { tetraAPI } from '../API.js'
 import { globalEmail } from './LoginScreen'
 import Modal from "react-native-modal";
 import PureChart from 'react-native-pure-chart';
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 var USERNAME ='erik';
 
@@ -147,8 +148,8 @@ export default class ProgressScreen extends Component {
           var statVal = this.state.statValueList[key];
           return (
             <View style = { styles.input }>
-              <Input
-                label = {statName + ' :   ' + statVal}
+              <Input 
+                label = { statName + ' : ' + statVal }
                 placeholder = 'Enter New Value'
                 //{this.state.statValueList[key]}
                 onChangeText = { async (newVal) => {
@@ -160,6 +161,18 @@ export default class ProgressScreen extends Component {
                   tetraAPI.updateUserStat(this.state.statNameList[key], this.state.statDateList[key], newVal, USERNAME); //stat, date, value, name
                   await this.getUserStatsSnapshot(USERNAME);
                   this.forceUpdate();
+                }}
+              />              
+              <Icon
+                name={'chart-line'}
+                size={25}
+                stlye={{
+                  
+                }}
+                onPress={ () => {
+                  this.getStatWrapper('erik', this.state.statNameList[key]);
+                  console.log(this.state.statNameList[key]);
+                  this.setState({ isModalVisible: true });
                 }}
               />
             </View>
@@ -212,10 +225,11 @@ const styles = StyleSheet.create({
     padding:20
   },
   input: {
+    fontSize: 30,
     width:"85%",
     backgroundColor:"#c7ffe3",
     borderRadius:25,
-    height:75,
+    height:150,
     marginBottom:20,
     justifyContent:"center",
     padding:20
