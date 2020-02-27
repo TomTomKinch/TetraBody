@@ -18,7 +18,6 @@ import VideoScreen from "./VideoScreen.js";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
 import { RNS3 } from "react-native-aws3";
-//import { userId, getSub } from '../App'
 
 export var userId;
 
@@ -27,6 +26,15 @@ export function getSub() {
     .then(user => {
       userId = user.attributes.sub;
       console.log("sub grab success: " + userId);
+      tetraAPI.getUser(userId)
+      .then(response => {
+        if(response == '') {
+          tetraAPI.addUser(userId, 'USER')
+          .then(resp => console.log("API AddUser success: ", resp))
+          .catch(err => console.log("API addUser error: ", err))
+        }
+      })
+      .catch(err => console.log("API getUser error: ", err))
     })
     .catch(err => console.log("user sub error: ", err));
 }
