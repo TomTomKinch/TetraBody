@@ -25,7 +25,7 @@ export function getSub() {
   Auth.currentAuthenticatedUser()
     .then(user => {
       userId = user.attributes.sub;
-      console.log("sub grab success: " + userId);
+      console.log("UserId: " + userId);
       tetraAPI.getUser(userId)
       .then(response => {
         if(response == '') {
@@ -36,7 +36,11 @@ export function getSub() {
       })
       .catch(err => console.log("API getUser error: ", err))
     })
-    .catch(err => console.log("user sub error: ", err));
+    .catch(err => {
+      console.log("UserId: ", err);
+      userId = 'anonymous';
+      console.log("Continuing as", userId);
+    });
 }
 
 const options = {
