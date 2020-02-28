@@ -125,7 +125,7 @@ export default class LoginScreen extends Component {
             />
           </TouchableOpacity>
 
-          <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+          {/*<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>*/}
       
       </KeyboardAwareScrollView>
     );

@@ -108,7 +108,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent() {
-    var DATA = await tetraAPI.getRecentVideos("erik");
+    var DATA = await tetraAPI.getRecentVideos(userId);
 
     this.setState(
       {
@@ -136,10 +136,33 @@ export default class HomeScreen extends Component {
       .then(() => this.props.navigation.navigate("Login"))
       .catch(err => console.log(err));
   };
-  //This handles when a user favorites a video
+  //This handles when a user favorites a video. If favorited is 0 ( false ), change to 1 ( true )
+  //If favorited is 1, change to 0
+  //
   handleFavorite = item => {
-    console.log("function works");
-    this.props.navigation.navigate("VideoPlayer", { item });
+    console.log(item.favorited);
+    console.log(item.videoID);
+    if(item.favorited == 0){
+      console.log("favorited");
+      tetraAPI.addUserVideoStat(1, 0, userId, item.videoID);
+      tetraAPI.updateUserVideoFavorite(userId, item.videoID, 1);
+      //UPDATE FIRST
+      //if affected rows = 0, add stat 
+      //otherwise dont add
+      //if anon, dont allow favorite api call
+    }
+    else{
+      console.log("unfavorite");
+      tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0);
+      
+    }
+    
+  };
+  //This handles when a user clicks on a video, update the view count of that video
+  handleVideoClicked = item => {
+    tetraAPI.tetraUpdatevideoPopularity(userId, item.videoID)
+    this.props.navigation.navigate('VideoPlayer', { 
+      videoData: item });
   };
 
   // This adds items from the feed
@@ -197,23 +220,18 @@ export default class HomeScreen extends Component {
         </View>
         <View style={ styles.videoTextArea}>
         <TouchableHighlight
-          onPress={ () => 
-            this.props.navigation.navigate('VideoPlayer', { 
-              videoData: item.videoID })
-          
-          
-          }
+          onPress={ () => this.handleVideoClicked(item) }
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
-            Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
+            Uploader: {item.uploadUserName}               Uploaded: {item.videoDateTime}{"\n"}
             Views: {item.views}                    Likes: {item.likes}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
-          onPress={ () => this.handleFavorite(item.favorited) }
+          onPress={ () => this.handleFavorite(item) }
         >
              <Icon
               name={ item.favorited == 1 ? 'heartbeat' : 'heart'}

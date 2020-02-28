@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { tetraAPI } from '../API.js'
 import tempJson from './temp.json'
 import { globalEmail } from './LoginScreen.js'
+import { userId } from "./HomeScreen";
 
 export default class ProfileScreen extends Component {
     constructor(props){
@@ -40,7 +41,7 @@ export default class ProfileScreen extends Component {
 
     //Runs code when app loads
     componentDidMount() {
-        this.getUserInfo('erik'); //change to globalEmail
+        this.getUserInfo(userId);
     }
 
     render() {
@@ -63,7 +64,7 @@ export default class ProfileScreen extends Component {
                     </TouchableHighlight>
                 </Header>
 
-                <Text style={styles.title}>Account</Text>
+                <Text style={styles.title}>{userId}</Text>
                 {/* <Button onPress={ () => this.getUserInfo() } title="TEST"/> */}
                 <Image style={styles.avatar} source={ require('./default-profile.png') }></Image>
                 <Text style={styles.body}>{this.state.userName} </Text>

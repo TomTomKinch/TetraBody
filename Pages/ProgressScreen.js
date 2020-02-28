@@ -7,8 +7,9 @@ import { globalEmail } from './LoginScreen'
 import Modal from "react-native-modal";
 import PureChart from 'react-native-pure-chart';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { userId } from "./HomeScreen";
 
-var USERNAME ='erik';
+var USERNAME =userId;
 
 export default class ProgressScreen extends Component {
   constructor(props){
@@ -170,7 +171,7 @@ export default class ProgressScreen extends Component {
                   
                 }}
                 onPress={ () => {
-                  this.getStatWrapper('erik', this.state.statNameList[key]);
+                  this.getStatWrapper(userId, this.state.statNameList[key]);
                   console.log(this.state.statNameList[key]);
                   this.setState({ isModalVisible: true });
                 }}
