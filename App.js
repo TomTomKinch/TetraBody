@@ -17,6 +17,7 @@ import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify from 'aws-amplify';
 import VideoScreen from './Pages/VideoScreen.js';
 import AWSConfig from './aws-exports';
+
 Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
@@ -226,13 +227,17 @@ const AppContainer = createAppContainer(createStackNavigator({
   )}
 ));
 
+export var userId;
+
 export default class App extends Component {
 
   render() {
     return (
       
       <Root>
-        <AppContainer/>
+        <AppContainer
+          //onNavigationStateChange = {}
+        />
       </Root> 
     );
   }
