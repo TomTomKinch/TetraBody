@@ -269,13 +269,13 @@ export default class HomeScreen extends Component {
           onEndThreshold={0}
         />
 
-        <View style={{ alignSelf: "center" }}>
+        {/*<View style={{ alignSelf: "center" }}>
           <Button
             style={styles.button}
             onPress={this.handleSignOut}
             title="Sign Out"
           />
-        </View>
+        </View>*/
 
         <View style={{ alignSelf: "flex-end" }}>
           <Button onPress={this.openImagePickerAsync} title="Upload Video" />
