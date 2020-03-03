@@ -15,12 +15,29 @@ export default class VideoScreen extends Component {
           isLoading: true,
       }
     }
+    
+    //This handles when a user favorites a video. If favorited is 0 ( false ), change to 1 ( true )
+    //If favorited is 1, change to 0
+    handleFavorite = item => {
+      if(item.favorited == 0){
+        console.log("favorited");
+        tetraAPI.updateUserVideoFavorite(userId, item.videoID, 1)
+      }
+      else{
+        console.log("unfavorite");
+        tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0)
+      }
+    }
 
     render(){
 
       const {goBack} = this.props.navigation;
+      
       //console.log(this.props.navigation.state.params.videoData)
+      //Save the variable from navigating here as a shorter alias
+      var item = this.props.navigation.state.params.videoData;
       return (
+        
         <View style={styles.container}>
             <Header
                 //headerTitle="header"
@@ -36,13 +53,36 @@ export default class VideoScreen extends Component {
             </Header>
             
             <Video
-              source={{ uri: this.props.navigation.state.params.videoData }}
+              source={{ uri: item.videoID }}
               shouldPlay
               useNativeControls
               style={{ width: "100%", height: "45%" }}
             />
-
-<Text style = {styles.videoText}>{ this.props.navigation.state.params.videoTitle }</Text>
+            <View style={ styles.videoText }>
+            <TouchableHighlight
+          style={ styles.faveIcon }
+          onPress={ () => this.handleFavorite(item.favorited) }
+        >
+             <Icon
+              name={ item.favorited == 1 ? 'heartbeat' : 'heart'}
+              size={25}
+              style={ { 
+                color: item.favorited == 1 ? "#00cccc" : "#FFFFFF",
+                position: 'absolute',
+                width: 25,
+                right: 5,
+              } }
+              /> 
+        </TouchableHighlight>
+              <Text style={ styles.videoTitle }>{item.videoName}</Text>
+              
+              <Text style={ styles.videoStat }>
+                Views: {item.views}     Likes: {item.likes}{"\n"}
+                Uploader: {item.videoUploadName}      Uploaded: {item.videoDateTime}
+                
+              </Text>
+              <Text style={ styles.videoDesc }>{item.description}</Text>
+            </View>
 
         </View>
       );
@@ -79,7 +119,32 @@ const styles = StyleSheet.create({
     },
 
     videoText:{
-      fontSize: 25,
-      color: 'red',
+      backgroundColor: "#333333",
+      borderRadius: 5,
+      margin: 10,
+      padding: 10,
+      width: '98%',
+    },
+
+    videoTitle: {
+      textAlign: "left",
+      fontSize: 20,
+      color: "#00cccc",
+      marginBottom: 10,
+    },
+    videoDesc: {
+      textAlign: "left",
+      color: "#555555"
+    },
+    videoStat: {
+      bottom: 0,
+      color: "#FFFFFF",
+      marginBottom: 10,
+    },
+    faveIcon: {
+      position: "absolute",
+      width: 25,
+      top: 10,
+      right: 5,
     },
   });

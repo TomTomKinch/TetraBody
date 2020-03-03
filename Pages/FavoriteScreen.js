@@ -5,6 +5,7 @@ import { Auth } from 'aws-amplify';
 import tetraAPI from '../API.js';
 import { Video } from 'expo-av';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { userId } from "./HomeScreen";
 
 //This is where we get info for the feed, the default feed just shows recent videos
 export default class HomeScreen extends Component {
@@ -19,7 +20,7 @@ export default class HomeScreen extends Component {
   }
 
   async getRecent(){
-    var DATA = await tetraAPI.getFavoriteVideos("erik") 
+    var DATA = await tetraAPI.getFavoriteVideos(userId) 
     
       this.setState({ 
             isLoading: false,
@@ -36,8 +37,36 @@ export default class HomeScreen extends Component {
   //Executes on page load
   componentDidMount() {
     this.getRecent()
+    //getSub()
   }
-  
+  //This handles when a user favorites a video. If favorited is 0 ( false ), change to 1 ( true )
+  //If favorited is 1, change to 0
+  //
+  handleFavorite = item => {
+    console.log(item.favorited);
+    console.log(item.videoID);
+    if(item.favorited == 0){
+      console.log("favorited");
+      tetraAPI.addUserVideoStat(1, 0, userId, item.videoID);
+      tetraAPI.updateUserVideoFavorite(userId, item.videoID, 1);
+      //UPDATE FIRST
+      //if affected rows = 0, add stat 
+      //otherwise dont add
+      //if anon, dont allow favorite api call
+    }
+    else{
+      console.log("unfavorite");
+      tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0);
+      
+    }
+    
+  };
+  //This handles when a user clicks on a video, update the view count of that video
+  handleVideoClicked = item => {
+    tetraAPI.tetraUpdatevideoPopularity(userId, item.videoID)
+    this.props.navigation.navigate('VideoPlayer', { 
+      videoData: item });
+  };
 
   // This adds items from the feed
   addItems = (page) => {
@@ -71,7 +100,6 @@ export default class HomeScreen extends Component {
       }}>
         <View style={ styles.thumbnail }>
         <Video
-            onPress={ () => this.props.navigation.navigate('Login') }
             source={{ uri: item.videoID}}
             resizeMode="cover"
             style={{ width: "100%", height: "100%" }}
@@ -79,23 +107,29 @@ export default class HomeScreen extends Component {
         </View>
         <View style={ styles.videoTextArea}>
         <TouchableHighlight
-          onPress={ () => this.props.navigation.navigate('Favorite') }
+          onPress={ () => this.handleVideoClicked(item) }
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
           <Text style={ styles.videoDesc }>{item.description}</Text>
           <Text style={ styles.videoStat }>
             Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
-            Views: {item.views}                    Likes: {item.favorited}
+            Views: {item.views}                    Likes: {item.likes}
           </Text>
         <TouchableHighlight
           style={ styles.faveIcon }
-          onPress={ () => this.props.navigation.navigate('Favorite') }
+          onPress={ () => this.handleFavorite(item) }
         >
              <Icon
-              name={'heart'}
+              name={ item.favorited == 1 ? 'heartbeat' : 'heart'}
               size={25}
-              style={ styles.faveIcon }
+              style={ { 
+                color: item.favorited == 1 ? "#00cccc" : "#FFFFFF",
+                position: 'absolute',
+                width: 25,
+                bottom: 0,
+                right: 5,
+              } }
               /> 
         </TouchableHighlight>
          
@@ -194,8 +228,8 @@ const styles = StyleSheet.create({
     width: 25,
     bottom: 0,
     right: 5,
-    color: '#FFFFFF',
   },
+  
 
   
 

@@ -1,10 +1,10 @@
 {
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://96-3dm.anonymous.tetrabody.exp.direct",
+  "packagerNgrokUrl": "https://packager.96-3dm.anonymous.tetrabody.exp.direct",
+  "ngrokPid": 1083,
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 7740,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
   "webpackServerPort": null
 }

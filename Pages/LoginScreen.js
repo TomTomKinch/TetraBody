@@ -23,6 +23,7 @@ export default class LoginScreen extends Component {
     try {
       await Auth.signIn(email, password)
       console.log('SignIn success:\n', await Auth.currentAuthenticatedUser())
+      
       // Navigate to Home screen if successful
       this.props.navigation.navigate('Home')
     } catch (err) {
@@ -124,7 +125,7 @@ export default class LoginScreen extends Component {
             />
           </TouchableOpacity>
 
-          <Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>
+          {/*<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>*/}
       
       </KeyboardAwareScrollView>
     );

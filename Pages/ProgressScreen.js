@@ -5,6 +5,11 @@ import { Input } from 'react-native-elements';
 import { tetraAPI } from '../API.js'
 import { globalEmail } from './LoginScreen'
 import Modal from "react-native-modal";
+import PureChart from 'react-native-pure-chart';
+import Icon from "react-native-vector-icons/FontAwesome5";
+import { userId } from "./HomeScreen";
+
+var USERNAME =userId;
 
 export default class ProgressScreen extends Component {
   constructor(props){
@@ -21,6 +26,8 @@ export default class ProgressScreen extends Component {
       statPos: 0,
       statToChangeValue: null,
       isModalVisible: false,
+      statObj: "",
+      statData: []
     }
   } 
 
@@ -77,8 +84,8 @@ export default class ProgressScreen extends Component {
     console.log(this.state.statToChange);
     console.log(this.state.statToChangeValue);
     if(this.state.statToChange != null && this.state.statToChangeValue != null){
-      await tetraAPI.addUserStat(this.state.statToChange, 'erik', this.state.statToChangeValue); //Add Stat
-      await this.getUserStatsSnapshot('erik');
+      await tetraAPI.addUserStat(this.state.statToChange, USERNAME, this.state.statToChangeValue); //Add Stat
+      await this.getUserStatsSnapshot(USERNAME);
       this.forceUpdate();
       console.log('Updated Stat');
     }
@@ -87,9 +94,27 @@ export default class ProgressScreen extends Component {
     }
   }
 
+  async getStatWrapper(userName, statToFind) {
+    let response = await tetraAPI.getUserStat(userName, statToFind);
+    //var testOutput = []
+    //this.stateObj = JSON.stringify(response);
+    let statOutput = ""
+    let statDataTemp = []
+    response.map((s) => {
+      let name = s.statName;
+      let value = s.statValue;
+      let date = s.statDate;//.split("T")[0];
+      statDataTemp.push({x: date.split("T")[0], y: value});
+      //console.log(name);
+      statOutput = statOutput + name + ": " + value + " " + date + "\n";
+    });
+    this.setState({statObj: statOutput});
+    this.setState({statData: statDataTemp});
+  }
+
   //Runs code when app loads
   async componentDidMount() {
-    await this.getUserStatsSnapshot('erik'); //change to globalEmail
+    await this.getUserStatsSnapshot(USERNAME);
     console.log("----------------");
     await this.getStatList();
   }
@@ -101,7 +126,7 @@ export default class ProgressScreen extends Component {
         <Text style={ styles.title }>Progress</Text>
         <Text style = {styles.text}> Stats : </Text>
         <View style= { styles.addStatInput }>
-          <Text>Add Stat</Text>
+          <Text>Add a Stat to Track</Text>
           <Picker 
             mode="dropdown" 
             style={{height: 30, width: 280}}
@@ -111,7 +136,7 @@ export default class ProgressScreen extends Component {
               this.changeStat(statName, statPos);
             }}
           >
-            <Picker.Item label='Add a Stat' value='0'/>
+            <Picker.Item label='Add a Stat to Track' value='0'/>
             {this.state.statList.map((item, index) => {
               return ( <Picker.Item label = {item} value={index} />);
             })}
@@ -120,20 +145,49 @@ export default class ProgressScreen extends Component {
           <Button title = 'Update' onPress={ () => this.updateStat() }/>
         </View>
         {Object.keys(this.state.statNameList).map((key) => {  
-          return <Text 
-          style={ styles.input }
-          onPress={ () => {
-            console.log(this.state.statNameList[key]);
-            this.setState({ isModalVisible: true });
-          }}
-          > {this.state.statNameList[key]}: {this.state.statValueList[key]}</Text>
+          var statName = this.state.statNameList[key];
+          var statVal = this.state.statValueList[key];
+          return (
+            <View style = { styles.input }>
+              <Input 
+                label = { statName + ' : ' + statVal }
+                placeholder = 'Enter New Value'
+                //{this.state.statValueList[key]}
+                onChangeText = { async (newVal) => {
+                  //Change FrontEnd
+                  this.setState({ statToChangeValue: newVal });
+                  var Name = this.state.statList[key];
+                  this.changeStat(Name, key);
+                  //Change Backend
+                  tetraAPI.updateUserStat(this.state.statNameList[key], this.state.statDateList[key], newVal, USERNAME); //stat, date, value, name
+                  await this.getUserStatsSnapshot(USERNAME);
+                  this.forceUpdate();
+                }}
+              />              
+              <Icon
+                name={'chart-line'}
+                size={25}
+                stlye={{
+                  
+                }}
+                onPress={ () => {
+                  this.getStatWrapper(userId, this.state.statNameList[key]);
+                  console.log(this.state.statNameList[key]);
+                  this.setState({ isModalVisible: true });
+                }}
+              />
+            </View>
+          )
         })}
           <View>
             <Modal isVisible={this.state.isModalVisible}
+             style={styles.input}
               onBackdropPress={() => this.setState({ isModalVisible: false })}
             >
               <View style={{ flex: 1 }}>
-                <Text style={styles.input}>I am the modal content!</Text>
+                <Text>{this.state.statObj.split(' ')[0]}</Text>
+                
+                <PureChart data={this.state.statData} type='line' height={250}/>
               </View>
             </Modal>
           </View>
@@ -172,10 +226,11 @@ const styles = StyleSheet.create({
     padding:20
   },
   input: {
+    fontSize: 30,
     width:"85%",
     backgroundColor:"#c7ffe3",
     borderRadius:25,
-    height:75,
+    height:150,
     marginBottom:20,
     justifyContent:"center",
     padding:20
