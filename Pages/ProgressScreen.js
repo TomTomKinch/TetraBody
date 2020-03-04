@@ -1,6 +1,6 @@
 // Progress Screen
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, View, Picker, ScrollView} from 'react-native';
+import { Button, StyleSheet, Text, View, Picker, ScrollView, TextInput } from 'react-native';
 import { Input } from 'react-native-elements';
 import { tetraAPI } from '../API.js'
 import { globalEmail } from './LoginScreen'
@@ -26,6 +26,7 @@ export default class ProgressScreen extends Component {
       statPos: 0,
       statToChangeValue: null,
       isModalVisible: false,
+      isAddStatVisible: false,
       statObj: "",
       statData: []
     }
@@ -123,26 +124,22 @@ export default class ProgressScreen extends Component {
     return (
       <View style={ styles.container }>
         <ScrollView>
-        <Text style={ styles.title }>Progress</Text>
-        <Text style = {styles.text}> Stats : </Text>
+        {/*<Text style={ styles.title }>Progress</Text>*/}
+        {/*<Text style = {styles.text}> Stats : </Text>*/}
+        <Text></Text>
         <View style= { styles.addStatInput }>
-          <Text>Add a Stat to Track</Text>
-          <Picker 
-            mode="dropdown" 
-            style={{height: 30, width: 280}}
-            selectedValue = {this.state.statPos}
-            onValueChange={(statPos) => {
-              var statName = this.state.statList[statPos];
-              this.changeStat(statName, statPos);
-            }}
-          >
-            <Picker.Item label='Add a Stat to Track' value='0'/>
-            {this.state.statList.map((item, index) => {
-              return ( <Picker.Item label = {item} value={index} />);
-            })}
-          </Picker>
-          <Input placeholder = 'Value' onChangeText={ (value) => this.setState({ statToChangeValue: value })}></Input>
-          <Button title = 'Update' onPress={ () => this.updateStat() }/>
+        <Text>Click to add stat</Text>
+        <Icon
+                name={'plus-square'}
+                size={100}
+                style={{ 
+                  
+                }}
+                onPress={ () => {
+                  this.setState({ isAddStatVisible: true });
+                }}
+                />
+          
         </View>
         {Object.keys(this.state.statNameList).map((key) => {  
           var statName = this.state.statNameList[key];
@@ -150,6 +147,7 @@ export default class ProgressScreen extends Component {
           return (
             <View style = { styles.input }>
               <Input 
+                labelStyle = {{color: 'black'}}
                 label = { statName + ' : ' + statVal }
                 placeholder = 'Enter New Value'
                 //{this.state.statValueList[key]}
@@ -166,9 +164,9 @@ export default class ProgressScreen extends Component {
               />              
               <Icon
                 name={'chart-line'}
-                size={25}
-                stlye={{
-                  
+                size={50}
+                style={{ 
+                  alignContent: 'flex-end'
                 }}
                 onPress={ () => {
                   this.getStatWrapper(userId, this.state.statNameList[key]);
@@ -190,6 +188,29 @@ export default class ProgressScreen extends Component {
                 <PureChart data={this.state.statData} type='line' height={250}/>
               </View>
             </Modal>
+            <Modal isVisible={this.state.isAddStatVisible}
+            style={styles.input}
+            onBackdropPress={() => this.setState({ isAddStatVisible: false })}>
+            <View style={{ flex: 1 }}>
+            <Text>Add a Stat to Track</Text>
+          <Picker 
+            mode="dropdown" 
+            style={{height: 30, width: '90%', minWidth: 250}}
+            selectedValue = {this.state.statPos}
+            onValueChange={(statPos) => {
+              var statName = this.state.statList[statPos];
+              this.changeStat(statName, statPos);
+            }}
+          >
+            <Picker.Item label='Add a Stat to Track' value='0'/>
+            {this.state.statList.map((item, index) => {
+              return ( <Picker.Item label = {item} value={index} />);
+            })}
+          </Picker>
+          <TextInput style={{height: '15%', minHeight: 40, minWidth: '90%', borderColor: 'black', borderWidth: 1, backgroundColor: '#457d7b', marginTop: 15, marginBottom: 15, padding: 5}} placeholder = 'Value' onChangeText={ (value) => this.setState({ statToChangeValue: value })}></TextInput>
+          <Button color="black" title = 'Update' onPress={ () => this.updateStat() }/>
+            </View>
+            </Modal>
           </View>
         </ScrollView>
       </View>
@@ -199,6 +220,7 @@ export default class ProgressScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 20,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -217,20 +239,24 @@ const styles = StyleSheet.create({
     color: '#00cccc',
   },
   addStatInput: {
-    width:"85%",
-    backgroundColor:"#c7ffe3",
+    //width:250,
+    backgroundColor:"#519c99",
     borderRadius:25,
-    height:200,
+    //height:200,
     marginBottom:20,
     justifyContent:"center",
-    padding:20
+    alignItems: 'center',
+    padding:5
   },
   input: {
     fontSize: 30,
-    width:"85%",
-    backgroundColor:"#c7ffe3",
+    width:"90%",
+    maxHeight:"50%",
+    minWidth:250,
+    backgroundColor:"#519c99",
     borderRadius:25,
-    height:150,
+    //height:150,
+    alignItems: 'center',
     marginBottom:20,
     justifyContent:"center",
     padding:20

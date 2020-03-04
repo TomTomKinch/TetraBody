@@ -154,7 +154,6 @@ export default class HomeScreen extends Component {
     else{
       console.log("unfavorite");
       tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0);
-      
     }
     
   };
@@ -275,7 +274,7 @@ export default class HomeScreen extends Component {
             onPress={this.handleSignOut}
             title="Sign Out"
           />
-        </View>*/
+        </View>*/}
 
         <View style={{ alignSelf: "flex-end" }}>
           <Button onPress={this.openImagePickerAsync} title="Upload Video" />
