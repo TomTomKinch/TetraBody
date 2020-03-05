@@ -145,7 +145,8 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={ styles.container }> 
-        <Text style={ styles.title }>Favorites for current user</Text>
+        <Text></Text>
+        <Text></Text>
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database

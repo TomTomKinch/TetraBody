@@ -17,6 +17,7 @@ import ProfileScreen from './Pages/ProfileScreen.js';
 import Amplify from 'aws-amplify';
 import VideoScreen from './Pages/VideoScreen.js';
 import AWSConfig from './aws-exports';
+
 Amplify.configure(AWSConfig);
 
 const DEVICE_WIDTH = Dimensions.get(`window`).width;
@@ -149,7 +150,7 @@ const AppContainer = createAppContainer(createStackNavigator({
             flex: 1,
             justifyContent: 'flex-start',
             alignItems: 'center',
-            backgroundColor: 'black'
+            backgroundColor: 'black',
          }}>
            <View style = {{ 
              flexDirection: 'row',
@@ -161,7 +162,7 @@ const AppContainer = createAppContainer(createStackNavigator({
              backgroundColor: 'black',
              shadowColor: 'black',
              shadowOpacity: 0.5,
-             borderBottomWidth: 0 
+             borderBottomWidth: 0,
             }}>
 
            <Image
@@ -226,13 +227,17 @@ const AppContainer = createAppContainer(createStackNavigator({
   )}
 ));
 
+export var userId;
+
 export default class App extends Component {
 
   render() {
     return (
       
       <Root>
-        <AppContainer/>
+        <AppContainer
+          //onNavigationStateChange = {}
+        />
       </Root> 
     );
   }

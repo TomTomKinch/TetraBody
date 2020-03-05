@@ -127,6 +127,7 @@ export default class ProgressScreen extends Component {
         {/*<Text style={ styles.title }>Progress</Text>*/}
         {/*<Text style = {styles.text}> Stats : </Text>*/}
         <Text></Text>
+        <Text></Text>
         <View style= { styles.addStatInput }>
         <Text>Click to add stat</Text>
         <Icon
@@ -259,6 +260,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom:20,
     justifyContent:"center",
-    padding:20
+    padding: 20
   },
 });

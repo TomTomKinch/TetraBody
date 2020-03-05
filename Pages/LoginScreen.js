@@ -79,7 +79,7 @@ export default class LoginScreen extends Component {
           <LinearGradient
             start={[0, 0.5]}
             end={[1, 0.5]}
-            colors={['cyan', 'green', 'cyan']}
+            colors={['#00cccc', '#3a6e6c', '#00cccc']}
             style={styles.linearGradient}>
              <TouchableHighlight
                 style={ styles.linearGradient }
@@ -89,8 +89,6 @@ export default class LoginScreen extends Component {
                 <Text style={styles.buttonText}>Login</Text>
               </TouchableHighlight> 
           </LinearGradient>
-              
-          
         </View>
         
           <TouchableOpacity
@@ -125,7 +123,7 @@ export default class LoginScreen extends Component {
             />
           </TouchableOpacity>
 
-          {/*<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>*/}
+          {<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>}
       
       </KeyboardAwareScrollView>
     );

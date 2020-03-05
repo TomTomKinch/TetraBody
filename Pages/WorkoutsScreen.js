@@ -38,7 +38,7 @@ export default class WorkoutsScreen extends Component {
                   // Specify theme properties to override specific styles for calendar parts. Default = {}
                   theme={{
                     //backgroundColor: '#ffffff',
-                    calendarBackground: '#45C5C4',
+                    calendarBackground: '#519c99',
                     textSectionTitleColor: 'black',
                     selectedDayBackgroundColor: '#008F80',
                     selectedDayTextColor: 'white',
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   infoMainHolder: {
     flex: 30,
     //#008F80 Dark green
-    backgroundColor: "#45C5C4",
+    backgroundColor: "#519c99",
     width: screenWidth-10,
     height: 100,
     alignItems: 'center',
