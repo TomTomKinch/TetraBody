@@ -16,10 +16,11 @@ export default class HomeScreen extends Component {
         page: 0,   //Current amount of pages in the feed
         data: [],  //Array of video data
         
+        
     }
   }
 
-  async getRecent(){
+  async getFavorite(){
     var DATA = await tetraAPI.getFavoriteVideos(userId) 
     
       this.setState({ 
@@ -36,17 +37,14 @@ export default class HomeScreen extends Component {
 
   //Executes on page load
   componentDidMount() {
-    this.getRecent()
+    this.getFavorite()
     //getSub()
   }
   //This handles when a user favorites a video. If favorited is 0 ( false ), change to 1 ( true )
   //If favorited is 1, change to 0
   //
   handleFavorite = item => {
-    console.log(item.favorited);
-    console.log(item.videoID);
     if(item.favorited == 0){
-      console.log("favorited");
       tetraAPI.addUserVideoStat(1, 0, userId, item.videoID);
       tetraAPI.updateUserVideoFavorite(userId, item.videoID, 1);
       //UPDATE FIRST
@@ -55,11 +53,12 @@ export default class HomeScreen extends Component {
       //if anon, dont allow favorite api call
     }
     else{
-      console.log("unfavorite");
       tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0);
       
     }
-    
+    this.setState({page: 0});
+    this.setState({data: []});
+    this.getFavorite();
   };
   //This handles when a user clicks on a video, update the view count of that video
   handleVideoClicked = item => {
@@ -67,7 +66,11 @@ export default class HomeScreen extends Component {
     this.props.navigation.navigate('VideoPlayer', { 
       videoData: item });
   };
-
+  handleReload = () => {
+    this.setState({page: 0});
+    this.setState({data: []});
+      this.getFavorite();
+  };
   // This adds items from the feed
   addItems = (page) => {
     //Change the number 5 to change the number of new videos per page
@@ -111,9 +114,10 @@ export default class HomeScreen extends Component {
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
-          <Text style={ styles.videoDesc }>{item.description}</Text>
+          
           <Text style={ styles.videoStat }>
-            Uploader: {item.videoUploadName}               Uploaded: {item.videoDateTime}{"\n"}
+            Uploader: {item.uploadUserName}{"\n"}
+            Uploaded: {item.videoDateTime.split("T")[0]}{"\n"}
             Views: {item.views}                    Likes: {item.likes}
           </Text>
         <TouchableHighlight
@@ -145,11 +149,29 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={ styles.container }> 
-        <Text style={ styles.title }>Favorites for current user</Text>
+
+        <View style={ styles.sortArea }>  
+          <TouchableHighlight
+            //Reloading button
+            style={ { 
+              padding: 5,
+              margin: 5,
+              position: 'relative',
+              width: '50%',
+              backgroundColor: this.state.sort == "recent" ? "#00cccc" : "#FFFFFF",
+              borderRadius: 10,
+            } }
+            onPress={ () => this.handleReload()}
+          >
+            <Text style={ styles.sortText }>Reload Favorites</Text>
+          </TouchableHighlight>
+          
+        </View> 
         <FlatList
         style={{ width: '100%', marginRight: 10}}
         //IMPORTANT: The following line calls for the database
         data={this.state.data}
+        extraData={this.state.data}
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => item.id}
         renderItem={this.renderItem}
@@ -179,6 +201,18 @@ const styles = StyleSheet.create({
     color: '#00cccc',
     marginTop: 65,
   },
+  sortArea:{
+    margin: 5,
+    padding: 5,
+    top: 20,
+    width: '98%',
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    justifyContent: "center",
+},
+sortText:{
+  textAlign: "center",
+},
   item: {
     backgroundColor: '#333333',
     padding: 40,

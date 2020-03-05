@@ -58,7 +58,8 @@ export default class HomeScreen extends Component {
     this.state = {
       isLoading: true,
       page: 0, //Current amount of pages in the feed
-      data: [] //Array of video data
+      data: [], //Array of video data
+      sort: "popular", //Default sort is recent, 
     };
   }
 
@@ -114,7 +115,8 @@ export default class HomeScreen extends Component {
       {
         isLoading: false,
         page: 0,
-        dataPosts: DATA
+        dataPosts: DATA,
+        sort: 0,
       },
       function() {
         //Call a function to pull the initial records
@@ -122,6 +124,24 @@ export default class HomeScreen extends Component {
       }
     );
   }
+  async getPopular() {
+    //Gets the most popular videos by up to 12 months
+    var DATA = await tetraAPI.getPopularvideos(userId, 12);
+    this.setState(
+      {
+        isLoading: false,
+        page: 0,
+        dataPosts: DATA,
+        sort: 0,
+      },
+      function() {
+        //Call a function to pull the initial records
+        this.addItems(0);
+      }
+    );
+
+  }
+  
 
   //Executes on page load
   componentDidMount() {
@@ -140,10 +160,7 @@ export default class HomeScreen extends Component {
   //If favorited is 1, change to 0
   //
   handleFavorite = item => {
-    console.log(item.favorited);
-    console.log(item.videoID);
     if(item.favorited == 0){
-      console.log("favorited");
       tetraAPI.addUserVideoStat(1, 0, userId, item.videoID);
       tetraAPI.updateUserVideoFavorite(userId, item.videoID, 1);
       //UPDATE FIRST
@@ -152,9 +169,11 @@ export default class HomeScreen extends Component {
       //if anon, dont allow favorite api call
     }
     else{
-      console.log("unfavorite");
       tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0);
     }
+    this.setState({page: 0});
+    this.setState({data: []});
+    this.getRecent();
     
   };
   //This handles when a user clicks on a video, update the view count of that video
@@ -162,6 +181,23 @@ export default class HomeScreen extends Component {
     tetraAPI.tetraUpdatevideoPopularity(userId, item.videoID)
     this.props.navigation.navigate('VideoPlayer', { 
       videoData: item });
+  };
+  //This handles when a user clicks on a sort button
+  handleSort = option => {
+    if(option == "recent"){
+      this.setState({page: 0});
+      this.setState({data: []});
+      this.setState({sort: "recent"});
+      
+        this.getRecent()
+    }
+    else if(option == "popular"){
+      this.setState({page: 0});
+      this.setState({data: []});
+      this.setState({sort: "popular"});
+      
+        this.getPopular()
+    }
   };
 
   // This adds items from the feed
@@ -180,19 +216,6 @@ export default class HomeScreen extends Component {
       data: [...this.state.data, ...newItems]
     });
   };
-
-  // Pass video url and info to Video Player Page
-  passVideo = ({ item }) => {
-    return (
-      <VideoScreen
-        videoURL={item.videoID}
-        videoTitle={item.videoName}
-        videoUploader={item.videoUploader}
-      />
-    );
-  };
-    
-  //}
 
 
   // This handles when we reach the end of the feed, and there's more to display
@@ -223,9 +246,10 @@ export default class HomeScreen extends Component {
         >
           <Text style={ styles.videoTitle }>{item.videoName}</Text>
         </TouchableHighlight>
-          <Text style={ styles.videoDesc }>{item.description}</Text>
+          
           <Text style={ styles.videoStat }>
-            Uploader: {item.uploadUserName}               Uploaded: {item.videoDateTime}{"\n"}
+            Uploader: {item.uploadUserName}{"\n"}
+            Uploaded: {item.videoDateTime.split("T")[0]}{"\n"}
             Views: {item.views}                    Likes: {item.likes}
           </Text>
         <TouchableHighlight
@@ -255,12 +279,44 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Video Feed</Text>
+        <View style={ styles.sortArea }>  
+          <TouchableHighlight
+            //Sorting button
+            style={ { 
+              padding: 5,
+              margin: 5,
+              position: 'relative',
+              width: '50%',
+              backgroundColor: this.state.sort == "recent" ? "#00cccc" : "#FFFFFF",
+              borderRadius: 10,
+            } }
+            onPress={ () => this.handleSort("recent") }
+          >
+            <Text style={ styles.sortText }>Sort by Recent</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            //Sorting button
+            style={ { 
+              padding: 5,
+              margin: 5,
+              position: 'relative',
+              width: '50%',
+              backgroundColor: this.state.sort == "popular" ? "#00cccc" : "#FFFFFF",
+              borderRadius: 10,
+            } }
+            onPress={ () => this.handleSort("popular") }
+          >
+         
+           <Text style={ styles.sortText }>Sort by Popularity</Text>
+          </TouchableHighlight>
+        </View> 
 
         <FlatList
-          style={{ width: "100%", marginRight: 10 }}
+          style={{ width: "100%", marginTop: 10, marginRight: 10 }}
           //IMPORTANT: The following line calls for the database
           data={this.state.data}
+          //When the data is changed, refresh the list
+          extraData={this.state.data}
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => item.videoID}
           renderItem={this.renderItem}
@@ -300,6 +356,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     margin: 30,
     color: "#00cccc"
+  },
+  sortArea:{
+      margin: 5,
+      padding: 5,
+      top: 20,
+      width: '98%',
+      alignSelf: "flex-start",
+      flexDirection: "row",
+      justifyContent: "center",
+  },
+  sortText:{
+    textAlign: "center",
   },
   item: {
     backgroundColor: "#333333",

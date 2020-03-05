@@ -39,7 +39,7 @@ export default class WorkoutsScreen extends Component {
                   theme={{
                     //backgroundColor: '#ffffff',
                     calendarBackground: '#45C5C4',
-                    textSectionTitleColor: 'black',
+                    textSectionTitleColor: '#006666',
                     selectedDayBackgroundColor: '#008F80',
                     selectedDayTextColor: 'white',
                     todayTextColor: 'white',
@@ -60,7 +60,7 @@ export default class WorkoutsScreen extends Component {
             </View>
 
             <View style={styles.infoMainHolder}>
-               <View style={styles.infoHeader}><Text style={styles.imageText}>Info goes here</Text>
+               <View style={styles.infoHeader}><Text style={styles.imageText}>Info</Text>
                </View>
             </View>
            
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     paddingTop: 55,
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: "#777777",
+    backgroundColor: "#555555",
     justifyContent: 'space-between',
     color: "#FFFFFF",
   },
@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     height: 100,
     alignItems: 'center',
     margin: 5,
+    borderRadius: 10,
 
   },
   infoHeader: {
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 0,
     justifyContent: 'center',
+    borderRadius: 10,
   },
  
 
