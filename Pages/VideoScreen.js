@@ -27,6 +27,7 @@ export default class VideoScreen extends Component {
         console.log("unfavorite");
         tetraAPI.updateUserVideoFavorite(userId, item.videoID, 0)
       }
+    
     }
 
     render(){
@@ -65,12 +66,12 @@ export default class VideoScreen extends Component {
         >
              <Icon
               name={ item.favorited == 1 ? 'heartbeat' : 'heart'}
-              size={25}
+              size={30}
               style={ { 
                 color: item.favorited == 1 ? "#00cccc" : "#FFFFFF",
                 position: 'absolute',
-                width: 25,
-                right: 5,
+                width: 30,
+                right: 10,
               } }
               /> 
         </TouchableHighlight>
@@ -78,7 +79,7 @@ export default class VideoScreen extends Component {
               
               <Text style={ styles.videoStat }>
                 Views: {item.views}     Likes: {item.likes}{"\n"}
-                Uploader: {item.videoUploadName}      Uploaded: {item.videoDateTime}
+                Uploader: {item.videoUploadName}      Uploaded: {item.videoDateTime.split("T")[0]}
                 
               </Text>
               <Text style={ styles.videoDesc }>{item.description}</Text>

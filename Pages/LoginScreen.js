@@ -108,6 +108,7 @@ export default class LoginScreen extends Component {
               type='facebook'
               button
               title='Sign in with Facebook'
+              style={styles.button}
             />
 
           </TouchableOpacity>
@@ -120,6 +121,7 @@ export default class LoginScreen extends Component {
               type='google'
               button
               title='Sign In with Google'
+              style={styles.button}
             />
           </TouchableOpacity>
 
@@ -175,6 +177,9 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
       color: 'white',
-      paddingVertical: 5 
+      paddingVertical: 5,
+    },
+    button:{
+      padding: 5
     }
 });

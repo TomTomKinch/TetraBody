@@ -84,6 +84,7 @@ export default class ProgressScreen extends Component {
   async updateStat() {
     console.log(this.state.statToChange);
     console.log(this.state.statToChangeValue);
+    this.setState({isAddStatVisible: false});
     if(this.state.statToChange != null && this.state.statToChangeValue != null){
       await tetraAPI.addUserStat(this.state.statToChange, USERNAME, this.state.statToChangeValue); //Add Stat
       await this.getUserStatsSnapshot(USERNAME);
