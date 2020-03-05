@@ -14,6 +14,7 @@ import {
 import { Auth } from "aws-amplify";
 import tetraAPI from "../API.js";
 import { Video } from "expo-av";
+import { LinearGradient } from 'expo-linear-gradient';
 import VideoScreen from "./VideoScreen.js";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import * as ImagePicker from "expo-image-picker";
@@ -256,10 +257,9 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Video Feed</Text>
 
         <FlatList
-          style={{ width: "100%", marginRight: 10 }}
+          style={{ width: "100%", marginRight: 10, flex: 1 }}
           //IMPORTANT: The following line calls for the database
           data={this.state.data}
           showsHorizontalScrollIndicator={false}
@@ -269,16 +269,20 @@ export default class HomeScreen extends Component {
           onEndThreshold={0}
         />
 
-        <View style={{ alignSelf: "center" }}>
-          <Button
-            style={styles.button}
-            onPress={this.handleSignOut}
-            title="Sign Out"
-          />
-        </View>
-
-        <View style={{ alignSelf: "flex-end" }}>
-          <Button onPress={this.openImagePickerAsync} title="Upload Video" />
+        <View>
+          <LinearGradient
+            start={[0, 0.5]}
+            end={[1, 0.5]}
+            colors={['cyan', 'green', 'cyan']}
+            style={styles.linearGradient}>
+             <TouchableHighlight
+                style={ styles.linearGradient }
+                onPress={this.openImagePickerAsync}
+                underlayColor='#00cccc'
+             >
+                <Text style={styles.buttonText}>Upload Video</Text>
+              </TouchableHighlight> 
+          </LinearGradient>
         </View>
       </SafeAreaView>
     );
@@ -293,7 +297,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#4d4d4d"
+    backgroundColor: "#4d4d4d",
+    marginTop: 50
   },
   title: {
     paddingTop: 45,
@@ -350,5 +355,12 @@ const styles = StyleSheet.create({
     width: 25,
     bottom: 0,
     right: 5,
+  },
+  linearGradient: {
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: 20,
+  height: 45,
+  width: 115,
   },
 });

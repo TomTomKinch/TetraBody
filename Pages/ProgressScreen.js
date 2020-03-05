@@ -123,7 +123,6 @@ export default class ProgressScreen extends Component {
     return (
       <View style={ styles.container }>
         <ScrollView>
-        <Text style={ styles.title }>Progress</Text>
         <Text style = {styles.text}> Stats : </Text>
         <View style= { styles.addStatInput }>
           <Text>Add a Stat to Track</Text>
@@ -203,6 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#4d4d4d',
+    marginTop: 50
   },
   title: {
     fontSize: 40,

@@ -89,8 +89,6 @@ export default class LoginScreen extends Component {
                 <Text style={styles.buttonText}>Login</Text>
               </TouchableHighlight> 
           </LinearGradient>
-              
-          
         </View>
         
           <TouchableOpacity
@@ -125,7 +123,7 @@ export default class LoginScreen extends Component {
             />
           </TouchableOpacity>
 
-          {/*<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>*/}
+          {<Button style = { styles.button } onPress={ () => this.props.navigation.navigate('Home') } title="Home"/>}
       
       </KeyboardAwareScrollView>
     );

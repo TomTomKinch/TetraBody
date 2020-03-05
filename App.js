@@ -150,7 +150,7 @@ const AppContainer = createAppContainer(createStackNavigator({
             flex: 1,
             justifyContent: 'flex-start',
             alignItems: 'center',
-            backgroundColor: 'black'
+            backgroundColor: 'black',
          }}>
            <View style = {{ 
              flexDirection: 'row',
@@ -162,7 +162,7 @@ const AppContainer = createAppContainer(createStackNavigator({
              backgroundColor: 'black',
              shadowColor: 'black',
              shadowOpacity: 0.5,
-             borderBottomWidth: 0 
+             borderBottomWidth: 0,
             }}>
 
            <Image
