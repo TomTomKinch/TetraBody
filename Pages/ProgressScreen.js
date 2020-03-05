@@ -73,7 +73,6 @@ export default class ProgressScreen extends Component {
 
   //Sets State to Change a stat
   changeStat(statName, statPos) {
-    //console.log(statName);
     this.setState({
       statPos: statPos,
       statToChange: statName
@@ -82,8 +81,8 @@ export default class ProgressScreen extends Component {
 
   //Calls API to update a stat
   async updateStat() {
-    console.log(this.state.statToChange);
-    console.log(this.state.statToChangeValue);
+    console.log('statToChange: ' + this.state.statToChange);
+    console.log('statToChangeValue: ' + this.state.statToChangeValue);
     this.setState({isAddStatVisible: false});
     if(this.state.statToChange != null && this.state.statToChangeValue != null){
       await tetraAPI.addUserStat(this.state.statToChange, USERNAME, this.state.statToChangeValue); //Add Stat
@@ -98,16 +97,13 @@ export default class ProgressScreen extends Component {
 
   async getStatWrapper(userName, statToFind) {
     let response = await tetraAPI.getUserStat(userName, statToFind);
-    //var testOutput = []
-    //this.stateObj = JSON.stringify(response);
     let statOutput = ""
     let statDataTemp = []
     response.map((s) => {
       let name = s.statName;
       let value = s.statValue;
-      let date = s.statDate;//.split("T")[0];
+      let date = s.statDate;
       statDataTemp.push({x: date.split("T")[0], y: value});
-      //console.log(name);
       statOutput = statOutput + name + ": " + value + " " + date + "\n";
     });
     this.setState({statObj: statOutput});
@@ -125,24 +121,19 @@ export default class ProgressScreen extends Component {
     return (
       <View style={ styles.container }>
         <ScrollView>
-        {/*<Text style={ styles.title }>Progress</Text>*/}
-        {/*<Text style = {styles.text}> Stats : </Text>*/}
-        <Text></Text>
-        <Text></Text>
+        {/* Track New Stat Button*/}
         <View style= { styles.addStatInput }>
-        <Text>Click to add stat</Text>
-        <Icon
-                name={'plus-square'}
-                size={100}
-                style={{ 
-                  
-                }}
-                onPress={ () => {
-                  this.setState({ isAddStatVisible: true });
-                }}
-                />
-          
+          <Text>Track New Stat</Text>
+          <Icon
+            name={'plus-square'}
+            size={75}
+            style={{  }}
+            onPress={ () => {
+            this.setState({ isAddStatVisible: true });
+            }}
+          />
         </View>
+        {/*Array Of Exsisting Stats*/}
         {Object.keys(this.state.statNameList).map((key) => {  
           var statName = this.state.statNameList[key];
           var statVal = this.state.statValueList[key];
@@ -152,9 +143,8 @@ export default class ProgressScreen extends Component {
                 labelStyle = {{color: 'black'}}
                 label = { statName + ' : ' + statVal }
                 placeholder = 'Enter New Value'
-                //{this.state.statValueList[key]}
                 onChangeText = { async (newVal) => {
-                  //Change FrontEnd
+                  //Change Frontend
                   this.setState({ statToChangeValue: newVal });
                   var Name = this.state.statList[key];
                   this.changeStat(Name, key);
@@ -177,41 +167,48 @@ export default class ProgressScreen extends Component {
                 }}
               />
             </View>
-          )
-        })}
+          )})}
           <View>
+            {/* Stat Details Modal */}
             <Modal isVisible={this.state.isModalVisible}
              style={styles.input}
               onBackdropPress={() => this.setState({ isModalVisible: false })}
             >
               <View style={{ flex: 1 }}>
-                <Text>{this.state.statObj.split(' ')[0]}</Text>
-                
+                <Text>{this.state.statObj.split(' ')[0]}</Text>  
                 <PureChart data={this.state.statData} type='line' height={250}/>
               </View>
             </Modal>
+            {/* Add A New Stat To Track Modal */}
             <Modal isVisible={this.state.isAddStatVisible}
-            style={styles.input}
-            onBackdropPress={() => this.setState({ isAddStatVisible: false })}>
-            <View style={{ flex: 1 }}>
-            <Text>Add a Stat to Track</Text>
-          <Picker 
-            mode="dropdown" 
-            style={{height: 30, width: '90%', minWidth: 250}}
-            selectedValue = {this.state.statPos}
-            onValueChange={(statPos) => {
-              var statName = this.state.statList[statPos];
-              this.changeStat(statName, statPos);
-            }}
-          >
-            <Picker.Item label='Add a Stat to Track' value='0'/>
-            {this.state.statList.map((item, index) => {
-              return ( <Picker.Item label = {item} value={index} />);
-            })}
-          </Picker>
-          <TextInput style={{height: '15%', minHeight: 40, minWidth: '90%', borderColor: 'black', borderWidth: 1, backgroundColor: '#457d7b', marginTop: 15, marginBottom: 15, padding: 5}} placeholder = 'Value' onChangeText={ (value) => this.setState({ statToChangeValue: value })}></TextInput>
-          <Button color="black" title = 'Update' onPress={ () => this.updateStat() }/>
-            </View>
+              style={styles.input}
+              onBackdropPress={() => this.setState({ isAddStatVisible: false })}>
+              <View style={{ flex: 1 }}>
+                <Text>Add a Stat to Track</Text>
+                {/* Stat Drop Down */}
+                <Picker 
+                  mode="dropdown" 
+                  style={{height: 30, width: '90%', minWidth: 250}}
+                  selectedValue = {this.state.statPos}
+                  onValueChange={(statPos) => {
+                    var statName = this.state.statList[statPos];
+                    this.changeStat(statName, statPos);
+                  }}
+                >
+                <Picker.Item label='Add a Stat to Track' value='0'/>
+                {this.state.statList.map((item, index) => {
+                  return ( <Picker.Item label = {item} value={index} />);
+                })}
+                </Picker>
+                <TextInput style={{height: '15%', minHeight: 40, minWidth: '90%', borderColor: 'black', borderWidth: 1, backgroundColor: '#457d7b', marginTop: 15, marginBottom: 15, padding: 5}} 
+                  placeholder = 'Value' 
+                  onChangeText={ (value) => this.setState({ statToChangeValue: value })}>
+                </TextInput>
+                <Button color="black" title = 'Update' onPress={ () => {
+                  this.setState({ isAddStatVisible: false});
+                  this.updateStat(); 
+                }}/>
+              </View>
             </Modal>
           </View>
         </ScrollView>
@@ -241,10 +238,9 @@ const styles = StyleSheet.create({
     color: '#00cccc',
   },
   addStatInput: {
-    //width:250,
+    marginTop: 30,
     backgroundColor:"#519c99",
     borderRadius:25,
-    //height:200,
     marginBottom:20,
     justifyContent:"center",
     alignItems: 'center',
@@ -257,7 +253,6 @@ const styles = StyleSheet.create({
     minWidth:250,
     backgroundColor:"#519c99",
     borderRadius:25,
-    //height:150,
     alignItems: 'center',
     marginBottom:20,
     justifyContent:"center",
