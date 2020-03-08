@@ -25,7 +25,7 @@ The team lead interacted with the professor and project sponsor, as well as plan
 
 ### UI team ###
 
-Peter Bui
+Peter Bui: https://github.com/CameraCore
 
 Peter Chung: https://github.com/sneakwolf777
 
