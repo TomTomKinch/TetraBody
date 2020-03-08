@@ -27,7 +27,7 @@ The team lead interacted with the professor and project sponsor, as well as plan
 
 Peter Bui
 
-Peter Chung
+Peter Chung: https://github.com/sneakwolf777
 
 The UI team were the main creators of the user interface for the app.  This included creating the various pages, choosing the styling, and creating the video feed.                                                                                                                                                             |
 
