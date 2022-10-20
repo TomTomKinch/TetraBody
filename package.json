@@ -31,7 +31,7 @@
     "react-native-orientation": "^3.1.3",
     "react-native-paper": "^3.6.0",
     "react-native-pure-chart": "0.0.24",
-    "react-native-reanimated": "^1.4.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-safe-area-context": "^0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-search-header": "^0.3.5",
